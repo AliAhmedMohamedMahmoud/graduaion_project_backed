@@ -1,6 +1,8 @@
+using graduaion_project_backed.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,6 +29,10 @@ namespace graduaion_project_backed
         {
 
             services.AddControllers();
+            services.AddDbContext<Context>(Options =>
+            {
+                Options.UseSqlServer(Configuration.GetConnectionString("CS"));
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "graduaion_project_backed", Version = "v1" });
