@@ -12,7 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using graduaion_project_backed.Model;
+using graduaion_project_backed.Repo;
 namespace graduaion_project_backed
 {
     public class Startup
@@ -29,6 +30,8 @@ namespace graduaion_project_backed
         {
 
             services.AddControllers();
+            services.AddScoped<ICrud<City>,CityRepo>();
+            services.AddScoped<IOrderRepo,OrderRepo>();
             services.AddDbContext<Context>(Options =>
             {
                 Options.UseSqlServer(Configuration.GetConnectionString("CS"));
