@@ -1,9 +1,11 @@
-﻿using graduaion_project_backed.Model;
+﻿using graduaion_project_backed.Dto;
+using graduaion_project_backed.Model;
 using graduaion_project_backed.Repo;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 
 namespace graduaion_project_backed.Controllers
 {
@@ -20,6 +22,12 @@ namespace graduaion_project_backed.Controllers
 
 
         }
+        [HttpGet]
+        public IActionResult GetAllStatus()
+        {
+            List<Status> productlist = statusRepository.GetAll();
+            return Ok(productlist);
+        }
         [HttpGet("{id:int}", Name = "getStatus")]
         public IActionResult GetByID(int id)
         {
@@ -28,7 +36,7 @@ namespace graduaion_project_backed.Controllers
         }
 
         [HttpPost]//
-        public IActionResult PostStatus(Status status)
+        public IActionResult PostStatus(StatusDto status)
         {
             if (ModelState.IsValid == true)
             {
@@ -43,7 +51,7 @@ namespace graduaion_project_backed.Controllers
             return BadRequest(ModelState);
         }
         [HttpPut("{id:int}")]
-        public IActionResult Update([FromRoute] int id, [FromBody] Status status)
+        public IActionResult Update([FromRoute] int id, [FromBody] StatusDto status)
         {
             if (ModelState.IsValid == true)
             {
