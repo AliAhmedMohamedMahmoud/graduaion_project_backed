@@ -25,6 +25,14 @@ namespace graduaion_project_backed.Controllers
                 return Ok(states);
             return Problem(detail: "no data");
         }
+        [HttpGet("Number/")]
+        public IActionResult getAllStatesNUmber()
+        {
+            var states = stateRepo.GetAll();
+            if (states != null)
+                return Ok(states.Count);
+            return Ok(0);
+        }
 
         [HttpGet("{id:int}", Name = "getState")]   
         public   IActionResult getStatesById(int id)
