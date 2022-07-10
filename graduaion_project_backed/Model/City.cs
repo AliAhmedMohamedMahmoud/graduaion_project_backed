@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace graduaion_project_backed.Model
@@ -10,10 +11,14 @@ namespace graduaion_project_backed.Model
         public int Id { get; set; }
         public string Name { get; set; }
         public decimal CostPerCity { get; set; }
+
+        [ForeignKey("city")]
+        public int cityId { get; set; }
+
         [JsonIgnore]
         public virtual List<Branches> Branches { get; set; } = new List<Branches>();
         [JsonIgnore]
         public virtual List<Order> Order { get; set; } = new List<Order>();
-
+        public City city { set; get; }
     }
 }

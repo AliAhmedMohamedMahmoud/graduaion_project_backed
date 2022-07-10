@@ -8,3 +8,6 @@ export const getAll=()=>{
     return axios.get(cityBase)
 }
 
+export const add=(city)=>{
+    return axios.post(city)
+}
