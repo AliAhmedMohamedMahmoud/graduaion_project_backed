@@ -25,8 +25,8 @@ namespace graduaion_project_backed.Controllers
         [HttpGet]
         public IActionResult GetAllStatus()
         {
-            List<Status> productlist = statusRepository.GetAll();
-            return Ok(productlist);
+            List<Status> statuslist = statusRepository.GetAll();
+            return Ok(statuslist);
         }
         [HttpGet("{id:int}", Name = "getStatus")]
         public IActionResult GetByID(int id)
