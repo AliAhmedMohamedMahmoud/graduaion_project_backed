@@ -14,7 +14,7 @@ namespace graduaion_project_backed.Controllers
     public class OrderController : ControllerBase
     {
 
-        IOrderRepo OrderRepo;
+        readonly IOrderRepo OrderRepo;
         public OrderController(IOrderRepo OrderRepo)
         {
             this.OrderRepo = OrderRepo;
@@ -22,13 +22,21 @@ namespace graduaion_project_backed.Controllers
         [HttpGet]
         public IActionResult getAll()
         {
-            return Ok(OrderRepo.GetAllOrders());
+            var orders = OrderRepo.GetAllOrders();
+            if (orders != null)
+                return Ok(orders);
+            else
+                return Problem("No Data");
         }
 
         [HttpGet("{id:int}")]
-        public IActionResult GetOrderById([FromRoute] int id)
+        public IActionResult GetOrderById( int id)
         {
-            return Ok(OrderRepo.GetById(id));
+            var order = OrderRepo.GetById(id);
+            if (order != null)
+                return Ok(order);
+            else
+                return Problem("No Data");
 
         }
 
@@ -37,8 +45,7 @@ namespace graduaion_project_backed.Controllers
         {
             if (ModelState.IsValid == true)
             {
-                return Ok(OrderRepo.add(order1));
-              
+                return Ok(OrderRepo.add(order1));            
             }
             return BadRequest(ModelState);
         }
@@ -77,11 +84,11 @@ namespace graduaion_project_backed.Controllers
             return Ok(OrderRepo.getByStatus(statusId,pageIndex));
         }
 
-        [HttpGet("{statusId:int}")]
-        public IActionResult GetByDateAndStatus(DateTime start, DateTime end, int statusId, int pageIndex)
-        {
-            return Ok(OrderRepo.GetByDateAndStatus(start,end,statusId,pageIndex));
-        }
+        //[HttpGet("{statusId:int}")]
+        //public IActionResult GetByDateAndStatus(DateTime start, DateTime end, int statusId, int pageIndex)
+        //{
+        //    return Ok(OrderRepo.GetByDateAndStatus(start,end,statusId,pageIndex));
+        //}
 
 
 
