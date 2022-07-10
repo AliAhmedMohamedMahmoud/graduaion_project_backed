@@ -18,7 +18,7 @@ namespace graduaion_project_backed.Controllers
         } 
         
         [HttpGet]
-       public IActionResult getAllStates()
+        public IActionResult getAllStates()
         {
             var states = stateRepo.GetAll();
             if(states != null)
@@ -27,7 +27,7 @@ namespace graduaion_project_backed.Controllers
         }
 
         [HttpGet("{id:int}", Name = "getState")]   
-      public   IActionResult getStatesById(int id)
+        public   IActionResult getStatesById(int id)
         {
             var state = stateRepo.GetById(id);
             if (state != null)
@@ -52,9 +52,25 @@ namespace graduaion_project_backed.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public IActionResult UpdateState (int id, [FromQuery] string stateName)
+        public IActionResult UpdateState(int id, [FromQuery] string stateName)
         {
-            var
+
+            var rowsEffected=stateRepo.Edit(id, new State() { Name = stateName });
+            if (rowsEffected > 0)
+                return Ok();
+           else
+                return Problem(detail: "no data");
+        }
+
+        [HttpDelete("{id:int}")]
+        public IActionResult DeleteState(int id)
+        {
+
+            var rowsEffected = stateRepo.Delete(id);
+            if (rowsEffected > 0)
+                return Ok();
+            else
+                return Problem(detail: "no data");
         }
     }
 }
