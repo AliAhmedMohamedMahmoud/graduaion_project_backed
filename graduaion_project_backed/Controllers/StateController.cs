@@ -51,10 +51,10 @@ namespace graduaion_project_backed.Controllers
             return BadRequest(ModelState);
         }
 
-        [HttpPut("{id:int}")]
-        public IActionResult UpdateState (int id, [FromQuery] string stateName)
-        {
-            var
-        }
+        //[HttpPut("{id:int}")]
+        //public IActionResult UpdateState (int id, [FromQuery] string stateName)
+        //{
+        //    var
+        //}
     }
 }
