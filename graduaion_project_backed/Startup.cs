@@ -43,6 +43,12 @@ namespace graduaion_project_backed
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "graduaion_project_backed", Version = "v1" });
             });
+            services.AddCors(corsOptions => {
+                corsOptions.AddPolicy("policy", corsPolicyBuilder =>
+                {
+                    corsPolicyBuilder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                });
+            });
 
         }
 
@@ -55,7 +61,7 @@ namespace graduaion_project_backed
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "graduaion_project_backed v1"));
             }
-
+            app.UseCors("policy");
             app.UseRouting();
 
             app.UseAuthorization();
