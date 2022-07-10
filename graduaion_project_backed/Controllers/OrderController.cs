@@ -78,10 +78,12 @@ namespace graduaion_project_backed.Controllers
 
         }
 
-        [HttpGet("{statusId:int}")]
+        [HttpGet("s/{statusId:int}")]
         public IActionResult GetByStatus(int statusId, int pageIndex)
         {
-            return Ok(OrderRepo.getByStatus(statusId,pageIndex));
+
+            var x =  Ok(OrderRepo.getByStatus(statusId,pageIndex));
+            return Ok(x);
         }
 
         //[HttpGet("{statusId:int}")]
