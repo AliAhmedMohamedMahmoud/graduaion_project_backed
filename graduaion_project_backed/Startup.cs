@@ -31,7 +31,7 @@ namespace graduaion_project_backed
 
             services.AddControllers();
             services.AddScoped<ICrud<Branches>, BranchesRepo>();
-            services.AddScoped<ICity, CityRepo>()
+            services.AddScoped<ICity, CityRepo>();
             services.AddScoped<ICrud<City>,CityRepo>();
             services.AddScoped<IOrderRepo,OrderRepo>();
             services.AddDbContext<Context>(Options =>
@@ -41,6 +41,12 @@ namespace graduaion_project_backed
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "graduaion_project_backed", Version = "v1" });
+            });
+            services.AddCors(corsOptions => {
+                corsOptions.AddPolicy("policy", corsPolicyBuilder =>
+                {
+                    corsPolicyBuilder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                });
             });
 
         }
@@ -54,7 +60,7 @@ namespace graduaion_project_backed
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "graduaion_project_backed v1"));
             }
-
+            app.UseCors("policy");
             app.UseRouting();
 
             app.UseAuthorization();

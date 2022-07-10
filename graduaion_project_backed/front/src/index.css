@@ -11,3 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+
+/* table template */
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import url("../src/styles/tableTemplate/style.css");
