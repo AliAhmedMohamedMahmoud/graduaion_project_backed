@@ -30,6 +30,8 @@ namespace graduaion_project_backed
         {
 
             services.AddControllers();
+            services.AddScoped<ICrud<Branches>, BranchesRepo>();
+
             services.AddScoped<ICrud<City>,CityRepo>();
             services.AddScoped<IOrderRepo,OrderRepo>();
             services.AddDbContext<Context>(Options =>
