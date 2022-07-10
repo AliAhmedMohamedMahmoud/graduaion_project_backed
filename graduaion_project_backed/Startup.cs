@@ -30,7 +30,9 @@ namespace graduaion_project_backed
         {
 
             services.AddControllers();
-            services.AddScoped<ICity,CityRepo>();
+            services.AddScoped<ICrud<Branches>, BranchesRepo>();
+            services.AddScoped<ICity, CityRepo>()
+            services.AddScoped<ICrud<City>,CityRepo>();
             services.AddScoped<IOrderRepo,OrderRepo>();
             services.AddDbContext<Context>(Options =>
             {
@@ -40,6 +42,7 @@ namespace graduaion_project_backed
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "graduaion_project_backed", Version = "v1" });
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
