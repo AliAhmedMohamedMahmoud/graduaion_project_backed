@@ -1,13 +1,18 @@
-import logo from './logo.svg';
 import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button } from 'react-bootstrap';
-import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
-import Table from 'react-bootstrap/Table';
+import {
+  Routes,
+  Route,
+} from "react-router-dom";
+import ShowCities from './components/cities/ShowCities';
 function App() {
+  console.log(process.env.base)
   return (
-    <div className="App"></div>
+    <div className="App">
+      <Routes>
+        <Route path="/cities" element= {<ShowCities/>}></Route>
+        <Route path="/addCity" element= {<ShowCities/>}></Route>
+      </Routes>
+    </div>
   );
 }
 
