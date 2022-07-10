@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace graduaion_project_backed.Repo
 {
-    public class CityRepo : ICrud<City>
+    public class CityRepo : ICity
     {
         private readonly Context context;
 
@@ -47,6 +47,15 @@ namespace graduaion_project_backed.Repo
         public City GetById(int id)
         {
             return context.Cities.Where(c => c.Id == id).SingleOrDefault();
+        }
+        public bool newNameExist(int cityId, string newName)
+        {
+            return context.Cities.Any(city=> city.Name==newName && city.Id !=cityId);
+        }
+
+        public City FindByNme(string name)
+        {
+           return context.Cities.FirstOrDefault(c => c.Name==name);
         }
     }
 }
