@@ -12,13 +12,13 @@ namespace graduaion_project_backed.Model
         public string Name { get; set; }
         public decimal CostPerCity { get; set; }
 
-        [ForeignKey("city")]
-        public int cityId { get; set; }
+        [ForeignKey("state")]
+        public int stateId { get; set; }
 
         [JsonIgnore]
         public virtual List<Branches> Branches { get; set; } = new List<Branches>();
         [JsonIgnore]
         public virtual List<Order> Order { get; set; } = new List<Order>();
-        public City city { set; get; }
+        public State state { set; get; }
     }
 }

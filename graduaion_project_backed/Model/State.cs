@@ -9,6 +9,7 @@ namespace graduaion_project_backed.Model
         public int Id { get; set; }
         public string Name { get; set; }
         public virtual List<Order> Order { get; set; } = new List<Order>();
+        public virtual List<City> Cities { get; set; } = new List<City>();
 
     }
 }
