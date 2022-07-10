@@ -13,69 +13,85 @@ namespace graduaion_project_backed.Controllers
     [ApiController]
     public class StatusController : ControllerBase
     {
-        //    readonly IStatusesRepos statusRepository;
-        //    readonly IConfiguration configuration;
-        //    public StatusController(IStatusesRepos stuReso, IConfiguration config)
-        //    {
-        //        statusRepository = stuReso;
-        //        configuration = config;
+           readonly IStatusesRepos statusRepository;
+           readonly IConfiguration configuration;
+           public StatusController(IStatusesRepos stuReso, IConfiguration config)
+          {
+               statusRepository = stuReso;
+               configuration = config;
 
 
-        //    }
-        //    [HttpGet("{id:int}", Name = "getStatus")]
-        //    public IActionResult GetByID(int id)
-        //    {
-        //        Status status = statusRepository.FindById(id);
-        //        return Ok(status);
-        //    }
 
-        //    [HttpPost]//
-        //    public IActionResult PostStatus(Status status)
-        //    {
-        //        if (ModelState.IsValid == true)
-        //        {
+        }
+        [HttpGet]
+        public IActionResult GetAllStatus()
+        {
+            List<Status> statuslist = statusRepository.GetAll();
+            return Ok(statuslist);
+        }
+        [HttpGet("{id:int}", Name = "getStatus")]
+        public IActionResult GetByID(int id)
+        {
+            Status status = statusRepository.FindById(id);
+            return Ok(status);
+        }
 
-        //            var res = statusRepository.Insert(status);
-
-
-        //            string url = Url.Link("getStatus", new { id = status.Id });
-        //            return Created(url, status);
-        //        }
-
-        //        return BadRequest(ModelState);
-        //    }
-        //    [HttpPut("{id:int}")]
-        //    public IActionResult Update([FromRoute] int id, [FromBody] Status status)
-        //    {
-        //        if (ModelState.IsValid == true)
-        //        {
-
-        //            statusRepository.Edit(id, status);
-        //            return Ok(status);
+            }
+            [HttpGet("{id:int}", Name = "getStatus")]
+            public IActionResult GetByID(int id)
+           {
+               Status status = statusRepository.FindById(id);
+               return Ok(status);
+           }
 
 
-        //        }
-        //        return BadRequest(ModelState);
-        //    }
-        //    [HttpDelete("{id:int}")]
-        //    public IActionResult Remove(int id)
-        //    {
-        //        Status status = statusRepository.FindById(id);
-        //        if (status != null)
-        //        {
-        //            try
-        //            {
-        //                statusRepository.Delete(id);
-        //                return StatusCode(204, "Record Remove Success");
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                return BadRequest(ex.Message);
-        //            }
-        //        }
-        //        return BadRequest("Id Not Found");
+           [HttpPost]
+           public IActionResult PostStatus(Status status)
+           {
+                if (ModelState.IsValid == true)
+               {
+
+                    var res = statusRepository.Insert(status);
 
 
-        //    }
+                   string url = Url.Link("getStatus", new { id = status.Id });
+                    return Created(url, status);
+               }
+
+                return BadRequest(ModelState);
+            }
+            [HttpPut("{id:int}")]
+           public IActionResult Update([FromRoute] int id, [FromBody] Status status)
+           {
+               if (ModelState.IsValid == true)
+               {
+
+                   statusRepository.Edit(id, status);
+                   return Ok(status);
+
+
+               }
+                return BadRequest(ModelState);
+            }
+            [HttpDelete("{id:int}")]
+            public IActionResult Remove(int id)
+           {
+                Status status = statusRepository.FindById(id);
+                if (status != null)
+                {
+                    try
+                    {
+                       statusRepository.Delete(id);
+                       return StatusCode(204, "Record Remove Success");
+                   }
+                 catch (Exception ex)
+                  {
+                       return BadRequest(ex.Message);
+                   }
+               }
+               return BadRequest("Id Not Found");
+
+
+            }
     }
 }

@@ -40,7 +40,7 @@ namespace graduaion_project_backed.Repo
 
                     db.Statuses.Add(stu);
                     int raw = db.SaveChanges();
-                    return raw;
+                    return stu.Id;
                 }
                 catch (Exception ex)
                 {
