@@ -17,6 +17,13 @@ namespace graduaion_project_backed.Repo
         }
 
 
+        public List<Order> GetAllOrders()
+        {
+            List<Order> orderList = context.Orders.ToList();
+           
+             return orderList;
+        }
+
         public int add(Order order)
         {
             context.Orders.Add(order);
@@ -50,6 +57,21 @@ namespace graduaion_project_backed.Repo
         {
             return context.Orders.Where(o => o.StatusId == statusId).ToList().
                 ToPagedList(pageIndex,pageSize) as List<Order>;
+        }
+
+
+        public int Delete(int id)
+        {
+            Order order1 = context.Orders.FirstOrDefault(p => p.Id == id);
+            if (order1 != null)
+            {
+                context.Orders.Remove(order1);
+                int rowRemoved = context.SaveChanges();
+                return rowRemoved;
+            }
+
+            return 0;
+
         }
 
         public List<Order> GetByDateAndStatus(DateTime start, DateTime end, int statusId, int pageIndex)

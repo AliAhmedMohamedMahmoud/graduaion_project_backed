@@ -54,7 +54,7 @@ namespace graduaion_project_backed.Controllers
         [HttpPut("{id:int}")]
         public IActionResult UpdateState (int id, [FromQuery] string stateName)
         {
-            var
+            return Ok();
         }
     }
 }

@@ -7,6 +7,8 @@ namespace graduaion_project_backed.Repo
     public interface IOrderRepo
     {
         int add(Order order);
+        List<Order> GetAllOrders();
+        int Delete(int id);
         int Edit(int id, Order order);
         List<Order> GetByDateAndStatus(DateTime start, DateTime end, int statusId, int pageIndex);
         Order GetById(int id);
