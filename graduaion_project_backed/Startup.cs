@@ -37,6 +37,7 @@ namespace graduaion_project_backed
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "graduaion_project_backed", Version = "v1" });
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
