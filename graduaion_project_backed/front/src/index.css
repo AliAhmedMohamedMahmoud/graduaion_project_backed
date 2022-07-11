@@ -12,7 +12,8 @@ code {
     monospace;
 }
 
-
+/* font awesome */
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css");
 
 /* table template */
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");

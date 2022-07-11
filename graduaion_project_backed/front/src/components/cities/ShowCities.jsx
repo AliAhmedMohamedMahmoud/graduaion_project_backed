@@ -1,8 +1,32 @@
 import React, { useEffect, useState } from 'react'
-import { getAll } from '../../Services/City'
+import { getAll, deleteCity } from '../../Services/City'
+import { Link } from "react-router-dom";
+import { Button, Modal } from 'react-bootstrap'
 
 export default function ShowCities() {
     const [cities, setCities] = useState([])
+    const [show, setShow] = useState(false);
+    const [idToDelete, setIdToDelete] = useState(null)
+
+
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    const setIdValAndShow = (id) => {
+        setIdToDelete(id)
+        setShow(true)
+    }
+
+
+    const whenclick = async () => {
+        setShow(false)
+        await deleteCity(idToDelete);
+        const { data } = await getAll()
+        setCities(data)
+    }
+
+
     useEffect(() => {
         getAll()
             .then(({ data }) => {
@@ -16,7 +40,9 @@ export default function ShowCities() {
                     <div class="table-wrapper">
                         <div class="table-title">
                             <div class="row">
-                                <div class="col-sm-8"><h2>Customer <b>Details</b></h2></div>
+                                <div class="col-sm-8">
+                                    <Link to={`/addCity`} href="#" className=' btn btn-success' ><i class="fa-solid fa-plus"></i></Link>
+                                </div>
                                 <div class="col-sm-4">
                                     <div class="search-box">
                                         <i class="material-icons">&#xE8B6;</i>
@@ -33,15 +59,14 @@ export default function ShowCities() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {cities.map(({ name, costPerCity }) => {
+                                {cities.map(({ id, name, costPerCity }) => {
                                     return (
                                         <tr>
                                             <td>{name}</td>
                                             <td>{costPerCity}</td>
                                             <td>
-                                                <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                                                <a href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                                <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                                <Link to={`/editCity/${id}`} href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></Link>
+                                                <a style={{ cursor: "pointer" }} class="delete" title="Delete" data-toggle="tooltip" onClick={() => setIdValAndShow(id)}><i class="material-icons">&#xE872;</i></a>
                                             </td>
                                         </tr>
                                     )
@@ -63,6 +88,27 @@ export default function ShowCities() {
                     </div>
                 </div>
             </div>
+
+
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Modal heading</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>are u sure u want to delete this item ??!!!</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={whenclick}>
+                        yes
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </>
     )
 }
+
+
+
+
+
