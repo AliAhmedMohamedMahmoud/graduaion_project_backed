@@ -8,13 +8,13 @@ export default function  ShowStates(params) {
     const [PageIndex , setPageIndex] = useState(0);
 
     useEffect(()=>{
-     GetAll().then(
+     GetAll(PageIndex+1).then(
         ({data})=>{
             setStates(data)
         },
         (err)=>{alert("errore while get state")}
      )
-    },[])
+    },[PageIndex])
 
 
     useEffect(()=>{
@@ -25,7 +25,7 @@ export default function  ShowStates(params) {
            },
            (err)=>{alert(err)}
         )
-       },[PageIndex])
+       },[])
 
        function HandelPageination(par) {
         setPageIndex(par-1);

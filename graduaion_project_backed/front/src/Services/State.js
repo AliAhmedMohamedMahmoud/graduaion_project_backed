@@ -4,9 +4,9 @@ import axios from "axios"
 const stateBase=`${base}State`
 
 
-export const GetAll=()=>{
+export const GetAll=(pageNumber)=>{
    
-    return axios.get(stateBase)
+    return axios.get(stateBase,{ params: { pageNumber } })
 }
 export const GetNumberOfPages=()=>{
     return axios.get(`${stateBase}/Number`)

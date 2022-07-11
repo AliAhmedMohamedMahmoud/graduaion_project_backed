@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 namespace graduaion_project_backed.Repo
 {
-    public class StateRepo : ICrud<State>
+    public class StateRepo :IstateRepo
     {
         readonly Context db; 
         public StateRepo(Context db)
@@ -41,6 +41,11 @@ namespace graduaion_project_backed.Repo
         public List<State> GetAll()
         {
             return db.States.ToList();
+        }
+
+        public List<State> GetAllPageination(int pageNumber)
+        {
+           return db.States.Skip(2*(pageNumber-1)).Take(2).ToList();
         }
 
         public State GetById(int id)
