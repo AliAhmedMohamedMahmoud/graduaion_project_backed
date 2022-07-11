@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using X.PagedList;
+
 namespace graduaion_project_backed.Repo
 {
     public class OrderRepo : IOrderRepo
@@ -55,8 +55,8 @@ namespace graduaion_project_backed.Repo
 
         public List<Order> getByStatus(int statusId, int pageIndex)
         {
-            return context.Orders.Where(o => o.StatusId == statusId).ToList().
-                ToPagedList(pageIndex,pageSize) as List<Order>;
+            return context.Orders.Where(o => o.StatusId == statusId).Skip(pageSize * (pageIndex-1)).Take(pageSize).ToList();
+              
         }
 
 
@@ -77,9 +77,9 @@ namespace graduaion_project_backed.Repo
         public List<Order> GetByDateAndStatus(DateTime start, DateTime end, int statusId, int pageIndex)
         {
             return context.Orders.
-                   Where(o => o.StatusId == statusId && (o.Date < end && o.Date > start)).
-                   ToList().
-                   ToPagedList(pageSize, pageIndex) as List<Order>;
+                   Where(o => o.StatusId == statusId && (o.Date < end && o.Date > start)).Skip(pageSize * (pageIndex - 1)).Take(pageSize).
+                   ToList();
+                  
         }
     }
 }

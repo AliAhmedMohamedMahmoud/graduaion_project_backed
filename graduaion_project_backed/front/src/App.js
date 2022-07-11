@@ -5,7 +5,6 @@ import {
 } from "react-router-dom";
 import ShowCities from './components/cities/ShowCities';
 import AddCity from './components/cities/addCity';
-import EditCity from './components/cities/EditCity';
 
 function App() {
   console.log(process.env.base)
@@ -14,7 +13,6 @@ function App() {
       <Routes>
         <Route path="/cities" element= {<ShowCities/>}></Route>
         <Route path="/addCity" element= {<AddCity/>}></Route>
-        <Route path="/editCity/:id" element= {<EditCity/>}></Route>
       </Routes>
     </div>
   );
