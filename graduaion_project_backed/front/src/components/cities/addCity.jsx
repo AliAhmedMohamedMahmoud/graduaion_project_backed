@@ -1,26 +1,117 @@
 import React, { useState } from 'react'
 import { add } from '../../Services/City'
-import {getAll} from "../../Services/State"
-
+import { getAll } from "../../Services/State"
+import { useNavigate } from "react-router-dom";
 export default function AddCity() {
-    const [city,setCity]=useState([])
+
+    const navigate = useNavigate();
+    const [states, setStates] = useState([])
+    const [serverError,setserverError]=useState(null)
+    const [form, setForm] = useState({
+        name: "",
+        costPerCity: 0,
+        stateId: 0,
+    })
+
+
+
+    const [formErrors, setformErrors] = useState({
+        name: "",
+        costPerCity: "",
+        stateId: "",
+    })
+
+
+    const handleChange = (e) => {
+        console.log(e.target.type);
+        setForm({
+            ...form,          //if input is select or number convert it to number
+            [e.target.name]: (e.target.type == "number" || e.target.type == "select-one") ? +e.target.value : e.target.value
+        })
+    }
+
+
+
+    useState(() => {
+        (async function () {
+            const data = await getAll()
+            setStates(data.data)
+        })()
+    }, [])
+
+    const validate = () => {
+
+        const errors = {
+            name: "",
+            costPerCity: "",
+            stateId: "",
+            isValid: true
+        }
+
+        if (form.name == "") {
+            errors.name = "name is required"
+            errors.isValid = false
+        }
+
+        if (form.costPerCity == 0) {
+            errors.costPerCity = "costPerCity is required"
+            errors.isValid = false
+        }
+
+        if (form.stateId == 0) {
+            errors.stateId = "u must choose a state"
+            errors.isValid = false
+        }
+
+        setformErrors(errors)
+
+        if (errors.isValid) {
+            return true
+        }
+
+    }
+
+    const whenSubmit = async () => {
+        if (validate()) {
+            try{
+                await add(form)
+                navigate("/cities")
+            }catch({response:{data:{detail}}}){
+                setserverError(detail)
+            }
+        }
+    }
 
     return (
-        <div className="container">
-            <form action="">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="city name" aria-label="Username" aria-describedby="basic-addon1" />
+        <div className="container pt-5">
+            <h1 className='mb-5'>Add city</h1>
+            <div class=" mb-3">
+                <input onChange={handleChange} name='name' type="text" class="form-control" placeholder="city name" aria-label="Username" aria-describedby="basic-addon1" />
+                <div>
+                    <small className=' text-danger'>{formErrors.name}</small>
                 </div>
-                <div class="input-group mb-3">
-                    <input type="number" class="form-control" placeholder="city shipping cost" aria-label="Username" aria-describedby="basic-addon1" />
+            </div>
+            <div class=" mb-3">
+                <input onChange={handleChange} name='costPerCity' type="number" class="form-control" placeholder="city shipping cost" aria-label="Username" aria-describedby="basic-addon1" />
+                <div>
+                    <small className=' text-danger'>{formErrors.costPerCity}</small>
                 </div>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>select state</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-            </form>
+            </div>
+            <select onChange={handleChange} name='stateId' class="form-select" aria-label="Default select example">
+                <option selected>select state</option>
+                {states.map(({ id, name }) => {
+                    return <option value={id}>{name}</option>
+                })}
+            </select>
+            <div>
+                <small className=' text-danger'>{formErrors.stateId}</small>
+            </div>
+            <div className='mt-5'>
+                <button onClick={whenSubmit} className='btn btn-success' type='submit'>add</button>
+            </div>
+            <div className=' mt-2 text-center'>
+                <small className=' text-danger'>{serverError}</small>
+            </div>
         </div>
     )
 }

@@ -33,6 +33,7 @@ namespace graduaion_project_backed.Repo
             {
                 oldCity.Name = New.Name;
                 oldCity.CostPerCity = New.CostPerCity;
+                oldCity.stateId= New.stateId;
                 context.SaveChanges();
                 return oldCity.Id;
             }

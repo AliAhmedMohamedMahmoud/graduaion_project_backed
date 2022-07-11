@@ -9,5 +9,22 @@ export const getAll=()=>{
 }
 
 export const add=(city)=>{
-    return axios.post(city)
+    return axios.post(cityBase,city)
 }
+
+export const edit=(id,city)=>{
+    return axios.put(`${cityBase}/${id}`,city)
+}
+
+export const getById=(id)=>{
+    return axios.get(`${cityBase}/${id}`)
+}
+
+export const deleteCity=(id)=>{
+    return axios.delete(`${cityBase}/${id}`)
+}
+
+
+
+
+
