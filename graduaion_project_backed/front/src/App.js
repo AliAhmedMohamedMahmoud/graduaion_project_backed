@@ -5,8 +5,12 @@ import {
 } from "react-router-dom";
 import ShowCities from './components/cities/ShowCities';
 import AddCity from './components/cities/addCity';
-import ShowStates from './components/state/ShowStates'
-import AddState from './components/state/AddState';
+import AddStatus from './components/Status/AddStatus';
+import ShowBranches from './components/Branches/ShowBranches';
+import EditCity from './components/cities/EditCity';
+// import AddStatus from './components/cities/EditCity'
+
+
 function App() {
   console.log(process.env.base)
   return (
@@ -14,8 +18,6 @@ function App() {
       <Routes>
         <Route path="/cities" element= {<ShowCities/>}></Route>
         <Route path="/addCity" element= {<AddCity/>}></Route>
-        <Route path="/states" element= {<ShowStates/>}></Route>
-        <Route path="/addState" element= {<AddState/>}></Route>
       </Routes>
     </div>
   );

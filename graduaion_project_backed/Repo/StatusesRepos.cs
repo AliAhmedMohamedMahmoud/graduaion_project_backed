@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace graduaion_project_backed.Repo
 {
-    public class StatusesRepos:IStatusesRepos
+    public class StatusesRepos : IStatusesRepos
     {
         Context db;
         public StatusesRepos(Context db)
@@ -27,39 +27,42 @@ namespace graduaion_project_backed.Repo
             db.Statuses.Remove(stu);
             return db.SaveChanges();
         }
-            public int Insert(StatusDto status)
-            {
-                Status stu = new Status()
-                {
-                   
-                    Name = status.Name,
-
-                };
-                try
-                {
-
-                    db.Statuses.Add(stu);
-                    int raw = db.SaveChanges();
-                    return stu.Id;
-                }
-                catch (Exception ex)
-                {
-
-                    return -1;
-                }
-
-            }
-        public int Edit(int id, StatusDto status)
+        public int Insert(StatusDto status)
         {
-            Status stu = FindById(id);
 
-            if (stu != null)
+            Status stu = new Status()
             {
-                
-                stu.Name = status.Name;
-                
+                Name = status.Name,
+
+
+
+            };
+            try
+            {
+
+                db.Statuses.Add(stu);
                 int raw = db.SaveChanges();
                 return raw;
+            }
+            catch (Exception ex)
+            {
+
+                return -1;
+            }
+
+        }
+
+
+
+        public int Edit(int id, StatusDto status)
+        {
+            Status oldStatus = FindById(id);
+            if (oldStatus != null)
+            {
+                oldStatus.Name = status.Name;
+
+                db.SaveChanges();
+                return oldStatus.Id;
             }
             return 0;
         }
@@ -67,3 +70,4 @@ namespace graduaion_project_backed.Repo
 
     }
 }
+

@@ -1,68 +1,131 @@
 import React, { useEffect, useState } from 'react'
-import { getAll } from '../../Services/City'
+import { deleteCity, getAllWithPagination } from '../../Services/City'
+import { Link } from "react-router-dom";
+import { Button, Modal } from 'react-bootstrap'
+
 
 export default function ShowCities() {
     const [cities, setCities] = useState([])
+    const [citiesCount, setcitiesCount] = useState([])
+    const [show, setShow] = useState(false);
+    const [idToDelete, setIdToDelete] = useState(null)
+    const [currentPge, setCurrentPge] = useState(1)
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    const setIdValAndShow = (id) => {
+        setIdToDelete(id)
+        setShow(true)
+    }
+
+
+    const whenclick = async () => {
+        setShow(false)
+        await deleteCity(idToDelete);
+        const { data: { cities } } = await getAllWithPagination(currentPge)
+        setCities(cities)
+    }
+
+    const renderPagesNumbers = () => {
+        let out = []
+        for (let i = 1; i <= citiesCount; i++) {
+            out.push(<li onClick={() => handlePagination(i)} className="page-item"><a href="#" className="page-link">{i}</a></li>)
+        }
+        return out;
+    }
+
+    const handlePagination = async (pageNumber) => {
+        setCurrentPge(pageNumber)
+        const { data: { cities } } = await getAllWithPagination(pageNumber);
+        setCities(cities)
+    }
+
     useEffect(() => {
-        getAll()
-            .then(({ data }) => {
-                setCities(data)
-            })
+        (async function () {
+            try {
+                const { data: { cities, count } } = await getAllWithPagination(1);
+                setCities(cities)
+                setcitiesCount(count)
+            } catch (err) {
+                console.log(err)
+            }
+        })()
     }, [])
+
+
     return (
         <>
-            <div class="container">
-                <div class="table-responsive">
-                    <div class="table-wrapper">
-                        <div class="table-title">
-                            <div class="row">
-                                <div class="col-sm-8"><h2>Customer <b>Details</b></h2></div>
-                                <div class="col-sm-4">
-                                    <div class="search-box">
-                                        <i class="material-icons">&#xE8B6;</i>
-                                        <input type="text" class="form-control" placeholder="Search&hellip;" />
+            <div className="container">
+                <div className="table-responsive">
+                    <div className="table-wrapper">
+                        <div className="table-title">
+                            <div className="row">
+                                <div className="col-sm-8">
+                                    <Link to={`/addCity`} href="#" className=' btn btn-success' ><i className="fa-solid fa-plus"></i></Link>
+                                </div>
+                                <div className="col-sm-4">
+                                    <div className="search-box">
+                                        <i className="material-icons">&#xE8B6;</i>
+                                        <input type="text" className="form-control" placeholder="Search&hellip;" />
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <table class="table table-striped table-hover table-bordered">
+                        <table className="table table-striped table-hover table-bordered">
                             <thead>
                                 <tr>
-                                    <th>City <i class="fa fa-sort"></i></th>
-                                    <th>Cost <i class="fa fa-sort"></i></th>
+                                    <th>City <i className="fa fa-sort"></i></th>
+                                    <th>Cost <i className="fa fa-sort"></i></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {cities.map(({ name, costPerCity }) => {
+                                {cities.map(({ id, name, costPerCity }) => {
                                     return (
                                         <tr>
                                             <td>{name}</td>
                                             <td>{costPerCity}</td>
                                             <td>
-                                                <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                                                <a href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                                <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                                <Link to={`/editCity/${id}`} href="#" className="edit" title="Edit" data-toggle="tooltip"><i className="material-icons">&#xE254;</i></Link>
+                                                <a style={{ cursor: "pointer" }} className="delete" title="Delete" data-toggle="tooltip" onClick={() => setIdValAndShow(id)}><i className="material-icons">&#xE872;</i></a>
                                             </td>
                                         </tr>
                                     )
                                 })}
                             </tbody>
                         </table>
-                        <div class="clearfix">
-                            <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
-                            <ul class="pagination">
-                                <li class="page-item disabled"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
-                                <li class="page-item"><a href="#" class="page-link">1</a></li>
-                                <li class="page-item"><a href="#" class="page-link">2</a></li>
-                                <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                                <li class="page-item"><a href="#" class="page-link">4</a></li>
-                                <li class="page-item"><a href="#" class="page-link">5</a></li>
-                                <li class="page-item"><a href="#" class="page-link"><i class="fa fa-angle-double-right"></i></a></li>
+                        <div className="clearfix">
+                            <div className="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+                            <ul className="pagination">
+                                <li className="page-item disabled"><a href="#"><i className="fa fa-angle-double-left"></i></a></li>
+                                {renderPagesNumbers()}
+                                <li className="page-item"><a href="#" className="page-link"><i className="fa fa-angle-double-right"></i></a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
+
+
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Modal heading</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>are u sure u want to delete this item ??!!!</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={whenclick}>
+                        yes
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </>
     )
 }
+
+
+
+
+

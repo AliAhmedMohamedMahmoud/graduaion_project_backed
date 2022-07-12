@@ -15,6 +15,20 @@ namespace graduaion_project_backed.Controllers
         }
 
 
+        [HttpGet("pagination/{pageNumber:int}")]
+        public IActionResult getAll(int pageNumber)
+        {
+            try
+            {
+                return Ok(cityRepo.GetAllwithPagination(pageNumber));
+            }
+            catch
+            {
+                return Problem("something went wrong");
+            }
+
+        }
+
         [HttpGet]
         public IActionResult getAll()
         {

@@ -32,6 +32,7 @@ namespace graduaion_project_backed
             services.AddControllers();
             services.AddScoped<ICrud<Branches>, BranchesRepo>();
             services.AddScoped<ICity, CityRepo>();
+            services.AddScoped<IStatusesRepos, StatusesRepos>();
             services.AddScoped<ICrud<City>,CityRepo>();
             services.AddScoped<IOrderRepo,OrderRepo>();
             services.AddScoped<IstateRepo, StateRepo>();
