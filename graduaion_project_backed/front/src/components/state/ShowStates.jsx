@@ -1,12 +1,12 @@
 import { Fragment, useEffect, useState } from "react"
 
-import {GetAll,GetNumberOfPages} from '../../Services/State'
+import {GetAll,GetNumberOfPages,Delete} from '../../Services/State'
 export default function  ShowStates(params) {
 
     const [states , setStates ] = useState([]);
     const [NumberOfPages , setNumberOfPages] = useState(0);
     const [PageIndex , setPageIndex] = useState(0);
-
+     const HelperARR=[]
     useEffect(()=>{
      GetAll(PageIndex+1).then(
         ({data})=>{
@@ -21,7 +21,13 @@ export default function  ShowStates(params) {
         GetNumberOfPages().then(
            ({data})=>{
             console.log( "we gpt the number ");
+
+            for (let index = 0; index < NumberOfPages; index++) {
+               HelperARR.push(1);                
+            }
             setNumberOfPages(data)
+
+
            },
            (err)=>{alert(err)}
         )
@@ -29,6 +35,11 @@ export default function  ShowStates(params) {
 
        function HandelPageination(par) {
         setPageIndex(par-1);
+       }
+       function HandelDelete(id) {
+        // let res = confirm("Press to confirm!");
+        // if(res)
+            Delete(id);
        }
     return (
         <>
@@ -54,7 +65,7 @@ export default function  ShowStates(params) {
                                 </tr>
                             </thead>
                             <tbody>
-                                {states.map(({ name },i) => {
+                                {states.map(({ name,id },i) => {
                                     return (
 
                                         <Fragment key={i}>
@@ -62,7 +73,7 @@ export default function  ShowStates(params) {
                                         <tr >
                                             <td>{name}</td>
                                             <td>
-                                                <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                                <a onClick={(event)=>HandelDelete(id)} class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
                                             </td>
                                         </tr>
                                         </Fragment>
@@ -71,11 +82,12 @@ export default function  ShowStates(params) {
                             </tbody>
                         </table>
                         <div class="clearfix">
-                            <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+                            <div class="hint-text">Showing <b>2</b> out of {NumberOfPages}<b></b> entries</div>
                             <ul class="pagination">
 
                                {
-                                 (new Array(3,3,3)).map((v,i)=>{
+                               
+                                 HelperARR.map((v,i)=>{
 
                                     if (i == PageIndex) { return( 
                                        

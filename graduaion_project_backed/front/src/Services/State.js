@@ -14,8 +14,8 @@ export const GetNumberOfPages=()=>{
 export const GetById=(id)=>{
     return axios.get(`${stateBase}/${id}`);
 }
-export const Add=(State)=>{
-    return axios.post(stateBase,State);
+export const Add=(stateName)=>{
+    return axios.post(stateBase,{ params: { stateName } });
 }
 export const Delete=(id)=>{
     return axios.delete(`${stateBase}/${id}`);
