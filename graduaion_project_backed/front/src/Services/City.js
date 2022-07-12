@@ -4,8 +4,13 @@ import axios from "axios"
 const cityBase=`${base}City`
 
 
+export const getAllWithPagination=(pageNumber)=>{
+    console.log("first")
+    return axios.get(`${cityBase}/pagination/${pageNumber}`)
+}
+
 export const getAll=()=>{
-    return axios.get(cityBase)
+    return axios.get(`${cityBase}`)
 }
 
 export const add=(city)=>{
