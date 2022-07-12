@@ -9,27 +9,39 @@ namespace graduaion_project_backed.Controllers
     [ApiController]
     public class BrancheController : ControllerBase
     {
-        private readonly ICrud<Branches> BranchesRepo;
+        private readonly IBranchRepo BranchesRepo;
 
-        public BrancheController(ICrud<Branches> _BranchesRepo)
+        public BrancheController(IBranchRepo _BranchesRepo)
         {
             BranchesRepo = _BranchesRepo;
         }
+        [HttpGet("pagination/{pageNumber:int}")]
+        public IActionResult getAll(int pageNumber)
+        {
+            try
+            {
+                return Ok(BranchesRepo.pagination(pageNumber));
+            }
+            catch
+            {
+                return Problem("something went wrong");
+            }
 
+        }
         [HttpGet]
-        public IActionResult GetAllEmployee()
+        public IActionResult GetAllBranch()
         {
             return Ok(BranchesRepo.GetAll());
         }
 
         [HttpGet("{id:int}", Name = "GetOneEmpRoute")]
-        public IActionResult GetEmployeeById(int id)
+        public IActionResult GetBranchById(int id)
         {
             return Ok(BranchesRepo.GetById(id));
         }
 
         [HttpPost]
-        public IActionResult PostEmployeeById(Branches branche)
+        public IActionResult PostBranchById(Branches branche)
         {
             try
             {
@@ -44,18 +56,18 @@ namespace graduaion_project_backed.Controllers
         }
         [HttpPut("{id}")]
 
-        public IActionResult PutEmployeeById(int id, Branches branche)
+        public IActionResult PutBranchById(int id, Branches branche)
         {
             if (ModelState.IsValid == true)
             {
-                var returnedEmployee = BranchesRepo.Edit(id, branche);
-                return StatusCode(204, returnedEmployee);
+                var returnedBranch = BranchesRepo.Edit(id, branche);
+                return StatusCode(204, returnedBranch);
             }
             return BadRequest(ModelState);
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteEmployee(int id)
+        public IActionResult DeleteBranch(int id)
         {
             try
             {

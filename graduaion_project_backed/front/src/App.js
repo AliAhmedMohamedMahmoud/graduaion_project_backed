@@ -21,10 +21,11 @@ function App() {
       <Routes>
         <Route path="/cities" element= {<ShowCities/>}></Route>
         <Route path="/addCity" element= {<AddCity/>}></Route>
-        <Route path="/addState" element= {<AddState/>}></Route>
-        <Route path="/ShowState" element= {<ShowStates/>}></Route>
-        <Route path="/EditState/:id" element= {<EditState/>}></Route>
-        
+        <Route path="/editCity/:id" element= {<EditCity/>}></Route>
+        <Route path="/AddStatus" element= {<AddStatus/>}></Route>
+        <Route path="/branches" element= {<ShowBranches/>}></Route>
+        <Route path="/editBranch/:id" element= {<EditBranch/>}></Route>
+        <Route path="/addBranch" element= {<Add_branche/>}></Route>
       </Routes>
     </div>
   );

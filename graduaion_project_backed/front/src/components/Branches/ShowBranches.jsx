@@ -1,13 +1,41 @@
 import React, { useEffect, useState } from 'react'
 import { getAll } from '../../Services/branch'
+import { paginationaBaranches } from './../../Services/branch';
 
 export default function ShowBranches() {
     const [branches, setBranches] = useState([])
+    const [branchesCount, setBranchesCount] = useState([])
+    const [show, setShow] = useState(false);
+    const [idToDelete, setIdToDelete] = useState(null)
+    const [currentPage, setCurrentPage] = useState(1)
     useEffect(() => {
-        getAll()
+        paginationaBaranches(1)
             .then(({ data }) => {
-                setBranches(data)
+                setBranches(data.record)
             })
+    }, [])
+    const pagesNumbers = () => {
+        let out = []
+        for (let i = 1; i <= branchesCount; i++) {
+            out.push(<li onClick={() => pagination(i)} className="page-item"><a href="#" className="page-link">{i}</a></li>)
+        }
+        return out;
+    }
+    const pagination = async (pageNumber) => {
+        setCurrentPage(pageNumber)
+        const { data: { record } } = await paginationaBaranches(pageNumber);
+        setBranches(record)
+    }
+    useEffect(() => {
+        (async  ()=> {
+            try {
+                const { data: { record, count } } = await paginationaBaranches(1);
+               setBranches(record)
+                setBranchesCount(count)
+            } catch (err) {
+                console.log(err)
+            }
+        })()
     }, [])
     return (
         <>
@@ -48,16 +76,12 @@ export default function ShowBranches() {
                                 })}
                             </tbody>
                         </table>
-                        <div class="clearfix">
-                            <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
-                            <ul class="pagination">
-                                <li class="page-item disabled"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
-                                <li class="page-item"><a href="#" class="page-link">1</a></li>
-                                <li class="page-item"><a href="#" class="page-link">2</a></li>
-                                <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                                <li class="page-item"><a href="#" class="page-link">4</a></li>
-                                <li class="page-item"><a href="#" class="page-link">5</a></li>
-                                <li class="page-item"><a href="#" class="page-link"><i class="fa fa-angle-double-right"></i></a></li>
+                        <div className="clearfix">
+                            {/* <div className="hint-text">Showing <b>5</b> out of <b>25</b> entries</div> */}
+                            <ul className="pagination">
+                                <li className="page-item disabled"><a href="#"><i className="fa fa-angle-double-left"></i></a></li>
+                                {pagesNumbers()}
+                                <li className="page-item"><a href="#" className="page-link"><i className="fa fa-angle-double-right"></i></a></li>
                             </ul>
                         </div>
                     </div>
