@@ -11,10 +11,8 @@ namespace graduaion_project_backed.Model
         public int Id { get; set; }
         public string Name { get; set; }
         public decimal CostPerCity { get; set; }
-
         [ForeignKey("state")]
         public int stateId { get; set; }
-
         [JsonIgnore]
         public virtual List<Branches> Branches { get; set; } = new List<Branches>();
         [JsonIgnore]

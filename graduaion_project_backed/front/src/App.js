@@ -8,7 +8,15 @@ import AddCity from './components/cities/addCity';
 import AddStatus from './components/Status/AddStatus';
 import ShowBranches from './components/Branches/ShowBranches';
 import EditCity from './components/cities/EditCity';
-// import AddStatus from './components/cities/EditCity'
+import EditBranch from './components/Branches/EditBranch';
+import Add_branche from './components/Branches/Add_branche';
+
+import AddState from './components/state/AddState';
+import ShowStates from './components/state/ShowStates';
+import EditState from './components/state/EditState';
+import AddStatus from './components/cities/EditCity'
+import ShowStatuses from './components/Status/ShowStatuses';
+import EditStatus from './components/Status/EditStatus';
 
 
 function App() {
@@ -20,7 +28,15 @@ function App() {
         <Route path="/addCity" element= {<AddCity/>}></Route>
         <Route path="/editCity/:id" element= {<EditCity/>}></Route>
         <Route path="/AddStatus" element= {<AddStatus/>}></Route>
+         <Route path="/EditStatus/:id" element= {<EditStatus/>}></Route>
+        <Route path="/ShowStatuses" element= {<ShowStatuses/>}></Route>
         <Route path="/branches" element= {<ShowBranches/>}></Route>
+        <Route path="/editBranch/:id" element= {<EditBranch/>}></Route>
+        <Route path="/addBranch" element= {<Add_branche/>}></Route>
+
+        <Route path="/states" element= {<ShowStates/>}></Route>
+        <Route path="/editState/:id" element= {<EditState/>}></Route>
+        <Route path="/addState" element= {<AddState/>}></Route>
       </Routes>
     </div>
   );

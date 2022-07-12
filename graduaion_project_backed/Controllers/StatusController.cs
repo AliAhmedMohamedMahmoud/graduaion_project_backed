@@ -43,17 +43,19 @@ namespace graduaion_project_backed.Controllers
         [HttpPost]
         public IActionResult PostStatus(StatusDto status)
         {
-            if (ModelState.IsValid == true)
+            try
             {
+                var checkStatus= statusRepository.FindById(status.Id);
 
-                var res = statusRepository.Insert(status);
+                if (checkStatus != null) return Problem("the city name is already exist");
 
-
-                string url = Url.Link("getStatus", new { id = status.Id });
-                return Created(url, status);
+                var addStatus = statusRepository.Insert(status);
+                return Ok(addStatus);
             }
-
-            return BadRequest(ModelState);
+            catch
+            {
+                return Problem("something went wrong");
+            }
         }
         [HttpPut("{id:int}")]
         public IActionResult Update([FromRoute] int id, [FromBody] StatusDto status)
