@@ -8,6 +8,8 @@ import AddCity from './components/cities/addCity';
 import AddStatus from './components/Status/AddStatus';
 import ShowBranches from './components/Branches/ShowBranches';
 import EditCity from './components/cities/EditCity';
+import ShowStatuses from './components/Status/ShowStatuses';
+import EditStatus from './components/Status/EditStatus';
 
 
 function App() {
@@ -19,6 +21,8 @@ function App() {
         <Route path="/addCity" element= {<AddCity/>}></Route>
         <Route path="/editCity/:id" element= {<EditCity/>}></Route>
         <Route path="/AddStatus" element= {<AddStatus/>}></Route>
+         <Route path="/EditStatus/:id" element= {<EditStatus/>}></Route>
+        <Route path="/ShowStatuses" element= {<ShowStatuses/>}></Route>
         <Route path="/branches" element= {<ShowBranches/>}></Route>
       </Routes>
     </div>
