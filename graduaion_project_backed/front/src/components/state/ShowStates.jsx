@@ -1,46 +1,54 @@
 import { Fragment, useEffect, useState } from "react"
+import { Link } from "react-router-dom";
+import { GetAll, GetNumberOfPages, Delete } from '../../Services/State'
+import { useNavigate } from "react-router-dom";
+export default function ShowStates(params) {
 
-import {GetAll,GetNumberOfPages,Delete} from '../../Services/State'
-export default function  ShowStates(params) {
-
-    const [states , setStates ] = useState([]);
-    const [NumberOfPages , setNumberOfPages] = useState(0);
-    const [PageIndex , setPageIndex] = useState(0);
-     const HelperARR=[]
-    useEffect(()=>{
-     GetAll(PageIndex+1).then(
-        ({data})=>{
-            setStates(data)
-        },
-        (err)=>{alert("errore while get state")}
-     )
-    },[PageIndex])
-
-
-    useEffect(()=>{
-        GetNumberOfPages().then(
-           ({data})=>{
-            console.log( "we gpt the number ");
-
-            for (let index = 0; index < NumberOfPages; index++) {
-               HelperARR.push(1);                
-            }
-            setNumberOfPages(data)
-
-
-           },
-           (err)=>{alert(err)}
+    const [states, setStates] = useState([]);
+    const [NumberOfPages, setNumberOfPages] = useState(0);
+    const [PageIndex, setPageIndex] = useState(0);
+    const navigate = useNavigate();
+    const HelperARR = []
+    useEffect(() => {
+        GetAll(PageIndex + 1).then(
+            ({ data }) => {
+                setStates(data)
+            },
+            (err) => { alert("errore while get state") }
         )
-       },[])
+    }, [PageIndex])
 
-       function HandelPageination(par) {
-        setPageIndex(par-1);
-       }
-       function HandelDelete(id) {
-        // let res = confirm("Press to confirm!");
+
+    useEffect(() => {
+        GetNumberOfPages().then(
+            ({ data }) => {
+                console.log("we gpt the number ");
+
+                for (let index = 0; index < NumberOfPages; index++) {
+                    HelperARR.push(1);
+                }
+                setNumberOfPages(data)
+
+
+            },
+            (err) => { alert(err) }
+        )
+    }, [])
+
+    function HandelNew() {
+        navigate("/addState")
+    }
+    function HandelPageination(par) {
+        setPageIndex(par - 1);
+    }
+    function HandelDelete(id) {
+        
+       
+      //confirm();
+        // console.log(res);
         // if(res)
-            Delete(id);
-       }
+      //  Delete(id);
+    }
     return (
         <>
             <div class="container">
@@ -48,7 +56,7 @@ export default function  ShowStates(params) {
                     <div class="table-wrapper">
                         <div class="table-title">
                             <div class="row">
-                                <div class="col-sm-8"><h2>Customer <b>Details</b></h2></div>
+                                <div class="col-sm-8"><h2>States <b></b></h2></div>
                                 <div class="col-sm-4">
                                     <div class="search-box">
                                         <i class="material-icons">&#xE8B6;</i>
@@ -59,66 +67,61 @@ export default function  ShowStates(params) {
                         </div>
                         <table class="table table-striped table-hover table-bordered">
                             <thead>
-                                <tr>
-                                    <th>City <i class="fa fa-sort"></i></th>
-                                   
-                                </tr>
+                               
                             </thead>
                             <tbody>
-                                {states.map(({ name,id },i) => {
+                                {states.map(({ name, id }, i) => {
                                     return (
-
                                         <Fragment key={i}>
-
-                                        <tr >
-                                            <td>{name}</td>
-                                            <td>
-                                                <a onClick={(event)=>HandelDelete(id)} class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                                            </td>
-                                        </tr>
+                                            <tr >
+                                                <td>{name}</td>
+                                                <td>
+                                                    <a onClick={(event) => HandelDelete(id)} class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                                </td>
+                                                <td>
+                                                    <Link to={`/EditState/${id}`} href="#" className="edit" title="Edit" data-toggle="tooltip"><i className="material-icons">&#xE254;</i></Link>
+                                                </td>
+                                            </tr>
                                         </Fragment>
                                     )
                                 })}
                             </tbody>
                         </table>
                         <div class="clearfix">
-                            <div class="hint-text">Showing <b>2</b> out of {NumberOfPages}<b></b> entries</div>
+                            <div class="hint-text">Showing <b>{states.length}</b> out of {NumberOfPages}<b></b> entries</div>
                             <ul class="pagination">
+                                {
+                                    (()=> new Array(Math.round( NumberOfPages/2)).fill(0))().map((v, i) => {
 
-                               {
-                               
-                                 HelperARR.map((v,i)=>{
+                                        if (i == PageIndex) {
+                                            return (
+                                                <Fragment key={i}>
+                                                    <li class="page-item  active"><a onClick={(event) => HandelPageination(i + 1)} class="page-link">{i + 1}</a></li>
+                                                </Fragment>
+                                            )
+                                        }
+                                        else {
+                                            return (
 
-                                    if (i == PageIndex) { return( 
-                                       
-                                        <Fragment key={i}>                               
-                                            <li class="page-item  active"><a  onClick={(event)=>HandelPageination(i+1)}  class="page-link">{i+1}</a></li>                                               
-                                        </Fragment> 
-                                    )}
-                                    else
-                                    {
-                                        return( 
-                                       
-                                            <Fragment key={i}>                               
-                                                <li class="page-item "><a  onClick={(event)=>HandelPageination(i+1)}  class="page-link">{i+1}</a></li>                                               
-                                            </Fragment> 
-                                        )   
-                                    }
-                                   
+                                                <Fragment key={i}>
+                                                    <li class="page-item "><a onClick={(event) => HandelPageination(i + 1)} class="page-link">{i + 1}</a></li>
+                                                </Fragment>
+                                            )
+                                        }
+                                    })
+                                }
 
-                                 })
-                               }
-{                             
-                           /*      <li class="page-item"><a href="#" class="page-link">2</a></li>
-                                <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                                <li class="page-item"><a href="#" class="page-link">4</a></li>
-                                <li class="page-item"><a href="#" class="page-link">5</a></li> */}
                                 <li class="page-item"><a href="#" class="page-link"><i class="fa fa-angle-double-right"></i></a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
+                <div className="col-1 m-auto">
+
+                    <button onClick={HandelNew} className='btn btn-success m-auto'>New</button>
+                </div>
             </div>
+
         </>
     )
 }
