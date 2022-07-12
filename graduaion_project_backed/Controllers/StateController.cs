@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using graduaion_project_backed.Model;
 using graduaion_project_backed.Repo;
-using h = graduaion_project_backed.Dto;
+
 namespace graduaion_project_backed.Controllers
 {
     [Route("api/[controller]")]
@@ -10,20 +10,26 @@ namespace graduaion_project_backed.Controllers
     public class StateController : ControllerBase
     {
 
-        readonly ICrud<State> stateRepo ;
-
-        public StateController(ICrud<State> stateRepo)
+        IstateRepo stateRepo;
+        public StateController(IstateRepo stateRepo)
         {
             this.stateRepo = stateRepo;
-        } 
-        
+        }
         [HttpGet]
-        public IActionResult getAllStates()
+        public IActionResult getStatesByPageNumber(int pageNumber)
         {
-            var states = stateRepo.GetAll();
+            var states = stateRepo.GetAllPageination(pageNumber);
             if(states != null)
                 return Ok(states);
             return Problem(detail: "no data");
+        }
+        [HttpGet("All/")]
+        public IActionResult getAllStates()
+        {
+            var states = stateRepo.GetAll();
+            if (states != null)
+                return Ok(states);
+            return Ok(0);
         }
 
         [HttpGet("{id:int}", Name = "getState")]   
@@ -35,15 +41,15 @@ namespace graduaion_project_backed.Controllers
             return Problem(detail: "no data");
         }
         [HttpPost]
-        public IActionResult PostState([FromQuery] string  stateName)
+        public IActionResult PostState(State state)
         {
             if (ModelState.IsValid == true)
             {
 
-                State state = new State()
-                {
-                    Name = stateName
-                };
+                //State state = new State()
+                //{
+                //    Name = stateName
+                //};
                 int res = stateRepo.Add(state);
                 string url = Url.Link("getState", new { id = state.Id });
                 return Created(url, state);
@@ -52,10 +58,10 @@ namespace graduaion_project_backed.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public IActionResult UpdateState(int id, [FromQuery] string stateName)
+        public IActionResult UpdateState(int id, State s)
         {
 
-            var rowsEffected=stateRepo.Edit(id, new State() { Name = stateName });
+            var rowsEffected=stateRepo.Edit(id,s);
             if (rowsEffected > 0)
                 return Ok();
            else

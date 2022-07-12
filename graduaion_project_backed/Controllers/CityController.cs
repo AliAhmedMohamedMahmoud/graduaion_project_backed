@@ -15,17 +15,31 @@ namespace graduaion_project_backed.Controllers
         }
 
 
-        [HttpGet]
-        public IActionResult getAll()
+        [HttpGet("pagination/{pageNumber:int}")]
+        public IActionResult getAll(int pageNumber)
         {
             try
             {
-                return Ok(cityRepo.GetAll());
+                return Ok(cityRepo.GetAllwithPagination(pageNumber));
             }
             catch
             {
                 return Problem("something went wrong");
             }
+
+        }
+
+        [HttpGet]
+        public IActionResult getAll()
+        {
+            //try
+            //{
+                return Ok(cityRepo.GetAll());
+            //}
+            //catch
+            //{
+            //    return Problem("something went wrong");
+            //}
 
         }
 

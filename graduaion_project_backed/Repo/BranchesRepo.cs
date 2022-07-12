@@ -1,11 +1,12 @@
-﻿using graduaion_project_backed.Model;
+﻿using graduaion_project_backed.Dto;
+using graduaion_project_backed.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace graduaion_project_backed.Repo
 {
-    public class BranchesRepo : ICrud<Branches>
+    public class BranchesRepo : IBranchRepo
     {
         private readonly Context context;
 
@@ -44,6 +45,18 @@ namespace graduaion_project_backed.Repo
             {
                 return 0;
             }
+        }
+        const int pageSize = 2;
+        public int recordsCount()=> (context.Branches.Count()) / pageSize;
+        public PaginationGlobal<Branches> pagination(int pagenumber)
+        {
+            int count = recordsCount();
+            var branches = context.Branches.Skip((pagenumber - 1) * pageSize).Take(pageSize).ToList();
+            return new PaginationGlobal<Branches>()
+            {
+                count = count,
+                Record = branches
+            };
         }
 
         public List<Branches> GetAll() => context.Branches.ToList();
