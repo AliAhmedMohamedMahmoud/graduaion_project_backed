@@ -1,11 +1,11 @@
 ﻿using graduaion_project_backed.Model;
+using graduaion_project_backed.Dto;
 namespace graduaion_project_backed.Repo
 {
     public interface IstateRepo : ICrud<State>
     {
        
-        
-        public System.Collections.Generic.List<State> GetAllPageination(int pageNumber);
+        PaginationGlobal<State> GetAllPageination(int pageNumber);
       
         
     }

@@ -1,4 +1,5 @@
 ﻿using graduaion_project_backed.Model;
+using graduaion_project_backed.Dto;
 using System.Collections.Generic;
 using System.Linq;
 namespace graduaion_project_backed.Repo
@@ -43,9 +44,14 @@ namespace graduaion_project_backed.Repo
             return db.States.ToList();
         }
 
-        public List<State> GetAllPageination(int pageNumber)
+        public PaginationGlobal<State> GetAllPageination(int pageNumber)
         {
-           return db.States.Skip(2*(pageNumber-1)).Take(2).ToList();
+            return new PaginationGlobal<State>()
+            {
+                count = db.States.Count(),
+                Record = db.States.Skip(2 * (pageNumber - 1)).Take(2).ToList()
+            };
+               
         }
 
         public State GetById(int id)

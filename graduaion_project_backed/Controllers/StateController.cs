@@ -10,32 +10,25 @@ namespace graduaion_project_backed.Controllers
     public class StateController : ControllerBase
     {
 
-       // readonly ICrud<State> stateRepo ;
         IstateRepo stateRepo;
-
-        //public StateController(ICrud<State> stateRepo)
-        //{
-        //    this.stateRepo = stateRepo;
-        //} 
-
         public StateController(IstateRepo stateRepo)
         {
             this.stateRepo = stateRepo;
         }
         [HttpGet]
-        public IActionResult getAllStates(int pageNumber)
+        public IActionResult getStatesByPageNumber(int pageNumber)
         {
             var states = stateRepo.GetAllPageination(pageNumber);
             if(states != null)
                 return Ok(states);
             return Problem(detail: "no data");
         }
-        [HttpGet("Number/")]
-        public IActionResult getAllStatesNUmber()
+        [HttpGet("All/")]
+        public IActionResult getAllStates()
         {
             var states = stateRepo.GetAll();
             if (states != null)
-                return Ok(states.Count);
+                return Ok(states);
             return Ok(0);
         }
 

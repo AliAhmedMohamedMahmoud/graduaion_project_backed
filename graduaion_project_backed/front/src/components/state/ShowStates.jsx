@@ -12,28 +12,13 @@ export default function ShowStates(params) {
     useEffect(() => {
         GetAll(PageIndex + 1).then(
             ({ data }) => {
-                setStates(data)
+                setStates(data.record)
+                setNumberOfPages(data.count)
+
             },
             (err) => { alert("errore while get state") }
         )
     }, [PageIndex])
-
-
-    useEffect(() => {
-        GetNumberOfPages().then(
-            ({ data }) => {
-                console.log("we gpt the number ");
-
-                for (let index = 0; index < NumberOfPages; index++) {
-                    HelperARR.push(1);
-                }
-                setNumberOfPages(data)
-
-
-            },
-            (err) => { alert(err) }
-        )
-    }, [])
 
     function HandelNew() {
         navigate("/addState")
