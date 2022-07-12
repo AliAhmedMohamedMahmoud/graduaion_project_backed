@@ -18,14 +18,14 @@ namespace graduaion_project_backed.Controllers
         [HttpGet]
         public IActionResult getAll()
         {
-            try
-            {
+            //try
+            //{
                 return Ok(cityRepo.GetAll());
-            }
-            catch
-            {
-                return Problem("something went wrong");
-            }
+            //}
+            //catch
+            //{
+            //    return Problem("something went wrong");
+            //}
 
         }
 
