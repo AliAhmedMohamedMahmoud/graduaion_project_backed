@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { add } from '../../Services/City'
 import { getAll } from "../../Services/State"
 import { useNavigate } from "react-router-dom";
+import validator from 'validator';
 export default function AddCity() {
 
     const navigate = useNavigate();
@@ -48,10 +49,19 @@ export default function AddCity() {
             isValid: true
         }
 
-        if (form.name == "") {
-            errors.name = "name is required"
+
+        // const namePattern =/^([A-Z]|[a-z]){3,20}$/g
+
+        // if (form.name == "" || namePattern.test(form.name)==false) {
+        //     errors.name = "the name must be between 3 to 20 chars and can only have letters"
+        //     errors.isValid = false
+        // }
+
+        if(!validator.isAlpha(form.name)){
+            errors.name = "the name must be between 3 to 20 chars and can only have letters"
             errors.isValid = false
         }
+
 
         if (form.costPerCity == 0) {
             errors.costPerCity = "costPerCity is required"
