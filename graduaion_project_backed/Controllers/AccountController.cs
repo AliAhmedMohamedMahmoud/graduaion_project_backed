@@ -40,6 +40,7 @@ namespace Demo.Controllers
                 IdentityResult result= await  usermanger.CreateAsync(user, userDto.Password);
                 if(result.Succeeded)
                 {
+                    await usermanger.AddToRoleAsync(user, "Admin");
                     return Ok("Account Add Success");
                 }
                 return BadRequest(result.Errors.FirstOrDefault());

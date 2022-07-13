@@ -16,6 +16,7 @@ using graduaion_project_backed.Repo;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
 
 namespace graduaion_project_backed
 {
@@ -43,7 +44,7 @@ namespace graduaion_project_backed
             {
                 Options.UseSqlServer(Configuration.GetConnectionString("CS"));
             });
-            services.AddIdentity<ApplicationUser, CustomRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>()
                .AddEntityFrameworkStores<Context>();
             services.AddAuthentication(options =>
             {
