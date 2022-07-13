@@ -17,7 +17,6 @@ namespace graduaion_project_backed.Filter
         {
             var token = context.HttpContext.Request.Headers["Authorization"][0].Split(" ")[1];
             GetName(token);
-
         }
 
         string GetName(string token)

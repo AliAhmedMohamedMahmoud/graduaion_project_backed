@@ -44,7 +44,7 @@ namespace graduaion_project_backed
             {
                 Options.UseSqlServer(Configuration.GetConnectionString("CS"));
             });
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, CustomRole>()
                .AddEntityFrameworkStores<Context>();
             services.AddAuthentication(options =>
             {

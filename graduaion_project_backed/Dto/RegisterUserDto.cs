@@ -13,7 +13,6 @@ namespace Demo.DTO
         [Required]
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
-        public string Email { get; set; }
 
     }
 }
