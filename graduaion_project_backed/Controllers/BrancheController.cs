@@ -1,5 +1,7 @@
 ﻿using graduaion_project_backed.Model;
 using graduaion_project_backed.Repo;
+using graduaion_project_backed.Filter;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +17,7 @@ namespace graduaion_project_backed.Controllers
         {
             BranchesRepo = _BranchesRepo;
         }
+        [RequestFilter()]
         [HttpGet("pagination/{pageNumber:int}")]
         public IActionResult getAll(int pageNumber)
         {

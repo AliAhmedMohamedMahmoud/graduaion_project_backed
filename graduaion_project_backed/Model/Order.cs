@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,6 +22,9 @@ namespace graduaion_project_backed.Model
         [ForeignKey("Status")]
         public int StatusId { get; set; }
         public Status Status { get; set; }
+        [ForeignKey("ApplicationUser")]
+        public string UserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
     }
 }
