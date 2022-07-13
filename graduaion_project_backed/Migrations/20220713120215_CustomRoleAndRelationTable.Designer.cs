@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using graduaion_project_backed.Model;
 
 namespace graduaion_project_backed.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20220713120215_CustomRoleAndRelationTable")]
+    partial class CustomRoleAndRelationTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -292,9 +294,6 @@ namespace graduaion_project_backed.Migrations
                     b.Property<int>("StatusId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CityId");
@@ -302,8 +301,6 @@ namespace graduaion_project_backed.Migrations
                     b.HasIndex("StateId");
 
                     b.HasIndex("StatusId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
@@ -495,12 +492,6 @@ namespace graduaion_project_backed.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("graduaion_project_backed.Model.ApplicationUser", "ApplicationUser")
-                        .WithMany("Order")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("ApplicationUser");
-
                     b.Navigation("City");
 
                     b.Navigation("State");
@@ -531,11 +522,6 @@ namespace graduaion_project_backed.Migrations
                     b.Navigation("customRole");
 
                     b.Navigation("premssion");
-                });
-
-            modelBuilder.Entity("graduaion_project_backed.Model.ApplicationUser", b =>
-                {
-                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("graduaion_project_backed.Model.City", b =>

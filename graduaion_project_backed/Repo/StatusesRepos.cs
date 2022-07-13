@@ -33,25 +33,19 @@ namespace graduaion_project_backed.Repo
             Status stu = new Status()
             {
                 Name = status.Name,
-
-
-
             };
             try
             {
-
                 db.Statuses.Add(stu);
                 int raw = db.SaveChanges();
                 return raw;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
                 return -1;
             }
 
         }
-
 
 
         public int Edit(int id, StatusDto status)
@@ -60,7 +54,6 @@ namespace graduaion_project_backed.Repo
             if (oldStatus != null)
             {
                 oldStatus.Name = status.Name;
-
                 db.SaveChanges();
                 return oldStatus.Id;
             }

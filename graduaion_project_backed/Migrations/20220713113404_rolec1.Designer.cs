@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using graduaion_project_backed.Model;
 
 namespace graduaion_project_backed.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20220713113404_rolec1")]
+    partial class rolec1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -292,9 +294,6 @@ namespace graduaion_project_backed.Migrations
                     b.Property<int>("StatusId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CityId");
@@ -303,51 +302,7 @@ namespace graduaion_project_backed.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("graduaion_project_backed.Model.PremissionRoleController", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CustomRoleId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Premission")
-                        .HasColumnType("int");
-
-                    b.Property<int>("controllerId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomRoleId");
-
-                    b.HasIndex("Premission");
-
-                    b.HasIndex("controllerId");
-
-                    b.ToTable("PremissionRoleControllers");
-                });
-
-            modelBuilder.Entity("graduaion_project_backed.Model.Premssion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Premssions");
                 });
 
             modelBuilder.Entity("graduaion_project_backed.Model.State", b =>
@@ -380,24 +335,12 @@ namespace graduaion_project_backed.Migrations
                     b.ToTable("Statuses");
                 });
 
-            modelBuilder.Entity("graduaion_project_backed.Model.controllers", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Controllers");
-                });
-
             modelBuilder.Entity("graduaion_project_backed.Model.CustomRole", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
+
+                    b.Property<string>("MyProperty")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue("CustomRole");
                 });
@@ -495,12 +438,6 @@ namespace graduaion_project_backed.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("graduaion_project_backed.Model.ApplicationUser", "ApplicationUser")
-                        .WithMany("Order")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("ApplicationUser");
-
                     b.Navigation("City");
 
                     b.Navigation("State");
@@ -508,46 +445,11 @@ namespace graduaion_project_backed.Migrations
                     b.Navigation("Status");
                 });
 
-            modelBuilder.Entity("graduaion_project_backed.Model.PremissionRoleController", b =>
-                {
-                    b.HasOne("graduaion_project_backed.Model.CustomRole", "customRole")
-                        .WithMany("PremissionRoleControllers")
-                        .HasForeignKey("CustomRoleId");
-
-                    b.HasOne("graduaion_project_backed.Model.Premssion", "premssion")
-                        .WithMany("PremissionRoleControllers")
-                        .HasForeignKey("Premission")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("graduaion_project_backed.Model.controllers", "controllers")
-                        .WithMany("PremissionRoleControllers")
-                        .HasForeignKey("controllerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("controllers");
-
-                    b.Navigation("customRole");
-
-                    b.Navigation("premssion");
-                });
-
-            modelBuilder.Entity("graduaion_project_backed.Model.ApplicationUser", b =>
-                {
-                    b.Navigation("Order");
-                });
-
             modelBuilder.Entity("graduaion_project_backed.Model.City", b =>
                 {
                     b.Navigation("Branches");
 
                     b.Navigation("Order");
-                });
-
-            modelBuilder.Entity("graduaion_project_backed.Model.Premssion", b =>
-                {
-                    b.Navigation("PremissionRoleControllers");
                 });
 
             modelBuilder.Entity("graduaion_project_backed.Model.State", b =>
@@ -560,16 +462,6 @@ namespace graduaion_project_backed.Migrations
             modelBuilder.Entity("graduaion_project_backed.Model.Status", b =>
                 {
                     b.Navigation("Order");
-                });
-
-            modelBuilder.Entity("graduaion_project_backed.Model.controllers", b =>
-                {
-                    b.Navigation("PremissionRoleControllers");
-                });
-
-            modelBuilder.Entity("graduaion_project_backed.Model.CustomRole", b =>
-                {
-                    b.Navigation("PremissionRoleControllers");
                 });
 #pragma warning restore 612, 618
         }
