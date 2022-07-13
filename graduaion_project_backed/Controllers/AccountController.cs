@@ -21,8 +21,10 @@ namespace Demo.Controllers
     {
         private readonly UserManager<ApplicationUser> usermanger;
         private readonly IConfiguration config;
+        private readonly SignInManager<ApplicationUser> signInManager;
 
-        public AccountController(UserManager<ApplicationUser> usermanger,IConfiguration config)
+        public AccountController(UserManager<ApplicationUser> usermanger,IConfiguration config,
+            SignInManager<ApplicationUser> _signInManager)
         {
             this.usermanger = usermanger;
             this.config = config;
@@ -36,7 +38,6 @@ namespace Demo.Controllers
                 //save
                 ApplicationUser user = new ApplicationUser();
                 user.UserName = userDto.UserName;
-                user.Email = userDto.Email;
                 IdentityResult result= await  usermanger.CreateAsync(user, userDto.Password);
                 if(result.Succeeded)
                 {

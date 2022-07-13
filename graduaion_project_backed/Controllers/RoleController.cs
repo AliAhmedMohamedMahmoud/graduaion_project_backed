@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using graduaion_project_backed.Dto;
 using System.Threading.Tasks;
+using graduaion_project_backed.Model;
 
 namespace graduaion_project_backed.Controllers
 {
@@ -10,20 +11,19 @@ namespace graduaion_project_backed.Controllers
     [ApiController]
     public class RoleController : ControllerBase
     {
-        private readonly RoleManager<IdentityRole> roleManager;
+        private readonly RoleManager<CustomRole> roleManager;
 
-        public RoleController(RoleManager<IdentityRole> roleManager)
+        public RoleController(RoleManager<CustomRole> roleManager)
         {
             this.roleManager = roleManager;
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create( RoleDTO NewRole)
         {
             if (ModelState.IsValid == true)
             {
-                IdentityRole role = new IdentityRole();
+                CustomRole role = new CustomRole();
                 role.Name = NewRole.RoleName;
                 IdentityResult result = await roleManager.CreateAsync(role);
                 if (result.Succeeded == true)
