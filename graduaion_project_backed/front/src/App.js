@@ -27,7 +27,6 @@ function App() {
       <Routes >
       <Route path='/' element={<Home/>}>
         <Route index element={<ShowCities />} />
-        
         <Route path="/cities" element={<ShowCities />}></Route>
         <Route path="/addCity" element={<AddCity />}></Route>
         <Route path="/editCity/:id" element={<EditCity />}></Route>
