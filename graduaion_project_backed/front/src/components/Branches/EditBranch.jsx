@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
 import { getAll } from "../../Services/City"
 import { getById, editBranch } from '../../Services/branch';
-import { fromBackendObjectToJsObject } from './cityConverters';
+import { fromBackendObjectToJsObject } from './branchConverters';
 
 export default function EditBranch() {
     const { id } = useParams()
