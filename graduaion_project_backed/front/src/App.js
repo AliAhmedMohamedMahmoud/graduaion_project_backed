@@ -10,7 +10,6 @@ import ShowBranches from './components/Branches/ShowBranches';
 import EditCity from './components/cities/EditCity';
 import EditBranch from './components/Branches/EditBranch';
 import Add_branche from './components/Branches/Add_branche';
-
 import AddState from './components/state/AddState';
 import ShowStates from './components/state/ShowStates';
 import EditState from './components/state/EditState';
@@ -34,7 +33,6 @@ function App() {
         <Route path="/branches" element= {<ShowBranches/>}></Route>
         <Route path="/editBranch/:id" element= {<EditBranch/>}></Route>
         <Route path="/addBranch" element= {<Add_branche/>}></Route>
-
         <Route path="/states" element= {<ShowStates/>}></Route>
         <Route path="/editState/:id" element= {<EditState/>}></Route>
         <Route path="/addState" element= {<AddState/>}></Route>

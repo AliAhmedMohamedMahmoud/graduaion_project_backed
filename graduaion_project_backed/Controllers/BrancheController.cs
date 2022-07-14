@@ -1,5 +1,7 @@
 ﻿using graduaion_project_backed.Model;
 using graduaion_project_backed.Repo;
+using graduaion_project_backed.Filter;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,6 +31,7 @@ namespace graduaion_project_backed.Controllers
 
         }
         [HttpGet]
+        [RequestFilter("Show", "Branch")]
         public IActionResult GetAllBranch()
         {
             return Ok(BranchesRepo.GetAll());
@@ -41,6 +44,7 @@ namespace graduaion_project_backed.Controllers
         }
 
         [HttpPost]
+        [RequestFilter("Add","Branch")]
         public IActionResult PostBranchById(Branches branche)
         {
             try
@@ -54,8 +58,9 @@ namespace graduaion_project_backed.Controllers
                 return BadRequest("Id Not Found");
             }
         }
-        [HttpPut("{id}")]
 
+        [HttpPut("{id}")]
+        [RequestFilter("Edit", "Branch")]
         public IActionResult PutBranchById(int id, Branches branche)
         {
             if (ModelState.IsValid == true)
@@ -65,7 +70,6 @@ namespace graduaion_project_backed.Controllers
             }
             return BadRequest(ModelState);
         }
-
         [HttpDelete("{id}")]
         public IActionResult DeleteBranch(int id)
         {

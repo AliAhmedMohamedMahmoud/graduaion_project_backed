@@ -24,7 +24,6 @@ export default function AddCity() {
 
 
     const handleChange = (e) => {
-        console.log(e.target.type);
         setForm({
             ...form,          //if input is select or number convert it to number
             [e.target.name]: (e.target.type == "number" || e.target.type == "select-one") ? +e.target.value : e.target.value
