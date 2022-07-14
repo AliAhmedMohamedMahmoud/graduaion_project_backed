@@ -5,10 +5,10 @@ export default function Login()
     return(
         <div class="wrapper">
         <div class="logo">
-            <img src="https://www.freepnglogos.com/uploads/twitter-logo-png/twitter-bird-symbols-png-logo-0.png" alt=""></img>
+            <img src="http://img0cf.b8cdn.com/images/logo/44/1996944_logo_1549715449_n.png" alt=""></img>
         </div>
         <div class="text-center mt-4 name">
-            Twitter
+            Wellcom Back
         </div>
         <form class="p-3 mt-3">
             <div class="form-field d-flex align-items-center">
@@ -21,9 +21,7 @@ export default function Login()
             </div>
             <button class="btn mt-3">Login</button>
         </form>
-        <div class="text-center fs-6">
-            <a href="#">Forget password?</a> or <a href="#">Sign up</a>
-        </div>
+      
     </div>
 
     )

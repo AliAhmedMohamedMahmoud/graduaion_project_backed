@@ -27,6 +27,7 @@ namespace Demo.Controllers
             SignInManager<ApplicationUser> _signInManager)
         {
             this.usermanger = usermanger;
+            signInManager =_signInManager;  
             this.config = config;
         }
         //Create Account new User "Registration" "Post"
@@ -40,8 +41,9 @@ namespace Demo.Controllers
                 user.UserName = userDto.UserName;
                 IdentityResult result= await  usermanger.CreateAsync(user, userDto.Password);
                 if(result.Succeeded)
-                {
+                {//Pass!@#1
                     await usermanger.AddToRoleAsync(user, "Admin");
+                    await signInManager.SignInAsync(user, false);
                     return Ok("Account Add Success");
                 }
                 return BadRequest(result.Errors.FirstOrDefault());
