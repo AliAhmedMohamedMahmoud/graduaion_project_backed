@@ -13,20 +13,17 @@ namespace graduaion_project_backed.Controllers
     public class RoleController : ControllerBase
     {
         private readonly RoleManager<CustomRole> roleManager;
-        private  RolReops rolReops1;
 
-
-        public RoleController(RoleManager<CustomRole> roleManager,RolReops rolReops1)
+        public RoleController(RoleManager<CustomRole> roleManager)
         {
             this.roleManager = roleManager;
-            this.rolReops1 = rolReops1;
         }
 
         
          [HttpGet]
         public IActionResult getAll()
         {
-            return Ok(rolReops1.GetAll());
+            return Ok(RolReops.)
         }
     
         [HttpPost]
