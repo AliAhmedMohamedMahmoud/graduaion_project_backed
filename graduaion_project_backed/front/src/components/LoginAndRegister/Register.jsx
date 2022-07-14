@@ -58,8 +58,10 @@ export default function Register() {
                   </div>
                   <div class="form-floating mb-3">
                     <select class="form-control">
-                      <option value="paris">Paris</option>
-                      <option value="new york">New York</option>
+                      <option value="Admin">Admin</option>
+                      <option value="Employee">Employee</option>
+                      <option value="Merchant">Merchant</option>
+                      
                     </select>
                   </div>
                   <div class="d-grid mb-2">

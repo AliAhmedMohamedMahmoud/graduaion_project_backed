@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using graduaion_project_backed.Dto;
 using System.Threading.Tasks;
 using graduaion_project_backed.Model;
+using graduaion_project_backed.Repo;
 
 namespace graduaion_project_backed.Controllers
 {
@@ -12,12 +13,22 @@ namespace graduaion_project_backed.Controllers
     public class RoleController : ControllerBase
     {
         private readonly RoleManager<CustomRole> roleManager;
+        private  RolReops rolReops1;
 
-        public RoleController(RoleManager<CustomRole> roleManager)
+
+        public RoleController(RoleManager<CustomRole> roleManager,RolReops rolReops1)
         {
             this.roleManager = roleManager;
+            this.rolReops1 = rolReops1;
         }
 
+        
+         [HttpGet]
+        public IActionResult getAll()
+        {
+            return Ok(rolReops1.GetAll());
+        }
+    
         [HttpPost]
         public async Task<IActionResult> Create( RoleDTO NewRole)
         {
