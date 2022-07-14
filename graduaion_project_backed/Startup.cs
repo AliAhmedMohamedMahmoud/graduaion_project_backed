@@ -40,6 +40,7 @@ namespace graduaion_project_backed
             services.AddScoped<IOrderRepo, OrderRepo>();
             services.AddScoped<IstateRepo, StateRepo>();
             services.AddScoped<IPRCrepo, PRCrepo>();
+            services.AddScoped<IRolReops, RolReops>();
             services.AddDbContext<Context>(Options =>
             {
                 Options.UseSqlServer(Configuration.GetConnectionString("CS"));

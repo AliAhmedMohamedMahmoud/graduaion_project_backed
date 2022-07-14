@@ -13,10 +13,10 @@ namespace graduaion_project_backed.Controllers
     public class RoleController : ControllerBase
     {
         private readonly RoleManager<CustomRole> roleManager;
-        private  RolReops rolReops1;
+        private  IRolReops rolReops1;
 
 
-        public RoleController(RoleManager<CustomRole> roleManager,RolReops rolReops1)
+        public RoleController(RoleManager<CustomRole> roleManager,IRolReops rolReops1)
         {
             this.roleManager = roleManager;
             this.rolReops1 = rolReops1;

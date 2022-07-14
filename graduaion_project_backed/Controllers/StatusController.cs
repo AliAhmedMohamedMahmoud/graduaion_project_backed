@@ -37,8 +37,20 @@ namespace graduaion_project_backed.Controllers
         }
 
 
+        [HttpGet("SatatusOrdersPerUsers/{id}")]
+        public IActionResult SatatusOrdersPerUsers(string id)
+        {
+            var res = statusRepository.GetAllWithOrderCountForSeller(id);
+            return Ok(res);
+        }
 
 
+        [HttpGet("AllSatatusOrders")]
+        public IActionResult SatatusOrdersPerUsers()
+        {
+            var res = statusRepository.GetAllWithOrderCount();
+            return Ok(res);
+        }
 
         [HttpPost]
         public IActionResult PostStatus(StatusDto status)

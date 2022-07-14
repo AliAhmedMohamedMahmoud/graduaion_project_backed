@@ -21,8 +21,6 @@ namespace graduaion_project_backed.Repo
             {
                 RoleDTO roleDTO1 = new RoleDTO();
                 roleDTO1.RoleName = Role.Name;
-
-
                 RoleDTOList.Add(roleDTO1);
 
             }

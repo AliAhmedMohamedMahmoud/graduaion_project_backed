@@ -1,5 +1,6 @@
 ﻿using graduaion_project_backed.Dto;
 using graduaion_project_backed.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,7 +61,38 @@ namespace graduaion_project_backed.Repo
             return 0;
         }
 
+        public List<StatusWithOrdersCountDTO> GetAllWithOrderCount()
+        {
+            List<Status> status = db.Statuses.Include(s=>s.Order).ToList();
+            List<StatusWithOrdersCountDTO> result = new List<StatusWithOrdersCountDTO>();
 
+            foreach (Status S1 in status)
+            {
+                result.Add(new StatusWithOrdersCountDTO()
+                {
+                    OrderCount = S1.Order.Count,
+                    StatusName = S1.Name
+                });
+            }
+            return result;
+
+
+         
+        }
+
+        public List<StatusWithOrdersCountDTO> GetAllWithOrderCountForSeller(string id)
+        {
+            List<StatusWithOrdersCountDTO> finalRes = new List<StatusWithOrdersCountDTO>();
+            finalRes =  db.Orders.Where(o=>o.UserId==id).Include(o => o.Status).GroupBy(o => o.Status.Name).Select(i => new StatusWithOrdersCountDTO()
+            {
+                StatusName = i.Key,
+                OrderCount = i.Count()
+            }).ToList();
+
+          
+
+            return finalRes;
+        }
     }
 }
 

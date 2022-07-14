@@ -2,6 +2,7 @@ import { Fragment, useEffect, useState } from "react"
 import { Link } from "react-router-dom";
 import { GetAll, GetNumberOfPages, Delete } from '../../Services/State'
 import { useNavigate } from "react-router-dom";
+import { array } from "joi";
 export default function ShowStates(params) {
 
     const [states, setStates] = useState([]);
@@ -55,6 +56,7 @@ export default function ShowStates(params) {
                                
                             </thead>
                             <tbody>
+                               
                                 {states.map(({ name, id }, i) => {
                                     return (
                                         <Fragment key={i}>
