@@ -2,24 +2,51 @@
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
 using System.Text;
+using graduaion_project_backed.Model;
+using System.Threading.Tasks;
 
 namespace graduaion_project_backed.Filter
 {
-    public class RequestFilter  : Attribute, IActionFilter 
+    public class RequestFilter  :Attribute, IAsyncActionFilter
     {
-        public void OnActionExecuted(ActionExecutedContext context)
+        string Permission;
+        string Controller;
+        Context Context;
+        public RequestFilter(string action, string controller )
         {
-            throw new System.NotImplementedException();
+            Permission = action;
+            Controller = controller;
+            Context= new Context();
         }
 
-        public void OnActionExecuting(ActionExecutingContext context)
+
+        public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            var token = context.HttpContext.Request.Headers["Authorization"][0].Split(" ")[1];
-            GetName(token);
+            var token = getToken(context);
+            var role = GetRole(token);
+
+            var requestIsAuthorized = Context.PremissionRoleControllers.
+                Any(r => r.controllers.Name == Controller && r.premssion.Name == Permission && r.customRole.Name == role);
+
+            if (requestIsAuthorized)
+            {
+                await next();
+            }
+
+            context.HttpContext.Response.StatusCode = 401;
         }
 
-        string GetName(string token)
+
+        string getToken(ActionExecutingContext context)
+        {
+            return context.HttpContext.Request.Headers["Authorization"][0].Split(" ")[1];
+        }
+
+
+        string GetRole(string token)
         {
             string secret = "StrONGKAutHENTICATIONKEy";
             var key = Encoding.ASCII.GetBytes(secret);
@@ -31,8 +58,11 @@ namespace graduaion_project_backed.Filter
                 ValidateIssuer = false,
                 ValidateAudience = false
             };
-            var claims = handler.ValidateToken(token, validations, out var tokenSecure);
-            return claims.Identity.Name;
+            var role = handler.ValidateToken(token, validations, out var tokenSecure).Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ElementAt(0);
+            return role;
         }
+
+        
+
     }
 }

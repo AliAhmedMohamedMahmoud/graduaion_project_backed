@@ -17,11 +17,11 @@ namespace graduaion_project_backed.Model
         {
 
         }
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer("Data Source =.; Initial Catalog =; Integrated Security = True");
-        //    base.OnConfiguring(optionsBuilder);
-        //}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Data Source =.; Initial Catalog = GraduateProject; Integrated Security = True");
+            base.OnConfiguring(optionsBuilder);
+        }
         public virtual DbSet<controllers> Controllers { get; set; }
         public virtual DbSet<Premssion> Premssions { get; set; }
         public virtual DbSet<PremissionRoleController> PremissionRoleControllers { get; set; }

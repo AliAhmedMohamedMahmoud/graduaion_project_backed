@@ -17,7 +17,6 @@ namespace graduaion_project_backed.Controllers
         {
             BranchesRepo = _BranchesRepo;
         }
-        [RequestFilter()]
         [HttpGet("pagination/{pageNumber:int}")]
         public IActionResult getAll(int pageNumber)
         {
@@ -32,6 +31,7 @@ namespace graduaion_project_backed.Controllers
 
         }
         [HttpGet]
+        [RequestFilter("Show", "Branch")]
         public IActionResult GetAllBranch()
         {
             return Ok(BranchesRepo.GetAll());
@@ -44,6 +44,7 @@ namespace graduaion_project_backed.Controllers
         }
 
         [HttpPost]
+        [RequestFilter("Add","Branch")]
         public IActionResult PostBranchById(Branches branche)
         {
             try
@@ -57,8 +58,9 @@ namespace graduaion_project_backed.Controllers
                 return BadRequest("Id Not Found");
             }
         }
-        [HttpPut("{id}")]
 
+        [HttpPut("{id}")]
+        [RequestFilter("Edit", "Branch")]
         public IActionResult PutBranchById(int id, Branches branche)
         {
             if (ModelState.IsValid == true)
@@ -68,7 +70,6 @@ namespace graduaion_project_backed.Controllers
             }
             return BadRequest(ModelState);
         }
-
         [HttpDelete("{id}")]
         public IActionResult DeleteBranch(int id)
         {
