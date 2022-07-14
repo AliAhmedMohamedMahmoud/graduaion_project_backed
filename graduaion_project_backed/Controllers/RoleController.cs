@@ -14,6 +14,8 @@ namespace graduaion_project_backed.Controllers
     {
         private readonly RoleManager<CustomRole> roleManager;
 
+
+        public RoleController(RoleManager<CustomRole> roleManager,IRolReops rolReops1)
         public RoleController(RoleManager<CustomRole> roleManager)
         {
             this.roleManager = roleManager;

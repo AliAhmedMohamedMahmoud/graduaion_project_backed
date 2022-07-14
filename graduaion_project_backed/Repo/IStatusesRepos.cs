@@ -13,6 +13,9 @@ namespace graduaion_project_backed.Repo
 
         int Insert(StatusDto status);
         List<Status> GetAll();
+
+        List<StatusWithOrdersCountDTO> GetAllWithOrderCount();
+        List<StatusWithOrdersCountDTO> GetAllWithOrderCountForSeller(string id);
     }
 }
 

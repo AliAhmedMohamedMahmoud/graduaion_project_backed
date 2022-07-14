@@ -1,6 +1,9 @@
+import { Button, Modal } from 'bootstrap';
 import React, { useEffect, useState } from 'react'
-import { getAll } from '../../Services/branch'
+import { Link } from 'react-router-dom';
+import { deleteBranch, getAll } from '../../Services/branch'
 import { paginationaBaranches } from './../../Services/branch';
+import { getAllWithPagination } from './../../Services/City';
 
 export default function ShowBranches() {
     const [branches, setBranches] = useState([])
@@ -8,12 +11,24 @@ export default function ShowBranches() {
     const [show, setShow] = useState(false);
     const [idToDelete, setIdToDelete] = useState(null)
     const [currentPage, setCurrentPage] = useState(1)
+    const handleClose = () => setShow(false);
+
     useEffect(() => {
         paginationaBaranches(1)
             .then(({ data }) => {
                 setBranches(data.record)
             })
     }, [])
+    const setIdValAndShow = (id) => {
+        setIdToDelete(id)
+        setShow(true)
+    }
+    const whenclick = async () => {
+        setShow(false)
+        await deleteBranch(idToDelete);
+        const { data: { record } } = await getAllWithPagination(currentPage)
+        setBranches(record)
+    }
     const pagesNumbers = () => {
         let out = []
         for (let i = 1; i <= branchesCount; i++) {
@@ -44,7 +59,9 @@ export default function ShowBranches() {
                     <div class="table-wrapper">
                         <div class="table-title">
                             <div class="row">
-                                <div class="col-sm-8"><h2>Customer <b>Details</b></h2></div>
+                            <div className="col-sm-8">
+                                    <Link to={`/addBranch`} href="#" className=' btn btn-success' ><i className="fa-solid fa-plus"></i></Link>
+                                </div>
                                 <div class="col-sm-4">
                                     <div class="search-box">
                                         <i class="material-icons">&#xE8B6;</i>
@@ -61,15 +78,14 @@ export default function ShowBranches() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {branches.map(({ name, cityId }) => {
+                                {branches.map(({id, name, cityId }) => {
                                     return (
                                         <tr>
                                             <td>{name}</td>
                                             <td>{cityId}</td>
                                             <td>
-                                                <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                                                <a href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                                <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                                <Link to={`/editBranch/${id}`} href="#" className="edit" title="Edit" data-toggle="tooltip"><i className="material-icons">&#xE254;</i></Link>
+                                                <a style={{ cursor: "pointer" }} className="delete" title="Delete" data-toggle="tooltip" onClick={() => setIdValAndShow(id)}><i className="material-icons">&#xE872;</i></a>
                                             </td>
                                         </tr>
                                     )
@@ -87,6 +103,20 @@ export default function ShowBranches() {
                     </div>
                 </div>
             </div>
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Modal heading</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>are u sure u want to delete this item ??!!!</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={whenclick}>
+                        yes
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </>
     )
 }
