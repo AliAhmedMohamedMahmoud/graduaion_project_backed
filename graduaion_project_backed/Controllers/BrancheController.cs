@@ -17,6 +17,7 @@ namespace graduaion_project_backed.Controllers
         {
             BranchesRepo = _BranchesRepo;
         }
+        [RequestFilter("Show", "Branch")]
         [HttpGet("pagination/{pageNumber:int}")]
         public IActionResult getAll(int pageNumber)
         {
@@ -38,6 +39,7 @@ namespace graduaion_project_backed.Controllers
         }
 
         [HttpGet("{id:int}", Name = "GetOneEmpRoute")]
+        [RequestFilter("Show", "Branch")]
         public IActionResult GetBranchById(int id)
         {
             return Ok(BranchesRepo.GetById(id));
@@ -45,7 +47,7 @@ namespace graduaion_project_backed.Controllers
 
         [HttpPost]
         [RequestFilter("Add","Branch")]
-        public IActionResult PostBranchById(Branches branche)
+        public IActionResult addBranch(Branches branche)
         {
             try
             {
@@ -71,6 +73,7 @@ namespace graduaion_project_backed.Controllers
             return BadRequest(ModelState);
         }
         [HttpDelete("{id}")]
+        [RequestFilter("Delete", "Branch")]
         public IActionResult DeleteBranch(int id)
         {
             try
