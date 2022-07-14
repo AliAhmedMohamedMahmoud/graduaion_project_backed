@@ -14,10 +14,11 @@ import Add_branche from './components/Branches/Add_branche';
 import AddState from './components/state/AddState';
 import ShowStates from './components/state/ShowStates';
 import EditState from './components/state/EditState';
-import AddStatus from './components/cities/EditCity'
+
 import ShowStatuses from './components/Status/ShowStatuses';
 import EditStatus from './components/Status/EditStatus';
-
+import Register from './components/LoginAndRegister/Register';
+import Login from './components/LoginAndRegister/Login';
 
 function App() {
   console.log(process.env.base)
@@ -37,6 +38,8 @@ function App() {
         <Route path="/states" element= {<ShowStates/>}></Route>
         <Route path="/editState/:id" element= {<EditState/>}></Route>
         <Route path="/addState" element= {<AddState/>}></Route>
+        <Route path="/Register" element= {<Register/>}></Route>
+        <Route path="/Login" element= {<Login/>}></Route>
       </Routes>
     </div>
   );
