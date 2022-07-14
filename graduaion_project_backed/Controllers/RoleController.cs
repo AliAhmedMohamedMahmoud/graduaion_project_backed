@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using graduaion_project_backed.Dto;
 using System.Threading.Tasks;
 using graduaion_project_backed.Model;
+using System.Collections.Generic;
+using graduaion_project_backed.Repo;
 
 namespace graduaion_project_backed.Controllers
 {
@@ -12,10 +14,12 @@ namespace graduaion_project_backed.Controllers
     public class RoleController : ControllerBase
     {
         private readonly RoleManager<CustomRole> roleManager;
+        private readonly IPRCrepo pRCrepo;
 
-        public RoleController(RoleManager<CustomRole> roleManager)
+        public RoleController(RoleManager<CustomRole> roleManager,IPRCrepo pRCrepo)
         {
             this.roleManager = roleManager;
+            this.pRCrepo = pRCrepo;
         }
 
         [HttpPost]
@@ -39,6 +43,20 @@ namespace graduaion_project_backed.Controllers
                 }
             }
             return BadRequest();
+        }
+
+
+        [HttpGet]
+        public IActionResult getAll()
+        {
+            try
+            {
+                return Ok(pRCrepo.getAllRoles());
+            }
+            catch
+            {
+                return Problem("something went wrong");
+            }
         }
     }
 }

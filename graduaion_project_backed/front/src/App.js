@@ -18,7 +18,7 @@ import ShowStatuses from './components/Status/ShowStatuses';
 import EditStatus from './components/Status/EditStatus';
 import Register from './components/LoginAndRegister/Register';
 import Login from './components/LoginAndRegister/Login';
-
+import AddRole from './components/roles/AddRole';
 function App() {
   console.log(process.env.base)
   return (
@@ -28,7 +28,7 @@ function App() {
         <Route path="/addCity" element= {<AddCity/>}></Route>
         <Route path="/editCity/:id" element= {<EditCity/>}></Route>
         <Route path="/AddStatus" element= {<AddStatus/>}></Route>
-         <Route path="/EditStatus/:id" element= {<EditStatus/>}></Route>
+        <Route path="/EditStatus/:id" element= {<EditStatus/>}></Route>
         <Route path="/ShowStatuses" element= {<ShowStatuses/>}></Route>
         <Route path="/branches" element= {<ShowBranches/>}></Route>
         <Route path="/editBranch/:id" element= {<EditBranch/>}></Route>
@@ -38,6 +38,7 @@ function App() {
         <Route path="/addState" element= {<AddState/>}></Route>
         <Route path="/Register" element= {<Register/>}></Route>
         <Route path="/Login" element= {<Login/>}></Route>
+        <Route path="/AddRole" element= {<AddRole/>}></Route>
       </Routes>
     </div>
   );

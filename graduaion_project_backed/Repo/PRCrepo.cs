@@ -27,5 +27,10 @@ namespace graduaion_project_backed.Repo
         }
 
 
+        public List<CustomRole> getAllRoles()
+        {
+            return db.CustomRoles.ToList();
+        }
+
     }
 }
