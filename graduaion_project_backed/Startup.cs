@@ -37,9 +37,9 @@ namespace graduaion_project_backed
             services.AddScoped<IBranchRepo, BranchesRepo>();
             services.AddScoped<ICity, CityRepo>();
             services.AddScoped<IStatusesRepos, StatusesRepos>();
-            services.AddScoped<IOrderRepo,OrderRepo>();
+            services.AddScoped<IOrderRepo, OrderRepo>();
             services.AddScoped<IstateRepo, StateRepo>();
-           // services.AddScoped<ICrud<State>, StateRepo>();
+            services.AddScoped<IPRCrepo, PRCrepo>();
             services.AddDbContext<Context>(Options =>
             {
                 Options.UseSqlServer(Configuration.GetConnectionString("CS"));
@@ -51,7 +51,8 @@ namespace graduaion_project_backed
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options => {
+            }).AddJwtBearer(options =>
+            {
                 options.SaveToken = true;
                 options.RequireHttpsMetadata = false;
                 options.TokenValidationParameters = new TokenValidationParameters()
@@ -68,7 +69,8 @@ namespace graduaion_project_backed
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "graduaion_project_backed", Version = "v1" });
             });
-            services.AddCors(corsOptions => {
+            services.AddCors(corsOptions =>
+            {
                 corsOptions.AddPolicy("policy", corsPolicyBuilder =>
                 {
                     corsPolicyBuilder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
