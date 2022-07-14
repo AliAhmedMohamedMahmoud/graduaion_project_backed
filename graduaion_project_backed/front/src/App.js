@@ -13,7 +13,7 @@ import Add_branche from './components/Branches/Add_branche';
 import AddState from './components/state/AddState';
 import ShowStates from './components/state/ShowStates';
 import EditState from './components/state/EditState';
-
+import AddRole from './components/roles/AddRole';
 import ShowStatuses from './components/Status/ShowStatuses';
 import EditStatus from './components/Status/EditStatus';
 import Register from './components/LoginAndRegister/Register';
@@ -42,8 +42,8 @@ function App() {
         <Route path="/editState/:id" element={<EditState />}></Route>
         <Route path="/addState" element={<AddState />}></Route>
        
+              <Route path="/AddRole" element={<AddRole />}></Route>
       </Route>
-
     </Routes>
 
     </div >

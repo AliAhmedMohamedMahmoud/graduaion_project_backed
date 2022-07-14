@@ -40,9 +40,9 @@ namespace graduaion_project_backed.Controllers
                     perRepo.Add(new PremissionRoleController()
                     {
                         controllerId = record.Key,
-                       CustomRoleId = roleId,
+                        CustomRoleId = roleId,
                         Premission = permissionId
-                    }); ;
+                    }); 
                 }
             }
 
