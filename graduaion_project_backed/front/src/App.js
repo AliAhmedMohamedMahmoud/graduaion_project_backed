@@ -25,6 +25,8 @@ function App() {
   return (
     <div className="App">
       <Routes >
+      <Route path="/Register" element={<Register />}></Route>
+        <Route path="/Login" element={<Login />}></Route>
       <Route path='/' element={<Home/>}>
         <Route index element={<ShowCities />} />
         
@@ -40,8 +42,7 @@ function App() {
         <Route path="/states" element={<ShowStates />}></Route>
         <Route path="/editState/:id" element={<EditState />}></Route>
         <Route path="/addState" element={<AddState />}></Route>
-        <Route path="/Register" element={<Register />}></Route>
-        <Route path="/Login" element={<Login />}></Route>
+       
       </Route>
 
     </Routes>

@@ -1,6 +1,24 @@
-import { Component } from "react";
+
+import { Fragment, useEffect, useState } from 'react';
+import { GetAll } from '../../Services/Role';
 import "./Register.css";
 export default function Register() {
+
+  const [Roles, setRoles] = useState([]);
+
+  useEffect(() => {
+    GetAll().then(
+      ({ data }) => { setRoles(data) },
+      (err) => { alert(err) }
+    )
+  }, [])
+
+
+
+
+
+
+
   return (
     <>
       <div class="container">
@@ -58,10 +76,23 @@ export default function Register() {
                   </div>
                   <div class="form-floating mb-3">
                     <select class="form-control">
-                      <option value="Admin">Admin</option>
-                      <option value="Employee">Employee</option>
-                      <option value="Merchant">Merchant</option>
-                      
+
+
+
+                      <option value="0" selected>Select Role</option>
+                      {
+                        Roles.map((v, i) => {
+                          return (
+                            <Fragment key={i}>
+                              <option value={i} >{v.roleName}</option>
+                            </Fragment>
+                          )
+
+                        })
+                      }
+
+
+
                     </select>
                   </div>
                   <div class="d-grid mb-2">
@@ -73,9 +104,7 @@ export default function Register() {
                     </button>
                   </div>
 
-                  <a class="d-block text-center mt-2 small" href="#">
-                    Have an account? Sign In
-                  </a>
+
                 </form>
               </div>
             </div>
