@@ -1,4 +1,5 @@
-﻿using graduaion_project_backed.Model;
+﻿using graduaion_project_backed.Dto;
+using graduaion_project_backed.Model;
 using System;
 using System.Collections.Generic;
 
@@ -9,9 +10,9 @@ namespace graduaion_project_backed.Repo
         int add(Order order);
         List<Order> GetAllOrders();
         int Delete(int id);
-        int Edit(int id, Order order);
+        int Edit(int id, OrderDTO order);
         List<Order> GetByDateAndStatus(DateTime start, DateTime end, int statusId, int pageIndex);
-        Order GetById(int id);
+        OrderDTO GetById(int id);
         List<Order> getByStatus(int statusId, int pageIndex);
     }
 }
