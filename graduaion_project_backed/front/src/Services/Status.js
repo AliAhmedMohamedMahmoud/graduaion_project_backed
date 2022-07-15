@@ -20,3 +20,11 @@ export const deleteStatus=(id)=>{
 export const getById=(id)=>{
     return axios.get(`${statusBase}/${id}`,config)
 }
+export const getAllOrderCountUserId=(id)=>
+{
+    return axios.get(`${statusBase}/SatatusOrdersPerUsers/${id}`)
+}
+export const getAllOrderCount=()=>
+{
+    return axios.get(`${statusBase}/AllSatatusOrders`)
+}
