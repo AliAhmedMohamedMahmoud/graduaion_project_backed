@@ -4,46 +4,94 @@ import { getAll } from "../../Services/City";
 import { getAll as getAllBranch } from "../../Services/branch";
 import { getAll as getAllState } from "../../Services/State";
 import { useNavigate } from "react-router-dom";
+import validator from 'validator';
 import { add } from "../../Services/Order";
+import { decoder } from "../../common/theDecoder";
+
+const token = localStorage.getItem("userToken")
+const { name, id } = decoder(token)
+
 
 export default function AddOrder() {
+  const [sellerName, setSellerName] = useState(
+    token ? name : ""
+  )
   const navigate = useNavigate();
+  const [weghtAndCost, setWeghtAndCost] = useState({
+    costInput: 0,
+    weightInput: 0
+  })
+  const [tableError, setTableError] = useState("")
+
   let [Product, setProduct] = useState([]);
+
   let [ProductName, setProductName] = useState("");
-  let [Quantity, setQuantity] = useState("");
+  let [Quantity, setQuantity] = useState(0);
   let [Weigth, setWeigth] = useState(0);
+
+
   let [total, setTotal] = useState(0);
   let [City, setCity] = useState([{}]);
-  let [CityCost, setCityCost] = useState({});
+  let [CityCost, setCityCost] = useState(0);
   let [Payment, setPayment] = useState([]);
   let [Delivery, setDelivery] = useState([]);
   let [Shipping, setShipping] = useState([]);
   let [Branch, setBranch] = useState([]);
   let [State, setState] = useState([]);
   const [serverError, setserverError] = useState(null);
+
+
   let [error, setError] = useState({
     customerName: "",
     customerPhone: "",
     stateId: "",
     StatusId: "",
-    ShipId: "",
-    PayId: "",
-    DeliveryId: "",
+    cityId: "",
+    Cost: ""
   });
+
+
   const [form, setForm] = useState({
     Cost: 0,
     CustomerName: "",
     CustomerPhone: 0,
-    StateId: 0,
+    stateId: 0,
     StatusId: 1,
-    ShipId: 0,
-    PayId: 0,
-    DeliveryId: 0,
+    cityId: 0,
+    userId: token ? id : "",
+    date: new Date()
   });
 
+  //when products array changes 
+  //recalculate the weight and 
+  //the costs
+  useEffect(() => {
+    const products = Product
+    if (products.length == 0) {
+      setWeghtAndCost({
+        costInput: 0,
+        weightInput: 0
+      })
+      setForm({
+        ...form,
+        Cost: 0
+      })
+    } else {
+      setWeghtAndCost({
+        costInput: OrderCost(),
+        weightInput: calcWeight()
+      })
+      setForm({
+        ...form,
+        Cost: OrderCost()
+      })
+    }
+  }, [Product])
+
+
+
   const handleInput = (e) => {
-    console.log(e.target.value);
-    if (e.target.name == "CityId") {
+    if (e.target.name == "cityId") {
       setCityCost(
         City.find((item) => {
           return item.id == e.target.value;
@@ -60,26 +108,14 @@ export default function AddOrder() {
   };
 
   const whenSubmit = async () => {
-    let Error = Validation(form);
-    //   if(Object.keys(Error).length==0)
-
-    //   {
-    try {
-      await add(form);
-      navigate("/Orders");
-    } catch ({
-      response: {
-        data: { detail },
-      },
-    }) {
-      setserverError(detail);
-    }
-    //  }
-
-    console.log(Error);
-    setError(Error);
-
     console.log(form);
+    if (validate()) {
+      try {
+        await add(form);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   let whenProductNameChange = (e) => {
@@ -92,16 +128,41 @@ export default function AddOrder() {
   let whenWeigthChange = (e) => {
     setWeigth(e.target.value);
   };
+
+
+  //when add product
   let whenClick = () => {
+
+    
+    if( !parseInt(Quantity) || !parseInt(Weigth)){
+      setTableError("quantity and weight can only contains letters")
+      return;
+    }
+
+    if (!CityCost || ProductName == "" || Quantity == 0 || Weigth == 0) {
+      setTableError("you must choose city and u must fill the data")
+      return;
+    }
+
+
+    setTableError("")
+    setError({
+      ...error,
+      Cost: ""
+    })
     setProduct([
       ...Product,
       {
+        id: generateId(),
         ProductName,
         Quantity,
         Weigth,
       },
     ]);
   };
+
+
+  // get selectboxes Data
   useState(() => {
     (async function () {
       const data = await getAll()
@@ -139,50 +200,17 @@ export default function AddOrder() {
     })();
   }, []);
 
-//   useState(() => {
-//     (async function () {
-//       const data = await getAllShipping()
-//         .then((ship) => {
-//           setShipping(ship.data);
-//           console.log(ship.data);
-//         })
-//         .catch((error) => {
-//           console.log(error);
-//         });
-//     })();
-//   }, []);
-//   useState(() => {
-//     (async function () {
-//       const data = await getAllPayment()
-//         .then((pay) => {
-//           setPayment(pay.data);
-//           console.log(pay.data);
-//         })
-//         .catch((error) => {
-//           console.log(error);
-//         });
-//     })();
-//   }, []);
 
-//   useState(() => {
-//     (async function () {
-//       const data = await getAllDelivery()
-//         .then((div) => {
-//           setDelivery(div.data);
-//           console.log(div.data);
-//         })
-//         .catch((error) => {
-//           console.log(error);
-//         });
-//     })();
-//   }, []);
-  let TotalWeigth = () => {
+  //calculations
+  const calcWeight = () => {
     return Product.reduce((total, currentValue) => {
       return total + +currentValue.Weigth;
     }, 0);
-  };
+  }
+
   let OrderCost = () => {
-    var total = TotalWeigth();
+    var total = calcWeight()
+
     if (total > 0 && total <= 10) {
       return 5 + CityCost.costPerCity;
     }
@@ -190,157 +218,172 @@ export default function AddOrder() {
       return (total - 10) * 5 + CityCost.costPerCity;
     }
   };
-  var totalCost = OrderCost();
 
-  console.log(totalCost);
-  // let handleChange = (e) => {
-  //     console.log(e.target.value)
 
-  // }
-  useEffect(() => {
-    setForm({
-      ...form,
-      Cost: totalCost,
-    });
-  }, [CityCost, City]);
-  let Validation = (Values) => {};
-  //     let error={}
-  //    if (!Values.customerName)
-  //    {
-  //     error.customerName="customerName is required"
-  //    }
-  //    if (!Values.Email)
-  //    {
-  //     error.Email="Email is required"
-  //    }
-  //    if (!Values.customerPhone)
-  //    {
-  //     error.customerPhone="customerPhone is required"
-  //    }
-  //    if(!Values.stateId)
-  //    {
-  //     error.stateId="State Id is required"
+  const validate = () => {
 
-  //    }
-  //    if(!Values.StatusId)
-  //    {
-  //     error.StatusId="State is required"
+    const errors = {
+      Cost: "",
+      customerName: "",
+      customerPhone: "",
+      stateId: "",
+      ShipId: "",
+      PayId: "",
+      DeliveryId: "",
+      cityId: "",
+      isValid: true
+    }
 
-  //    }
-  //    if(!Values.ShipId)
-  //    {
-  //     error.ShipId="Shipping is required"
+    if (!validator.isAlpha(form.CustomerName)) {
+      errors.customerName = "the name is required can only have letters"
+      errors.isValid = false
+    }
 
-  //    }
-  //    if(!Values.PayId)
-  //    {
-  //     error.PayId="Payment is required"
+    let phonePattern = /^01[0|1|2][0-9]{8}$/g
+    if (!phonePattern.test(form.CustomerPhone)) {
+      console.log(false);
+      errors.CustomerPhone = "enter a valid phone"
+      errors.isValid = false
+    }
 
-  //    }
-  //    if(!Values.DeliveryId)
-  //    {
-  //     error.DeliveryId="Delivery Type is required"
+    // stateId: "",
+    if (form.stateId == 0) {
+      errors.stateId = "you must choose state"
+      errors.isValid = false
+    }
 
-  //    }
 
-  //   return error
+    //   cityId: "",
+    if (form.cityId == 0) {
+      errors.cityId = "you must choose city"
+      errors.isValid = false
+    }
 
-  // }
+    //   cityId: "",
+    if (!form.Cost) {
+      errors.Cost = "you must add products"
+      errors.isValid = false
+    }
+
+
+    setError(errors)
+
+    if (errors.isValid) {
+      return true
+    }
+
+  }
+
+
+  const generateId = () => {
+    return ("" + Math.random()).substring(2)
+  }
+
+  const whenDelete = (id) => {
+    const products = Product
+
+    const out = products.filter((ele) => { return ele.id != id })
+    setProduct(out)
+  }
 
   return (
-    <>
+    <div className="order">
       <div className="container pt-5">
         <h1 className="mb-5">Add Order</h1>
-        <select
-          name="DeliveryId"
-          onChange={handleInput}
-          class="form-select"
-          aria-label="Default select example"
-        >
-          <option selected>Delivery Type</option>
-          {Delivery.map(({ id, deliveryName }) => {
-            return <option value={id}>{deliveryName}</option>;
-          })}
-        </select>
-        <div className="text-danger">{error.DeliveryId}</div>
+        <div className="row">
+          <div className=" col-6">
+            <select
+              name="DeliveryId"
+              onChange={handleInput}
+              class="form-select p-3"
+              aria-label="Default select example"
+            >
+              <option selected>Delivery Type</option>
+              {Delivery.map(({ id, deliveryName }) => {
+                return <option value={id}>{deliveryName}</option>;
+              })}
+            </select>
+            <div className="text-danger">{error.DeliveryId}</div>
+
+          </div>
+          <div class=" col-6">
+            <input
+              name="CustomerName"
+              onChange={handleInput}
+              type="text"
+              class="form-control p-3"
+              placeholder="Client Name"
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+            />
+            <div className="text-danger">{error.customerName}</div>
+          </div>
+        </div>
 
         <div class=" mb-3">
           <input
-            name="Clientname"
+            name="CustomerPhone"
             onChange={handleInput}
             type="text"
-            class="form-control mt-3"
-            placeholder="Client Name"
-            aria-label="Username"
-            aria-describedby="basic-addon1"
-          />
-          <div className="text-danger">{error.customerName}</div>
-        </div>
-        <div class=" mb-3">
-          <input
-            name="ClientPhone"
-            onChange={handleInput}
-            type="Phone"
-            class="form-control mt-3"
+            class="form-control mt-3 p-3"
             placeholder="Client Phone"
             aria-label="Username"
             aria-describedby="basic-addon1"
           />
-          <div className="text-danger">{error.customerPhone}</div>
+          <div className="text-danger">{error.CustomerPhone}</div>
         </div>
-        <div class=" mb-3">
-          <input
-            name="Email"
-            onChange={handleInput}
-            type="Email"
-            class="form-control mt-3"
-            placeholder="Email"
-            aria-label="Username"
-            aria-describedby="basic-addon1"
-          />
-        </div>
-        <select
-          name="StateId"
-          onChange={handleInput}
-          class="form-select"
-          aria-label="Default select example"
-        >
-          <option selected>Select Governorats</option>
-          {State.map(({ id, name }) => {
-            return <option value={id}>{name}</option>;
-          })}
-        </select>
-        <div className="text-danger">{error.StateId}</div>
+        <div className="row">
 
-        <select
-          onChange={handleInput}
-          name="CityId"
-          class="form-select"
-          aria-label="Default select example"
-        >
-          <option selected>Select City</option>
-          {City.map((city) => {
-            return <option value={city.id}>{city.name}</option>;
-          })}
-        </select>
-        <div className="text-danger">{error.CityId}</div>
-        <select
-          name="PayId"
-          onChange={handleInput}
-          class="form-select mt-3"
-          aria-label="Default select example"
-        >
-          <option selected>Select Payment</option>
-          {Payment.map((pay) => {
-            return <option value={pay.id}>{pay.payment_Type}</option>;
-          })}
-        </select>
-        <div className="text-danger">{error.PayId}</div>
+          <div className="mb-3 col-6">
+            <select
+              name="stateId"
+              onChange={handleInput}
+              class="form-select p-3"
+              aria-label="Default select example"
+            >
+              <option selected>Select Governorats</option>
+              {State.map(({ id, name }) => {
+                return <option className=" p-3" value={id}>{name}</option>;
+              })}
+            </select>
+            <div className="text-danger">{error.stateId}</div>
+          </div>
+
+          <div className="mb-3 col-6">
+            <select
+              onChange={handleInput}
+              name="cityId"
+              class="form-select p-3"
+              aria-label="Default select example"
+            >
+              <option selected>Select City</option>
+              {City.map((city) => {
+                return <option value={city.id}>{city.name}</option>;
+              })}
+            </select>
+            <div className="text-danger">{error.cityId}</div>
+          </div>
+        </div>
+
+        <div className="mb-3">
+          <select
+            name="PayId"
+            onChange={handleInput}
+            class="form-select mt-3 p-3"
+            aria-label="Default select example"
+          >
+            <option selected>Select Payment</option>
+            {Payment.map((pay) => {
+              return <option value={pay.id}>{pay.payment_Type}</option>;
+            })}
+          </select>
+          <div className="text-danger">{error.PayId}</div>
+        </div>
 
         <select
           name="ShipId"
           onChange={handleInput}
-          class="form-select mt-3"
+          class="form-select mt-3 p-3"
           aria-label="Default select example"
         >
           <option selected>Select Shipping</option>
@@ -353,7 +396,7 @@ export default function AddOrder() {
         <select
           name="branchId"
           onChange={handleInput}
-          class="form-select mt-3"
+          class="form-select mt-3 p-3"
           aria-label="Default select example"
         >
           <option selected>Select Branch</option>
@@ -364,45 +407,36 @@ export default function AddOrder() {
         <div className="text-danger">{error.branchId}</div>
 
         <hr></hr>
-
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Product Name</th>
-              <th>Quantity</th>
-              <th>Weigth</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <input
-                  name="ProductName"
-                  onChange={whenProductNameChange}
-                ></input>
-              </td>
-              <td>
-                <input name="Quantity" onChange={whenQuantityChange}></input>
-              </td>
-              <td>
-                <input name="Weigth" onChange={whenWeigthChange}></input>
-              </td>
-            </tr>
-          </tbody>
-        </Table>
-        <button onClick={whenClick} className="btn btn-primary">
-          Add Product
+        <div className=" row">
+          <div>
+            <input
+              type="text"
+              name="ProductName"
+              onChange={whenProductNameChange}
+              className="form-control p-3 mb-2"
+              placeholder="Product Name"
+              required
+            ></input>
+          </div>
+          <div>
+            <input required  placeholder="Quantity" className="form-control p-3 mb-2" name="Quantity" onChange={whenQuantityChange}></input>
+          </div>
+          <div>
+            <input required  placeholder="Weigth" className="form-control p-3 mb-2" name="Weigth" onChange={whenWeigthChange}></input>
+          </div>
+        </div>
+        <button onClick={whenClick} className="btn btn-primary mb-3">
+          <i className="fa-solid fa-plus"></i>
         </button>
+        <div>
+          <small className=" text-danger" >{tableError}</small>
+        </div>
         <Table striped bordered hover>
           <thead>
             <tr>
               <th>Product Name</th>
               <th>Quantity</th>
               <th>Weigth</th>
-              <tr>
-                {" "}
-                <button>Delete</button>
-              </tr>
             </tr>
           </thead>
           <tbody>
@@ -412,6 +446,7 @@ export default function AddOrder() {
                   <td>{ele.ProductName}</td>
                   <td>{ele.Quantity}</td>
                   <td>{ele.Weigth}</td>
+                  <td className=" text-center"><button onClick={() => whenDelete(ele.id)} className=" btn btn-danger" >delete</button></td>
                 </tr>
               );
             })}
@@ -424,24 +459,24 @@ export default function AddOrder() {
             name="Cost"
             onChange={handleInput}
             type="number"
-            class="form-control mt-3"
+            class="form-control mt-3 p-3"
             readOnly
-            value={OrderCost() || 0}
+            value={weghtAndCost.costInput}
             placeholder="Order Cost"
             aria-label="Username"
             aria-describedby="basic-addon1"
           />
           <div>
-            <small className=" text-danger"></small>
+            <small className=" text-danger">{error.Cost}</small>
           </div>
         </div>
         <div class=" mb-3">
           <input
             name="Total"
             type="number"
-            class="form-control mt-3"
+            class="form-control mt-3 p-3"
             readOnly
-            value={TotalWeigth()}
+            value={weghtAndCost.weightInput}
             placeholder="Total Weigth"
             aria-label="Username"
             aria-describedby="basic-addon1"
@@ -453,8 +488,8 @@ export default function AddOrder() {
         <div class=" mb-3">
           <input
             name="costPerCity"
-            type="number"
-            class="form-control mt-3"
+            type="text"
+            class="form-control mt-3 p-3"
             placeholder="Notes"
             aria-label="Username"
             aria-describedby="basic-addon1"
@@ -464,36 +499,19 @@ export default function AddOrder() {
           </div>
         </div>
         <hr></hr>
-        <h1>Data Of Merchant</h1>
         <div class=" mb-3">
           <input
-            name="CustomerName"
-            onChange={handleInput}
             type="text"
-            class="form-control mt-3"
+            class="form-control mt-3 p-3"
             placeholder="Name"
             aria-label="Username"
             aria-describedby="basic-addon1"
+            value={sellerName}
           />
           <div>
             <small className=" text-danger"></small>
           </div>
         </div>
-        <div class=" mb-3">
-          <input
-            name="CustomerPhone"
-            onChange={handleInput}
-            type="phone"
-            class="form-control mt-3"
-            placeholder="Phone"
-            aria-label="Username"
-            aria-describedby="basic-addon1"
-          />
-          <div>
-            <small className=" text-danger"></small>
-          </div>
-        </div>
-
         <div className="mt-5">
           <button
             className="btn btn-success"
@@ -504,16 +522,7 @@ export default function AddOrder() {
           </button>
         </div>
 
-        {/* <div>
-                <small className=' text-danger'></small>
-            </div>
-            <div className='mt-5'>
-                <button  className='btn btn-success' type='submit'>add</button>
-            </div>
-            <div className=' mt-2 text-center'>
-                <small className=' text-danger'></small>
-            </div> */}
       </div>
-    </>
+    </div>
   );
 }

@@ -12,9 +12,7 @@ export const getById = (id) => {
     return axios.get(`${OrderBase}/${id}`)
 }
 export const add = (order) => {
-    console.log(order)
     return axios.post(OrderBase, order)
-
 }
 
 export const edit = (id, order) => {

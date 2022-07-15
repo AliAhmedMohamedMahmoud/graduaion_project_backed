@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { add } from '../../Services/City'
 import { getAll } from "../../Services/State"
 import { useNavigate } from "react-router-dom";
@@ -32,7 +32,7 @@ export default function AddCity() {
 
 
 
-    useState(() => {
+    useEffect(() => {
         (async function () {
             const data = await getAll()
             setStates(data.data)
