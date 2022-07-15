@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using graduaion_project_backed.Dto;
 using System.Threading.Tasks;
 using graduaion_project_backed.Model;
-using System.Collections.Generic;
 using graduaion_project_backed.Repo;
 
 namespace graduaion_project_backed.Controllers

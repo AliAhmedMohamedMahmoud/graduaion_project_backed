@@ -59,7 +59,6 @@ namespace graduaion_project_backed.Repo
               
         }
 
-
         public int Delete(int id)
         {
             Order order1 = context.Orders.FirstOrDefault(p => p.Id == id);
@@ -69,9 +68,7 @@ namespace graduaion_project_backed.Repo
                 int rowRemoved = context.SaveChanges();
                 return rowRemoved;
             }
-
             return 0;
-
         }
 
         public List<Order> GetByDateAndStatus(DateTime start, DateTime end, int statusId, int pageIndex)
