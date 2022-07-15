@@ -22,6 +22,7 @@ import Home from './components/Home/Home';
 import ShowOrderss from './components/Order/ShowOrders';
 import AddOrder from './components/Order/AddOrder';
 import EditOrder from './components/Order/EditOrder';
+import Main from './components/Main/Main';
 
 function App() {
   console.log(process.env.base)
@@ -49,6 +50,7 @@ function App() {
         <Route path="/editOrder/:id" element={<EditOrder />}></Route>
        
               <Route path="/AddRole" element={<AddRole />}></Route>
+              <Route path="/Main" element={<Main />}></Route>
       </Route>
     </Routes>
 
