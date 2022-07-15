@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using graduaion_project_backed.Repo;
 using graduaion_project_backed.Model;
+using graduaion_project_backed.Filter;
+
 namespace graduaion_project_backed.Controllers
 {
     [Route("api/[controller]")]
@@ -30,6 +32,7 @@ namespace graduaion_project_backed.Controllers
         }
 
         [HttpGet]
+        [RequestFilter("Show", "City")]
         public IActionResult getAll()
         {
             try
@@ -44,6 +47,7 @@ namespace graduaion_project_backed.Controllers
         }
 
         [HttpGet("{id:int}")]
+        [RequestFilter("Show", "City")]
         public IActionResult getcity(int id)
         {
             try
@@ -62,6 +66,8 @@ namespace graduaion_project_backed.Controllers
         }
 
         [HttpPost]
+        [RequestFilter("Add", "City")]
+
         public IActionResult addcity(City city)
         {
             try
@@ -78,6 +84,7 @@ namespace graduaion_project_backed.Controllers
                 return Problem("something went wrong");
             }
         }
+        [RequestFilter("Edit", "City")]
 
         [HttpPut("{id:int}")]
         public IActionResult editcity(int id, City city)
@@ -100,6 +107,8 @@ namespace graduaion_project_backed.Controllers
 
 
         [HttpDelete("{id:int}")]
+        [RequestFilter("Delete", "City")]
+
         public IActionResult deletecity(int id)
         {
             try

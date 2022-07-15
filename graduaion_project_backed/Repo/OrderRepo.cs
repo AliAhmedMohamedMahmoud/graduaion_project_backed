@@ -31,24 +31,6 @@ namespace graduaion_project_backed.Repo
             context.SaveChanges();
             return order.Id;
         }
-
-        public int Edit(int id, OrderDTO order)
-        {
-            Order old = GetById(id);
-            if (old != null)
-            {
-                old.Date = order.Date;
-                old.Cost = order.cost;
-                old.CustomerName = order.customerName;
-                old.CustomerPhone = order.customerPhone;
-                old.StateId = order.stateId;
-                old.CityId = order.cityId;
-                old.StatusId = order.statusId;
-                return context.SaveChanges();
-            }
-            return -1;
-        }
-
         public OrderDTO GetById(int id)
         {
             var res = context.Orders.FirstOrDefault(o => o.Id == id);
@@ -64,6 +46,25 @@ namespace graduaion_project_backed.Repo
                 userId = res.UserId
             };
         }
+
+        public int Edit(int id, OrderDTO order)
+        {
+            Order old = context.Orders.FirstOrDefault(o => o.Id == id);
+            if (old != null)
+            {
+                old.Date = order.Date;
+                old.Cost = order.cost;
+                old.CustomerName = order.customerName;
+                old.CustomerPhone = order.customerPhone;
+                old.StateId = order.stateId;
+                old.CityId = order.cityId;
+                old.StatusId = order.statusId;
+                return context.SaveChanges();
+            }
+            return -1;
+        }
+
+       
 
         public List<Order> getByStatus(int statusId, int pageIndex)
         {
