@@ -53,7 +53,7 @@ export default function Login()
             <img src="http://img0cf.b8cdn.com/images/logo/44/1996944_logo_1549715449_n.png" alt=""></img>
         </div>
         <div class="text-center mt-4 name">
-            Wellcom Back
+            Welcome Back
         </div>
       
             <div class="form-field d-flex align-items-center">
