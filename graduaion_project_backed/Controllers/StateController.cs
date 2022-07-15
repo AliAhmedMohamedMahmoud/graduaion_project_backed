@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using graduaion_project_backed.Model;
 using graduaion_project_backed.Repo;
+using graduaion_project_backed.Filter;
 
 namespace graduaion_project_backed.Controllers
 {
@@ -24,6 +25,8 @@ namespace graduaion_project_backed.Controllers
             return Problem(detail: "no data");
         }
         [HttpGet("All/")]
+        [RequestFilter("Show", "States")]
+
         public IActionResult getAllStates()
         {
             var states = stateRepo.GetAll();
@@ -32,8 +35,10 @@ namespace graduaion_project_backed.Controllers
             return Ok(0);
         }
 
-        [HttpGet("{id:int}", Name = "getState")]   
-        public   IActionResult getStatesById(int id)
+        [HttpGet("{id:int}", Name = "getState")]
+       [RequestFilter("Show", "States")]
+
+        public IActionResult getStatesById(int id)
         {
             var state = stateRepo.GetById(id);
             if (state != null)
@@ -41,15 +46,12 @@ namespace graduaion_project_backed.Controllers
             return Problem(detail: "no data");
         }
         [HttpPost]
+        [RequestFilter("Add", "States")]
+
         public IActionResult PostState(State state)
         {
             if (ModelState.IsValid == true)
             {
-
-                //State state = new State()
-                //{
-                //    Name = stateName
-                //};
                 int res = stateRepo.Add(state);
                 string url = Url.Link("getState", new { id = state.Id });
                 return Created(url, state);
@@ -58,6 +60,8 @@ namespace graduaion_project_backed.Controllers
         }
 
         [HttpPut("{id:int}")]
+        [RequestFilter("Edit", "States")]
+
         public IActionResult UpdateState(int id, State s)
         {
 
@@ -69,6 +73,8 @@ namespace graduaion_project_backed.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [RequestFilter("Delete", "States")]
+
         public IActionResult DeleteState(int id)
         {
 

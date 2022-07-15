@@ -1,4 +1,5 @@
 ﻿using graduaion_project_backed.Dto;
+using graduaion_project_backed.Filter;
 using graduaion_project_backed.Model;
 using graduaion_project_backed.Repo;
 using Microsoft.AspNetCore.Authorization;
@@ -25,12 +26,16 @@ namespace graduaion_project_backed.Controllers
 
         }
         [HttpGet]
+        [RequestFilter("Show", "Status")]
+
         public IActionResult GetAllStatus()
         {
             List<Status> statuslist = statusRepository.GetAll();
             return Ok(statuslist);
         }
         [HttpGet("{id:int}", Name = "getStatus")]
+        [RequestFilter("Show", "Status")]
+
         public IActionResult GetByID(int id)
         {
             Status status = statusRepository.FindById(id);
@@ -39,6 +44,7 @@ namespace graduaion_project_backed.Controllers
 
 
         [HttpGet("SatatusOrdersPerUsers/{id}")]
+
         public IActionResult SatatusOrdersPerUsers(string id)
         {
             var res = statusRepository.GetAllWithOrderCountForSeller(id);
@@ -47,7 +53,7 @@ namespace graduaion_project_backed.Controllers
 
 
         [HttpGet("AllSatatusOrders")]
-        [Authorize("Employee")]
+        [Authorize(Roles = "Employee")]
         public IActionResult SatatusOrdersPerUsers()
         {
             var res = statusRepository.GetAllWithOrderCount();
@@ -55,6 +61,8 @@ namespace graduaion_project_backed.Controllers
         }
 
         [HttpPost]
+        [RequestFilter("Add", "Status")]
+
         public IActionResult PostStatus(StatusDto status)
         {
             try
@@ -72,6 +80,8 @@ namespace graduaion_project_backed.Controllers
             }
         }
         [HttpPut("{id:int}")]
+        [RequestFilter("Edit", "Status")]
+
         public IActionResult Update([FromRoute] int id, [FromBody] StatusDto status)
         {
             if (ModelState.IsValid == true)
@@ -85,6 +95,8 @@ namespace graduaion_project_backed.Controllers
             return BadRequest(ModelState);
         }
         [HttpDelete("{id:int}")]
+        [RequestFilter("Delete", "Status")]
+
         public IActionResult Remove(int id)
         {
             Status status = statusRepository.FindById(id);
