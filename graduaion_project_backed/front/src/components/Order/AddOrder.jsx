@@ -112,6 +112,7 @@ export default function AddOrder() {
     if (validate()) {
       try {
         await add(form);
+        navigate("/Orders")
       } catch (error) {
         console.log(error);
       }
@@ -419,10 +420,10 @@ export default function AddOrder() {
             ></input>
           </div>
           <div>
-            <input required  placeholder="Quantity" className="form-control p-3 mb-2" name="Quantity" onChange={whenQuantityChange}></input>
+            <input required  type="number" placeholder="Quantity" className="form-control p-3 mb-2" name="Quantity" onChange={whenQuantityChange}></input>
           </div>
           <div>
-            <input required  placeholder="Weigth" className="form-control p-3 mb-2" name="Weigth" onChange={whenWeigthChange}></input>
+            <input required  type="number"  placeholder="Weigth" className="form-control p-3 mb-2" name="Weigth" onChange={whenWeigthChange}></input>
           </div>
         </div>
         <button onClick={whenClick} className="btn btn-primary mb-3">

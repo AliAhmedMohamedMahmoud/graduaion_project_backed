@@ -26,7 +26,7 @@ namespace graduaion_project_backed.Controllers
 
         }
         [HttpGet]
-        [RequestFilter("Show", "Status")]
+       // [RequestFilter("Show", "Status")]
 
         public IActionResult GetAllStatus()
         {
@@ -34,7 +34,7 @@ namespace graduaion_project_backed.Controllers
             return Ok(statuslist);
         }
         [HttpGet("{id:int}", Name = "getStatus")]
-        [RequestFilter("Show", "Status")]
+       // [RequestFilter("Show", "Status")]
 
         public IActionResult GetByID(int id)
         {

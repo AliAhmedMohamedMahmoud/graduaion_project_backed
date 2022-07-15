@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 export default function EditStatus() {
     const { id } = useParams()
   const[Name,setName]=useState("")
-  
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setName(e.target.value)
@@ -21,7 +21,7 @@ useEffect(()=>{
   const whenSubmit=(e)=>{
     e.preventDefault();
     edit(id,{name:Name})
-
+    navigate("/Statuses");
 
   };
 

@@ -2,9 +2,11 @@ import { render } from "@testing-library/react";
 import React, { useState } from "react";
 import axios from "axios";
 import { add } from "../../Services/Status";
+import { useNavigate } from 'react-router-dom';
 
 function AddStatus(props) {
   const [Name, SetName] = useState({ Name: "" });
+  const navigate = useNavigate();
 
   const [formErrors, setformErrors] = useState({});
 
@@ -33,6 +35,7 @@ function AddStatus(props) {
     e.preventDefault();
     if (validate()) {
       add(Name);
+      navigate("/Statuses");
     }
   };
   const onchange = (e) => {

@@ -25,7 +25,7 @@ namespace graduaion_project_backed.Controllers
             return Problem(detail: "no data");
         }
         [HttpGet("All/")]
-        [RequestFilter("Show", "States")]
+        //[RequestFilter("Show", "States")]
 
         public IActionResult getAllStates()
         {
@@ -36,7 +36,7 @@ namespace graduaion_project_backed.Controllers
         }
 
         [HttpGet("{id:int}", Name = "getState")]
-       [RequestFilter("Show", "States")]
+      // [RequestFilter("Show", "States")]
 
         public IActionResult getStatesById(int id)
         {
