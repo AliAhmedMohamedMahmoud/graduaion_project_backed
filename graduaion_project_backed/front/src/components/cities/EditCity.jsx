@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from "react-router-dom";
 import { getById, edit } from '../../Services/City';
 import { fromBackendObjectToJsObject } from './cityConverters';
@@ -25,7 +25,7 @@ export default function EditCity() {
     }
 
 
-    useState(() => {
+    useEffect(() => {
         (async function () {
             const { data: city } = await getById(id)
             const { data: states } = await getAll()
