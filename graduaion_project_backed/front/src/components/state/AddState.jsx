@@ -9,9 +9,9 @@ export default function AddState(params) {
   const [name,setName]= useState("");
   const [isValid,setIsvalid]= useState(true);
   const navigate = useNavigate();
- function HandelAdd(){
+  async  function  HandelAdd(){
   if( validator.isAlpha(name)&& !validator.isEmpty(name)){
-   Add(name);
+  await Add(name);
    navigate("/states");
   }
    else
@@ -33,9 +33,12 @@ export default function AddState(params) {
              : null 
           }     
         </Form.Group>
-        <Button onClick={HandelAdd} variant="primary" >
+        <div className=' col-4'>
+
+        <Button className='m-auto  ' onClick={HandelAdd} variant="primary" >
           add
         </Button>
+        </div>
       </Form>
     )
 }

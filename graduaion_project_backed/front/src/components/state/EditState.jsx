@@ -20,12 +20,11 @@ export default function EditState(params) {
         
       )
     },[])
-    function HandelEdit(params) {
+   async function HandelEdit(params) {
         if( validator.isAlpha(name)&& !validator.isEmpty(name))
         {
-            Edit(id,name);
+         await   Edit(id,name);
             navigate("/states")
-
         }
         else
         setIsvalid(false);
@@ -45,9 +44,11 @@ export default function EditState(params) {
              : null 
           }     
         </Form.Group>
+        <div className="col-1 m-auto">
         <Button onClick={HandelEdit} variant="primary" >
           Save
         </Button>
+        </div>
       </Form>
     )
 }
