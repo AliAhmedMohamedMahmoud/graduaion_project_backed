@@ -34,7 +34,7 @@ namespace graduaion_project_backed.Repo
 
         public int Edit(int id, OrderDTO order)
         {
-            Order old = GetById(id);
+            Order old = GetByIdOrder(id);
             if (old != null)
             {
                 old.Date = order.Date;
@@ -91,5 +91,9 @@ namespace graduaion_project_backed.Repo
                   
         }
 
+        public Order GetByIdOrder(int id)
+        {
+            return context.Orders.FirstOrDefault(o => o.Id == id);
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace graduaion_project_backed.Repo
         int Edit(int id, OrderDTO order);
         List<Order> GetByDateAndStatus(DateTime start, DateTime end, int statusId, int pageIndex);
         OrderDTO GetById(int id);
+        Order GetByIdOrder(int id);
         List<Order> getByStatus(int statusId, int pageIndex);
     }
 }
