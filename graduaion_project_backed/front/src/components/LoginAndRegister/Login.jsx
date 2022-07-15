@@ -30,6 +30,8 @@ export default function Login()
         }
        login(userName,password).then(
            ({data})=>{console.log("d",data)
+            localStorage.setItem("Token",data.token)
+            console.log(data.token);
            nav('/')
         },
     (response)=>{
