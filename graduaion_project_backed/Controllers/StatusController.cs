@@ -1,6 +1,7 @@
 ﻿using graduaion_project_backed.Dto;
 using graduaion_project_backed.Model;
 using graduaion_project_backed.Repo;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -46,6 +47,7 @@ namespace graduaion_project_backed.Controllers
 
 
         [HttpGet("AllSatatusOrders")]
+        [Authorize("Employee")]
         public IActionResult SatatusOrdersPerUsers()
         {
             var res = statusRepository.GetAllWithOrderCount();
