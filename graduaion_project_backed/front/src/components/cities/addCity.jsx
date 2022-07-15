@@ -49,12 +49,7 @@ export default function AddCity() {
         }
 
 
-        // const namePattern =/^([A-Z]|[a-z]){3,20}$/g
 
-        // if (form.name == "" || namePattern.test(form.name)==false) {
-        //     errors.name = "the name must be between 3 to 20 chars and can only have letters"
-        //     errors.isValid = false
-        // }
 
         if(!validator.isAlpha(form.name)){
             errors.name = "the name must be between 3 to 20 chars and can only have letters"
