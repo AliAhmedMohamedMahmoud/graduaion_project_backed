@@ -2,12 +2,17 @@ import { Fragment, useEffect, useState } from "react"
 import { Link } from "react-router-dom";
 import { GetAll, GetNumberOfPages, Delete } from '../../Services/State'
 import { useNavigate } from "react-router-dom";
-import { array } from "joi";
+import { Button, Modal } from 'react-bootstrap'
 export default function ShowStates(params) {
 
     const [states, setStates] = useState([]);
     const [NumberOfPages, setNumberOfPages] = useState(0);
     const [PageIndex, setPageIndex] = useState(0);
+    const [show, setShow] = useState(false);
+    const [deletee, setDelete] = useState(false);
+    const handleClose = () => setShow(false);
+    
+
     const navigate = useNavigate();
     const HelperARR = []
     useEffect(() => {
@@ -27,13 +32,18 @@ export default function ShowStates(params) {
     function HandelPageination(par) {
         setPageIndex(par - 1);
     }
-    function HandelDelete(id) {
-        
-       
-      //confirm();
-        // console.log(res);
-        // if(res)
-      //  Delete(id);
+     async function HandelDelete(id) {
+
+        alert("you are about to delete ");
+       //  setShow(true);
+      //   console.log(show);
+    //    if(deletee)
+         await  Delete(id);
+        // navigate("/states")
+        window.location.reload()
+     //   else
+      //  setShow(false) 
+   
     }
     return (
         <>
@@ -53,10 +63,10 @@ export default function ShowStates(params) {
                         </div>
                         <table class="table table-striped table-hover table-bordered">
                             <thead>
-                               
+
                             </thead>
                             <tbody>
-                               
+
                                 {states.map(({ name, id }, i) => {
                                     return (
                                         <Fragment key={i}>
@@ -78,7 +88,7 @@ export default function ShowStates(params) {
                             <div class="hint-text">Showing <b>{states.length}</b> out of {NumberOfPages}<b></b> entries</div>
                             <ul class="pagination">
                                 {
-                                    (()=> new Array(Math.round( NumberOfPages/2)).fill(0))().map((v, i) => {
+                                    (() => new Array(Math.round(NumberOfPages / 2)).fill(0))().map((v, i) => {
 
                                         if (i == PageIndex) {
                                             return (
@@ -108,7 +118,20 @@ export default function ShowStates(params) {
                     <button onClick={HandelNew} className='btn btn-success m-auto'>New</button>
                 </div>
             </div>
-
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Modal heading</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>are u sure u want to delete this item ??!!!</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={()=>{setDelete(true)}}>
+                        yes
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </>
     )
 }

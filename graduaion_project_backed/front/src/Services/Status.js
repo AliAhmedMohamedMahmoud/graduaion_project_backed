@@ -5,6 +5,7 @@ const statusBase=`${base}Status`
 
 
 export const getAll=()=>{
+    console.log("second Scheck")
     return axios.get(statusBase,config)
 }
 export const edit=(id,Status)=>{

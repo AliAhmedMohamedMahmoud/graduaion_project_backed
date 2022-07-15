@@ -31,10 +31,10 @@ function AddStatus(props) {
     }
   };
 
-  const insertStatus = (e) => {
+  const  insertStatus = async (e) => {
     e.preventDefault();
     if (validate()) {
-      add(Name);
+     await add(Name);
       navigate("/Statuses");
     }
   };
