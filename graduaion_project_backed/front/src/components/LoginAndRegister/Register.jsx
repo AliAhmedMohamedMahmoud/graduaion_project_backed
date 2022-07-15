@@ -1,6 +1,6 @@
 
 import { Fragment, useEffect, useState } from 'react';
-import { GetAll } from '../../Services/Role';
+import { getAll } from '../../Services/Roles';
 import { useNavigate } from "react-router-dom";
 import {register} from '../../Services/LogIn&Register'
 import validator from 'validator';
@@ -79,7 +79,7 @@ export default function Register() {
   SetIsSelectedRole(true)
  }
   useEffect(() => {
-    GetAll().then(
+    getAll().then(
       ({ data }) => { setRoles(data) },
       (err) => { alert(err) }
     )
