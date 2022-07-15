@@ -11,7 +11,13 @@ import { useNavigate } from "react-router-dom";
 import validator from 'validator';
 
 const token = localStorage.getItem("userToken")
-const { name, id } = decoder(token)
+let name;
+let id;
+if(token){
+  const { name:userName, id:userId } = decoder(token)
+  id=userId;
+  name=userName;
+}
 
 
 export default function AddOrder() {

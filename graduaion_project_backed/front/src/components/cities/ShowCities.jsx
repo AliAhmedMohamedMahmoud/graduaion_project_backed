@@ -95,7 +95,6 @@ export default function ShowCities() {
                             </tbody>
                         </table>
                         <div className="clearfix">
-                            <div className="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
                             <ul className="pagination">
                                 <li className="page-item disabled"><a href="#"><i className="fa fa-angle-double-left"></i></a></li>
                                 {renderPagesNumbers()}

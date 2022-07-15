@@ -4,8 +4,9 @@ import { getAll } from "../../Services/Status";
 import { Link } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
 import SearchBar from "../Order/SearchBar";
-
+import { useNavigate } from "react-router-dom";
 export default function ShowOrderss() {
+  const navigate = useNavigate();
   const [Orders, setOrders] = useState([]);
   const [show, setShow] = useState(false);
   const [idToDelete, setIdToDelete] = useState(null);
@@ -51,6 +52,7 @@ export default function ShowOrderss() {
   const whenclick = async () => {
     setShow(false);
     await deleteOrder(idToDelete);
+    window.location.reload();
     const { data } = await getAllOrder();
     setOrders(data);
   };

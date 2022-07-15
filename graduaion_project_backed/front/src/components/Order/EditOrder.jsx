@@ -122,19 +122,14 @@ export default function EditOrder() {
 
         return true;
     }
-    const whenSubmit =  () => {
+    const whenSubmit = async () => {
         
         console.log(IsValidData())
         if(IsValidData()){
             Order.customerPhone = +Order.customerPhone
-            console.log(Order);
-
-            edit(id,Order);
+            await edit(id,Order);
             navigate("/Orders")
         }
-
-
-
 
     };
     return (
