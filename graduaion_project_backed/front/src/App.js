@@ -23,6 +23,7 @@ import ShowOrderss from './components/Order/ShowOrders';
 import AddOrder from './components/Order/AddOrder';
 import EditOrder from './components/Order/EditOrder';
 import Main from './components/Main/Main';
+import WeightSetting from './components/WeightSetting/WeightSetting';
 
 function App() {
   console.log(process.env.base)
@@ -51,6 +52,7 @@ function App() {
        
               <Route path="/AddRole" element={<AddRole />}></Route>
               <Route path="/Main" element={<Main />}></Route>
+              <Route path="/WeightSetting" element={<WeightSetting />}></Route>
       </Route>
     </Routes>
 

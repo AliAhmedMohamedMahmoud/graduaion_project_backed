@@ -33,6 +33,7 @@ namespace graduaion_project_backed.Model
         public virtual DbSet<Status> Statuses { get; set; }
         public virtual DbSet<State> States { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<WeightSetting> WeightSettings { get; set; }
 
 
     }
