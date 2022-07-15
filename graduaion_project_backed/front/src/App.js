@@ -19,6 +19,9 @@ import EditStatus from './components/Status/EditStatus';
 import Register from './components/LoginAndRegister/Register';
 import Login from './components/LoginAndRegister/Login';
 import Home from './components/Home/Home';
+import ShowOrderss from './components/Order/ShowOrders';
+import AddOrder from './components/Order/AddOrder';
+import EditOrder from './components/Order/EditOrder';
 
 function App() {
   console.log(process.env.base)
@@ -41,6 +44,9 @@ function App() {
         <Route path="/states" element={<ShowStates />}></Route>
         <Route path="/editState/:id" element={<EditState />}></Route>
         <Route path="/addState" element={<AddState />}></Route>
+        <Route path="/Orders" element={<ShowOrderss />}></Route>
+        <Route path="/addOrder" element={<AddOrder />}></Route>
+        <Route path="/editOrder/:id" element={<EditOrder />}></Route>
        
               <Route path="/AddRole" element={<AddRole />}></Route>
       </Route>

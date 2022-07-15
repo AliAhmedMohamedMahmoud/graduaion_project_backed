@@ -1,22 +1,15 @@
 using graduaion_project_backed.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using graduaion_project_backed.Repo;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.AspNetCore.Identity;
 
 namespace graduaion_project_backed
 {
@@ -37,6 +30,7 @@ namespace graduaion_project_backed
             services.AddScoped<IBranchRepo, BranchesRepo>();
             services.AddScoped<ICity, CityRepo>();
             services.AddScoped<IStatusesRepos, StatusesRepos>();
+            services.AddScoped<IRolReops, RolReops>();
             services.AddScoped<IOrderRepo, OrderRepo>();
             services.AddScoped<IstateRepo, StateRepo>();
             services.AddScoped<IPRCrepo, PRCrepo>();

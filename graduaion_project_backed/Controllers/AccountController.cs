@@ -41,8 +41,8 @@ namespace Demo.Controllers
                 user.UserName = userDto.UserName;
                 IdentityResult result= await  usermanger.CreateAsync(user, userDto.Password);
                 if(result.Succeeded)
-                {//Pass!@#1
-                    await usermanger.AddToRoleAsync(user, "Admin");
+                {
+                    await usermanger.AddToRoleAsync(user, userDto.RoleName);
                     await signInManager.SignInAsync(user, false);
                     return Ok("Account Add Success");
                 }

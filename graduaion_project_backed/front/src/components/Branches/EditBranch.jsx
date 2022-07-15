@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getAll } from "../../Services/City"
 import { getById, editBranch } from '../../Services/branch';
 import { fromBackendObjectToJsObject } from './branchConverters';
-
+import validator from 'validator';
 export default function EditBranch() {
     const { id } = useParams()
     const [cities, setStates] = useState([])
@@ -38,7 +38,6 @@ export default function EditBranch() {
     const whenSubmit = async () => {
         if (validate()) {
             try {
-                console.log(form);
                 await editBranch(id, form)
                 navigate("/branches");
             } catch ({ response: { data: { detail } } }) {
@@ -55,10 +54,9 @@ export default function EditBranch() {
             cityId: "",
             isValid: true
         }
-        
-        const namePattern =/^([A-Z]|[a-z]){3,20}$/g
 
-        if (form.name == "" || namePattern.test(form.name)==false) {
+
+        if (!validator.isAlpha(form.name)) {
             errors.name = "the name must be between 3 to 20 chars and can only have letters"
             errors.isValid = false
         }

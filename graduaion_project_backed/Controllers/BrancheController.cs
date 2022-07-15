@@ -31,7 +31,7 @@ namespace graduaion_project_backed.Controllers
             }
         }
         [HttpGet]
-        [RequestFilter("Show", "Branch")]
+       // [RequestFilter("Show", "Branch")]
         public IActionResult GetAllBranch()
         {
             return Ok(BranchesRepo.GetAll());
