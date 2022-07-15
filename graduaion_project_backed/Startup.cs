@@ -35,6 +35,7 @@ namespace graduaion_project_backed
             services.AddScoped<IstateRepo, StateRepo>();
             services.AddScoped<IPRCrepo, PRCrepo>();
             services.AddScoped<IRolReops, RolReops>();
+            services.AddScoped<IWeightRepo, WeightRepo>();
             services.AddScoped<IPermission, PermissionRepo>();
             services.AddScoped<IControllerRepo, ControllerRepo>();
             services.AddDbContext<Context>(Options =>

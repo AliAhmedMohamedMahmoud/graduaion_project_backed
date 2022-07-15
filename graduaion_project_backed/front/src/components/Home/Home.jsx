@@ -15,6 +15,7 @@ export default function Home(params) {
                 <li>  <NavLink to='states' ><i className="fas fa-flag-usa"></i>States</NavLink> </li>
                 <li>  <NavLink to='AddRole' ><i className="fas fa-flag-usa"></i>AddRole</NavLink> </li>
                
+                <li>  <NavLink to='WeightSetting' ><i className="fas fa-flag-usa"></i>WeghtSetting</NavLink> </li>
               
                     {/* <li><a href="#"><i className="fas fa-home"></i>Home</a></li>
                    
