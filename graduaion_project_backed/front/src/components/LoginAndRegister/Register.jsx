@@ -43,15 +43,6 @@ export default function Register() {
                     <label for="floatingInputUsername">Username</label>
                   </div>
 
-                  <div class="form-floating mb-3">
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="floatingInputEmail"
-                      placeholder="name@example.com"
-                    ></input>
-                    <label for="floatingInputEmail">Email address</label>
-                  </div>
 
                   <div class="form-floating mb-3">
                     <input

@@ -13,6 +13,7 @@ export default function Home(params) {
                 <li>  <NavLink to='Statuses' ><i className="fas fa-dove"></i>Status</NavLink> </li>
                 <li>  <NavLink to='branches' ><i className="fas fa-code-branch"></i>Branch</NavLink> </li>
                 <li>  <NavLink to='states' ><i className="fas fa-flag-usa"></i>States</NavLink> </li>
+                <li>  <NavLink to='AddRole' ><i className="fas fa-flag-usa"></i>AddRole</NavLink> </li>
                
               
                     {/* <li><a href="#"><i className="fas fa-home"></i>Home</a></li>
