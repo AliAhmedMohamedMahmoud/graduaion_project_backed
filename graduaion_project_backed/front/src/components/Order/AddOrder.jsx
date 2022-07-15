@@ -3,10 +3,12 @@ import React, { useEffect, useState } from "react";
 import { getAll } from "../../Services/City";
 import { getAll as getAllBranch } from "../../Services/branch";
 import { getAll as getAllState } from "../../Services/State";
-import { useNavigate } from "react-router-dom";
-import validator from 'validator';
 import { add } from "../../Services/Order";
 import { decoder } from "../../common/theDecoder";
+import {get} from '../../Services/WeightSetting'
+
+import { useNavigate } from "react-router-dom";
+import validator from 'validator';
 
 const token = localStorage.getItem("userToken")
 const { name, id } = decoder(token)
@@ -61,6 +63,24 @@ export default function AddOrder() {
     userId: token ? id : "",
     date: new Date()
   });
+
+
+  const [WeightSetting, SetWeightSetting] = useState({
+            deafultWeight: 0,
+            deafultCost: 0,
+            exreaCost: 0
+  })
+  useEffect (()=>{
+   get().then(
+    ({data})=>{
+      SetWeightSetting({
+        deafultWeight: data.deafultWeight,
+            deafultCost: data.deafultCost,
+            exreaCost: data.exreaCost
+      })
+    }
+   )
+  },[])
 
   //when products array changes 
   //recalculate the weight and 
@@ -210,12 +230,12 @@ export default function AddOrder() {
 
   let OrderCost = () => {
     var total = calcWeight()
-
-    if (total > 0 && total <= 10) {
-      return 5 + CityCost.costPerCity;
+    console.log(WeightSetting);
+    if (total > 0 && total <= WeightSetting.deafultWeight) {
+      return WeightSetting.deafultCost + CityCost.costPerCity;
     }
-    if (total > 10) {
-      return (total - 10) * 5 + CityCost.costPerCity;
+    if (total > WeightSetting.deafultWeight) {
+      return (total -  WeightSetting.deafultWeight) *  WeightSetting.exreaCost + CityCost.costPerCity;
     }
   };
 
