@@ -20,6 +20,7 @@ export default function ShowStatuses() {
   };
 
   useEffect(() => {
+    console.log("called ");
     getAll().then(({ data }) => {
       setStatuses(data);
     });
