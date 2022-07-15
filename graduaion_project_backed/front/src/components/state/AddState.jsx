@@ -3,14 +3,17 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {Add} from '../../Services/State'
 import validator from 'validator';
+import { useNavigate } from 'react-router-dom';
 export default function AddState(params) {
 
   const [name,setName]= useState("");
   const [isValid,setIsvalid]= useState(true);
-   
+  const navigate = useNavigate();
  function HandelAdd(){
-  if( validator.isAlpha(name)&& !validator.isEmpty(name))
+  if( validator.isAlpha(name)&& !validator.isEmpty(name)){
    Add(name);
+   navigate("/states");
+  }
    else
    setIsvalid(false);
  }

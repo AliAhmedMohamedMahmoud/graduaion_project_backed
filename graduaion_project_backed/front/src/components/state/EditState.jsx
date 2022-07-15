@@ -24,7 +24,7 @@ export default function EditState(params) {
         if( validator.isAlpha(name)&& !validator.isEmpty(name))
         {
             Edit(id,name);
-            navigate("/ShowState")
+            navigate("/states")
 
         }
         else

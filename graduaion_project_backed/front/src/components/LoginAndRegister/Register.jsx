@@ -6,7 +6,7 @@ import {register} from '../../Services/LogIn&Register'
 import validator from 'validator';
 import "./Register.css";
 export default function Register() {
-
+  const navigate = useNavigate();
   const [Roles, setRoles] = useState([]);
   const[userName, SetUserName] = useState("")
   const[password, Setpassword] = useState("")
@@ -52,7 +52,7 @@ export default function Register() {
       SetIsServerErrors(true);
     },
    )
-   //  nav('/')
+   navigate("/Login")
   }
   function HandelInputName(e) {
       SetUserName(e.target.value);
@@ -77,12 +77,15 @@ export default function Register() {
  function HadelSelectRole(e) {
   SetRoleName(e.target.value);
   SetIsSelectedRole(true)
+  
  }
   useEffect(() => {
     getAll().then(
-      ({ data }) => { setRoles(data) },
+      ({ data }) => { setRoles(data) 
+        },
       (err) => { alert(err) }
     )
+    
   }, [])
 
 

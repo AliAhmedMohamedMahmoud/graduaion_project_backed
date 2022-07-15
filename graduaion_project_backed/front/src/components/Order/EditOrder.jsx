@@ -13,7 +13,8 @@ export default function EditOrder() {
     const [City, setCity] = useState([]);
     const [states, setStates] = useState([]);
     const [Status, setStatus] = useState([]);
-     
+    const navigate = useNavigate();
+
     const [ShippmentInfo, setShippmentInfo] = useState({
         delivery: "",
         shipping: "",
@@ -35,7 +36,6 @@ export default function EditOrder() {
         )
     }
    
-    const navigate = useNavigate();
 
     let [Order, setOrder] = useState({
         cost: 0,
@@ -89,6 +89,7 @@ export default function EditOrder() {
                     ...Data.data,
                     userId:decoder(localStorage.getItem("userToken")).id
                 })
+                
             })
             .catch((error) => {
                 console.log(error);
@@ -129,6 +130,7 @@ export default function EditOrder() {
             console.log(Order);
 
             edit(id,Order);
+            navigate("/Orders")
         }
 
 
