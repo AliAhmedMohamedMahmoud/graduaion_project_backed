@@ -30,6 +30,7 @@ namespace graduaion_project_backed
             services.AddScoped<IBranchRepo, BranchesRepo>();
             services.AddScoped<ICity, CityRepo>();
             services.AddScoped<IStatusesRepos, StatusesRepos>();
+            services.AddScoped<IRolReops, RolReops>();
             services.AddScoped<IOrderRepo, OrderRepo>();
             services.AddScoped<IstateRepo, StateRepo>();
             services.AddScoped<IPRCrepo, PRCrepo>();

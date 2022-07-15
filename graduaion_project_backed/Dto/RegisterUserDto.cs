@@ -11,6 +11,9 @@ namespace Demo.DTO
         public string Password { get; set; }
 
         [Required]
+        public string RoleName { get; set; }
+
+        [Required]
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
 
