@@ -51,7 +51,7 @@ namespace graduaion_project_backed.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public IActionResult UpdateOrder([FromRoute] int id, [FromBody] Order NewOrder)
+        public IActionResult UpdateOrder([FromRoute] int id, [FromBody] OrderDTO NewOrder)
         {
             if (ModelState.IsValid)
             {

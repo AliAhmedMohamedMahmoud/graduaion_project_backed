@@ -1,4 +1,5 @@
-﻿using graduaion_project_backed.Model;
+﻿using graduaion_project_backed.Dto;
+using graduaion_project_backed.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -31,26 +32,37 @@ namespace graduaion_project_backed.Repo
             return order.Id;
         }
 
-        public int Edit(int id, Order order)
+        public int Edit(int id, OrderDTO order)
         {
             Order old = GetById(id);
             if (old != null)
             {
                 old.Date = order.Date;
-                old.Cost = order.Cost;
-                old.CustomerName = order.CustomerName;
-                old.CustomerPhone = order.CustomerPhone;
-                old.StateId = order.StateId;
-                old.CityId = order.CityId;
-                old.StatusId = order.StatusId;
+                old.Cost = order.cost;
+                old.CustomerName = order.customerName;
+                old.CustomerPhone = order.customerPhone;
+                old.StateId = order.stateId;
+                old.CityId = order.cityId;
+                old.StatusId = order.statusId;
                 return context.SaveChanges();
             }
             return -1;
         }
 
-        public Order GetById(int id)
+        public OrderDTO GetById(int id)
         {
-            return context.Orders.FirstOrDefault(o => o.Id == id);
+            var res = context.Orders.FirstOrDefault(o => o.Id == id);
+            return new OrderDTO()
+            {
+                cityId = res.CityId,
+                stateId = res.StateId,
+                statusId = res.StatusId,
+                customerPhone = res.CustomerPhone,
+                customerName = res.CustomerName,
+                cost = (int)res.Cost,
+                Date = res.Date,
+                userId = res.UserId
+            };
         }
 
         public List<Order> getByStatus(int statusId, int pageIndex)
