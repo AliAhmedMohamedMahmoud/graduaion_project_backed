@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { deleteCity, getAllWithPagination } from '../../Services/City'
 import { Link } from "react-router-dom";
 import { Button, Modal } from 'react-bootstrap'
-
+import { useNavigate } from "react-router-dom";
 
 export default function ShowCities() {
+    const navigate = useNavigate();
     const [cities, setCities] = useState([])
     const [citiesCount, setcitiesCount] = useState([])
     const [show, setShow] = useState(false);
@@ -22,9 +23,15 @@ export default function ShowCities() {
 
     const whenclick = async () => {
         setShow(false)
-        await deleteCity(idToDelete);
-        const { data: { cities } } = await getAllWithPagination(currentPge)
-        setCities(cities)
+        try {
+            await deleteCity(idToDelete);
+            const { data: { cities } } = await getAllWithPagination(currentPge)
+            setCities(cities)
+        } catch ({ response: { data, status } }) {
+            if (status == 401) {
+                navigate("/notAuthorized")
+            }
+        }
     }
 
     const renderPagesNumbers = () => {
