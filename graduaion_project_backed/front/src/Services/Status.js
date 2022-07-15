@@ -1,22 +1,22 @@
-import { base } from "../common/baseUrl"
+import { base ,config } from "../common/baseUrl"
 import axios from "axios"
 
 const statusBase=`${base}Status`
 
 
 export const getAll=()=>{
-    return axios.get(statusBase)
+    return axios.get(statusBase,config)
 }
 export const edit=(id,Status)=>{
-    return axios.put(`${statusBase}/${id}`,Status)
+    return axios.put(`${statusBase}/${id}`,Status,config)
 }
 export const add=(Status)=>{
 
-    return axios.post(statusBase,Status)
+    return axios.post(statusBase,Status,config)
 }
 export const deleteStatus=(id)=>{
-    return axios.delete(`${statusBase}/${id}`)
+    return axios.delete(`${statusBase}/${id}`,config)
 }
 export const getById=(id)=>{
-    return axios.get(`${statusBase}/${id}`)
+    return axios.get(`${statusBase}/${id}`,config)
 }

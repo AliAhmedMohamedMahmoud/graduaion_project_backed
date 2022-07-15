@@ -17,7 +17,7 @@ namespace graduaion_project_backed.Controllers
         {
             BranchesRepo = _BranchesRepo;
         }
-        //[RequestFilter("Show", "Branch")]
+        [RequestFilter("Show", "Branch")]
         [HttpGet("pagination/{pageNumber:int}")]
         public IActionResult getAll(int pageNumber)
         {
@@ -31,7 +31,7 @@ namespace graduaion_project_backed.Controllers
             }
         }
         [HttpGet]
-        //[RequestFilter("Show", "Branch")]
+        [RequestFilter("Show", "Branch")]
         public IActionResult GetAllBranch()
         {
             return Ok(BranchesRepo.GetAll());
@@ -45,7 +45,7 @@ namespace graduaion_project_backed.Controllers
         }
 
         [HttpPost]
-        //[RequestFilter("Add","Branch")]
+        [RequestFilter("Add","Branch")]
         public IActionResult addBranch(Branches branche)
         {
             try
