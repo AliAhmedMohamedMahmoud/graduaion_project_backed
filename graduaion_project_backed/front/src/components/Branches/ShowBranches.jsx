@@ -91,10 +91,7 @@ export default function ShowBranches() {
               <thead>
                 <tr>
                   <th>
-                    City <i class="fa fa-sort"></i>
-                  </th>
-                  <th>
-                    Cost <i class="fa fa-sort"></i>
+                    Branch
                   </th>
                 </tr>
               </thead>
@@ -103,7 +100,6 @@ export default function ShowBranches() {
                   return (
                     <tr>
                       <td>{name}</td>
-                      <td>{cityId}</td>
                       <td>
                         <Link
                           to={`/editBranch/${id}`}

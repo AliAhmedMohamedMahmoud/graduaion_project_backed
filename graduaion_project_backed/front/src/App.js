@@ -24,6 +24,7 @@ import AddOrder from './components/Order/AddOrder';
 import EditOrder from './components/Order/EditOrder';
 import Main from './components/Main/Main';
 import WeightSetting from './components/WeightSetting/WeightSetting';
+import UnAuthorized from './components/authorization/UnAuthorized';
 
 function App() {
   console.log(process.env.base)
@@ -53,6 +54,7 @@ function App() {
           <Route path="/AddRole" element={<AddRole />}></Route>
           <Route path="/Main" element={<Main />}></Route>
           <Route path="/WeightSetting" element={<WeightSetting />}></Route>
+          <Route path="/notAuthorized" element={<UnAuthorized />}></Route>
         </Route>
       </Routes>
 

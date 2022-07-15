@@ -1,31 +1,50 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getById, edit } from "../../Services/Status";
+import validator from 'validator';
 
 import { useNavigate } from "react-router-dom";
 export default function EditStatus() {
-    const { id } = useParams()
-  const[Name,setName]=useState("")
+  const { id } = useParams()
+  const [Name, setName] = useState("")
   const navigate = useNavigate();
+  const [formErrors, setformErrors] = useState({});
 
   const handleChange = (e) => {
     setName(e.target.value)
-}
-useEffect(()=>{
-    getById(id).then(data=>{
-        setName(data.data.name)
+  }
+
+  useEffect(() => {
+    getById(id).then(data => {
+      setName(data.data.name)
     })
+  }, [])
 
-},[])
- 
-  const whenSubmit=(e)=>{
-    e.preventDefault();
-    edit(id,{name:Name})
-    navigate("/Statuses");
-
+  const whenSubmit =async () => {
+    if (validate()) {
+      await edit(id, { name: Name })
+      navigate("/Statuses");
+    }
   };
 
-  
+  const validate = () => {
+    const errors = {
+      Name: "",
+      isValid: true,
+    };
+
+    if (!validator.isAlpha(Name)) {
+      errors.Name = "the name is required and can only contain letters";
+      errors.isValid = false;
+    }
+
+    setformErrors(errors);
+
+    if (errors.isValid) {
+      return true;
+    }
+  };
+
 
   return (
     <div className="container pt-5">
@@ -39,9 +58,10 @@ useEffect(()=>{
           class="form-control"
           aria-label="Username"
           aria-describedby="basic-addon1"
+          required
         />
         <div>
-        
+          <small className=" text-danger" >{formErrors.Name}</small>
         </div>
       </div>
       <button

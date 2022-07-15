@@ -66,7 +66,7 @@ namespace graduaion_project_backed.Controllers
         }
 
         [HttpPost]
-        //[RequestFilter("Add", "City")]
+        [RequestFilter("Add", "City")]
 
         public IActionResult addcity(City city)
         {
@@ -84,7 +84,7 @@ namespace graduaion_project_backed.Controllers
                 return Problem("something went wrong");
             }
         }
-        //[RequestFilter("Edit", "City")]
+        [RequestFilter("Edit", "City")]
 
         [HttpPut("{id:int}")]
         public IActionResult editcity(int id, City city)
@@ -107,7 +107,7 @@ namespace graduaion_project_backed.Controllers
 
 
         [HttpDelete("{id:int}")]
-        //[RequestFilter("Delete", "City")]
+        [RequestFilter("Delete", "City")]
 
         public IActionResult deletecity(int id)
         {

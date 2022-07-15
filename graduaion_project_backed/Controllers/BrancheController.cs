@@ -30,21 +30,19 @@ namespace graduaion_project_backed.Controllers
             }
         }
         [HttpGet]
-      // [RequestFilter("Show", "Branch")]
         public IActionResult GetAllBranch()
         {
             return Ok(BranchesRepo.GetAll());
         }
 
         [HttpGet("{id:int}", Name = "GetOneEmpRoute")]
-       //[RequestFilter("Show", "Branch")]
         public IActionResult GetBranchById(int id)
         {
             return Ok(BranchesRepo.GetById(id));
         }
 
         [HttpPost]
-        [RequestFilter("Add","Branch")]
+        [RequestFilter("Add", "Branch")]
         public IActionResult addBranch(Branches branche)
         {
             try

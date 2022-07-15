@@ -61,7 +61,7 @@ namespace graduaion_project_backed.Controllers
         }
 
         [HttpPost]
-        //[RequestFilter("Add", "Status")]
+        [RequestFilter("Add", "Status")]
 
         public IActionResult PostStatus(StatusDto status)
         {
@@ -80,7 +80,7 @@ namespace graduaion_project_backed.Controllers
             }
         }
         [HttpPut("{id:int}")]
-        //[RequestFilter("Edit", "Status")]
+        [RequestFilter("Edit", "Status")]
 
         public IActionResult Update([FromRoute] int id, [FromBody] StatusDto status)
         {
@@ -95,7 +95,7 @@ namespace graduaion_project_backed.Controllers
             return BadRequest(ModelState);
         }
         [HttpDelete("{id:int}")]
-        //[RequestFilter("Delete", "Status")]
+        [RequestFilter("Delete", "Status")]
 
         public IActionResult Remove(int id)
         {
