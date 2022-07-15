@@ -1,10 +1,10 @@
-import { base } from "../common/baseUrl"
+import { base ,config } from "../common/baseUrl"
 import axios from "axios"
 
 const stateBase=`${base}Role`
 
 
 export const GetAll=()=>{
-    return axios.get(stateBase)
+    return axios.get(stateBase,config)
 }
 

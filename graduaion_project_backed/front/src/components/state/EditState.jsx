@@ -14,7 +14,9 @@ export default function EditState(params) {
         console.log(id);
         GetById(id).then(
         ({data})=>{setName(data.name)},
-        (er)=>{alert(er)}
+        // (er)=>{alert(er)}
+        
+        
         
       )
     },[])

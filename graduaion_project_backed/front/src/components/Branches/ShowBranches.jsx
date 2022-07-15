@@ -15,6 +15,7 @@ export default function ShowBranches() {
   useEffect(() => {
     paginationaBaranches(1).then(({ data }) => {
       setBranches(data.record);
+      
     });
   }, []);
   const setIdValAndShow = (id) => {
