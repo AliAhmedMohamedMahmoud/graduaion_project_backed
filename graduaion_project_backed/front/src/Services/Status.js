@@ -22,9 +22,9 @@ export const getById=(id)=>{
 }
 export const getAllOrderCountUserId=(id)=>
 {
-    return axios.get(`${statusBase}/SatatusOrdersPerUsers/${id}`)
+    return axios.get(`${statusBase}/SatatusOrdersPerUsers/${id}`,config)
 }
 export const getAllOrderCount=()=>
 {
-    return axios.get(`${statusBase}/AllSatatusOrders`)
+    return axios.get(`${statusBase}/AllSatatusOrders`,config)
 }
