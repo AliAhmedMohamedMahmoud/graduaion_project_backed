@@ -10,9 +10,15 @@ export default function AddState(params) {
   const [isValid,setIsvalid]= useState(true);
   const navigate = useNavigate();
   async  function  HandelAdd(){
-  if( validator.isAlpha(name)&& !validator.isEmpty(name)){
-  await Add(name);
-   navigate("/states");
+  if( validator.isAlpha(name) && !validator.isEmpty(name)){
+    try {
+       await Add(name);
+       navigate("/states");  
+    } catch ({ response: {data, status }}) {
+      if (status == 401) {
+          navigate("/notAuthorized")
+      }
+  }
   }
    else
    setIsvalid(false);

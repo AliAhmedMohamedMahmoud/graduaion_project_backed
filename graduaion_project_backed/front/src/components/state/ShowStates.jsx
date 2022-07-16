@@ -38,7 +38,13 @@ export default function ShowStates(params) {
        //  setShow(true);
       //   console.log(show);
     //    if(deletee)
-         await  Delete(id);
+    try {
+        await  Delete(id);
+    } catch ({ response: { data, status } }) {
+        if (status == 401) {
+            navigate("/notAuthorized")
+        }
+    }
         // navigate("/states")
         window.location.reload()
      //   else
