@@ -138,7 +138,7 @@ export default function ShowOrderss() {
                     City <i class="fa fa-sort"></i>
                   </th>
                   <th>
-                    Governorat <i class="fa fa-sort"></i>
+                    State <i class="fa fa-sort"></i>
                   </th>
                   <th>
                     Status <i class="fa fa-sort"></i>
@@ -152,9 +152,9 @@ export default function ShowOrderss() {
                     customerName,
                     customerPhone,
                     cost,
-                    cityName,
-                    stateName,
-                    statusName,
+                    city,
+                    state,
+                    status
                   }) => {
                     return (
                       <tr>
@@ -162,9 +162,9 @@ export default function ShowOrderss() {
                         <td>{customerName}</td>
                         <td>{customerPhone}</td>
                         <td>{cost}</td>
-                        <td>{cityName}</td>
-                        <td>{stateName}</td>
-                        <td>{statusName}</td>
+                        <td>{city}</td>
+                        <td>{state}</td>
+                        <td>{status}</td>
 
                         <td>
                           <Link

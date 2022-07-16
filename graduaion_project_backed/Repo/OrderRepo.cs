@@ -18,11 +18,34 @@ namespace graduaion_project_backed.Repo
         }
 
 
-        public List<Order> GetAllOrders()
+        public List<OrderDtoWithLocation> GetAllOrders()
         {
-            List<Order> orderList = context.Orders.ToList();
-           
-             return orderList;
+            List<Order> orderList = context.Orders
+                .Include(o=>o.City)
+                .Include(o=>o.Status)
+                .Include(o=>o.State)
+                .ToList();
+            List<OrderDtoWithLocation> orders = new List<OrderDtoWithLocation>();
+
+            foreach (var res in orderList)
+            {
+                var Dto = new OrderDtoWithLocation()
+                {
+                    Id = res.Id,
+                    city = res.City.Name,
+                    state = res.State.Name,
+                    status = res.Status.Name,
+                    customerPhone = res.CustomerPhone,
+                    customerName = res.CustomerName,
+                    cost = (int)res.Cost,
+                    Date = res.Date,
+                    userId = res.UserId
+                };
+                orders.Add(Dto);
+            }
+            
+      
+             return orders;
         }
 
         public int add(Order order)
@@ -95,6 +118,34 @@ namespace graduaion_project_backed.Repo
         public Order GetByIdOrder(int id)
         {
             return context.Orders.FirstOrDefault(o => o.Id == id);
+        }
+
+        public List<OrderDtoWithLocation> GetOrdersByUserId(string userId)
+        {
+            List<Order> orderList = context.Orders.Where(o=>o.UserId==userId)
+                .Include(o => o.City)
+                .Include(o => o.Status)
+                .Include(o => o.State)
+                .ToList();
+            List<OrderDtoWithLocation> orders = new List<OrderDtoWithLocation>();
+
+            foreach (var res in orderList)
+            {
+                var Dto = new OrderDtoWithLocation()
+                {
+                    Id = res.Id,
+                    city = res.City.Name,
+                    state = res.State.Name,
+                    status = res.Status.Name,
+                    customerPhone = res.CustomerPhone,
+                    customerName = res.CustomerName,
+                    cost = (int)res.Cost,
+                    Date = res.Date,
+                    userId = res.UserId
+                };
+                orders.Add(Dto);
+            }
+            return orders;
         }
     }
 }

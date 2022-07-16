@@ -8,6 +8,10 @@ export const getAllOrder = () => {
     return axios.get(OrderBase)
 }
 
+export const getAllOrderBySellerId = (id) => {
+    return axios.get(`${OrderBase}/seller/${id}`)
+}
+
 export const getById = (id) => {
     return axios.get(`${OrderBase}/${id}`)
 }

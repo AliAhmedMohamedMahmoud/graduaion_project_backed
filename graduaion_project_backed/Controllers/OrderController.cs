@@ -40,6 +40,17 @@ namespace graduaion_project_backed.Controllers
 
         }
 
+        [HttpGet("seller/{id}")]
+        public IActionResult GetOrderBySellerId(string id)
+        {
+            var orders = OrderRepo.GetOrdersByUserId(id);
+            if (orders != null)
+                return Ok(orders);
+            else
+                return Problem("No Data");
+
+        }
+
         [HttpPost]
         public IActionResult Create(Order order1)
         {
