@@ -74,7 +74,7 @@ namespace graduaion_project_backed.Controllers
             {
                 var checkCity = cityRepo.FindByNme(city.Name);
                 
-                if (checkCity != null) return Problem("the city name is already exist") ;
+                if (checkCity != null) return Problem("the city name is already exist");
                 
                 var addCity= cityRepo.Add(city);
                 return Ok(addCity);

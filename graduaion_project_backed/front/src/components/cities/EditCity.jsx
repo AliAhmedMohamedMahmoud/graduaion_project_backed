@@ -44,8 +44,6 @@ export default function EditCity() {
             } catch ({ response: { data, status } }) {
                 if (status == 401) {
                     navigate("/notAuthorized")
-                }else{
-                    setserverError(data)
                 }
             }
         }
