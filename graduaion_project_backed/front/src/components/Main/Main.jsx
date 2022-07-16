@@ -11,7 +11,7 @@ export default function Main()
 const id=decoder( localStorage.getItem("userToken")).id
 const role = decoder( localStorage.getItem("userToken")).role
     useEffect(() => {
-      if(role=="Employee"){
+      if(role=="EMPLOYEE"||role=="ADMIN"){
         getAllOrderCount().then(({ data }) => {
           setCardsStatus(data);
           console.log(data);

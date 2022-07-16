@@ -31,10 +31,11 @@ function App() {
   return (
     <div className="App">
       <Routes >
-        <Route path="/Register" element={<Register />}></Route>
         <Route path="/Login" element={<Login />}></Route>
         <Route path='/' element={<Home />}>
-          <Route index element={<ShowCities />} />
+          <Route index element={<Main />} />
+          <Route path="/Register" element={<Register />}></Route>
+          <Route path="/Main" element={<Main />}></Route>
           <Route path="/cities" element={<ShowCities />}></Route>
           <Route path="/addCity" element={<AddCity />}></Route>
           <Route path="/editCity/:id" element={<EditCity />}></Route>
