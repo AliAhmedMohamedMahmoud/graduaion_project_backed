@@ -66,7 +66,10 @@ export default function Add_branche() {
             try {
                 await add(form)
                 navigate("/branches")
-            } catch ({ response: { data: { detail } } }) {
+            } catch ({ response: { status, data: { detail } } }) {
+                if (status == 401) {
+                    navigate("/notAuthorized")
+                }
                 setserverError(detail)
             }
         }

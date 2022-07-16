@@ -23,8 +23,15 @@ export default function EditState(params) {
    async function HandelEdit(params) {
         if( validator.isAlpha(name)&& !validator.isEmpty(name))
         {
-         await   Edit(id,name);
-            navigate("/states")
+          try {
+            await   Edit(id,name);
+               navigate("/states")
+            
+          } catch ({ response: { data, status } }) {
+            if (status == 401) {
+                navigate("/notAuthorized")
+            }
+        }
         }
         else
         setIsvalid(false);

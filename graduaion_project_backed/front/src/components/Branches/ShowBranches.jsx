@@ -3,6 +3,7 @@ import { Button, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { deleteBranch, getAll } from "../../Services/branch";
 import { paginationaBaranches } from "./../../Services/branch";
+import { useNavigate } from "react-router-dom";
 
 export default function ShowBranches() {
   const [branches, setBranches] = useState([]);
@@ -11,6 +12,7 @@ export default function ShowBranches() {
   const [idToDelete, setIdToDelete] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const handleClose = () => setShow(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     paginationaBaranches(1).then(({ data }) => {
@@ -24,11 +26,18 @@ export default function ShowBranches() {
   };
   const whenclick = async () => {
     setShow(false);
-    await deleteBranch(idToDelete);
-    const {
-      data: { record },
-    } = await paginationaBaranches(currentPage);
-    setBranches(record);
+    try {
+      await deleteBranch(idToDelete);
+      const {
+        data: { record },
+      } = await paginationaBaranches(currentPage);
+      setBranches(record);
+      
+    } catch ({ response: { data, status } }) {
+      if (status == 401) {
+          navigate("/notAuthorized")
+      }
+  }
   };
   const pagesNumbers = () => {
     let out = [];

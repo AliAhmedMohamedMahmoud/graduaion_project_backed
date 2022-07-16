@@ -40,7 +40,9 @@ export default function EditBranch() {
             try {
                 await editBranch(id, form)
                 navigate("/branches");
-            } catch ({ response: { data: { detail } } }) {
+            } catch ({ response: { status, data: { detail } } }) {  
+                console.log("nk")
+                    navigate("/notAuthorized")
                 setserverError(detail)
             }
         }
