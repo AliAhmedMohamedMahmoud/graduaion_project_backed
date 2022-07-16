@@ -20,10 +20,16 @@ export default function EditStatus() {
     })
   }, [])
 
-  const whenSubmit =async () => {
+  const whenSubmit = async () => {
     if (validate()) {
-      await edit(id, { name: Name })
-      navigate("/Statuses");
+      try {
+        await edit(id, { name: Name })
+        navigate("/Statuses");
+      } catch ({ response: { data, status } }) {
+        if (status == 401) {
+          navigate("/notAuthorized")
+        }
+      }
     }
   };
 

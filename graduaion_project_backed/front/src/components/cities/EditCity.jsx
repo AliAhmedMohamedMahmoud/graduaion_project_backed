@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState ,useEffect} from 'react'
 import { useParams } from "react-router-dom";
 import { getById, edit } from '../../Services/City';
 import { fromBackendObjectToJsObject } from './cityConverters';
@@ -39,11 +39,14 @@ export default function EditCity() {
     const whenSubmit = async () => {
         if (validate()) {
             try {
-                console.log(form);
                 await edit(id, form)
                 navigate("/cities");
-            } catch ({ response: { data: { detail } } }) {
-                setserverError(detail)
+            } catch ({ response: { data, status } }) {
+                if (status == 401) {
+                    navigate("/notAuthorized")
+                }else{
+                    setserverError(data)
+                }
             }
         }
     }
