@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { getAll, deleteStatus } from "../../Services/Status";
 import { Link } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
-
+import { useNavigate } from "react-router-dom";
 export default function ShowStatuses() {
+  const navigate = useNavigate();
   const [statuses, setStatuses] = useState([]);
   const [show, setShow] = useState(false);
   const [DeleteId, setDeletedId] = useState(null);
@@ -14,9 +15,17 @@ export default function ShowStatuses() {
   };
   const whenclick = async () => {
     setShow(false);
-    await deleteStatus(DeleteId);
-    const { data } = await getAll();
-    setStatuses(data);
+    try {
+      await deleteStatus(DeleteId);
+      const { data } = await getAll();
+      setStatuses(data);
+      navigate("/Statuses");
+    } catch ({ response: { data, status } }) {
+      if (status == 401) {
+        navigate("/notAuthorized");
+      }
+    }
+
   };
 
   useEffect(() => {
@@ -63,7 +72,7 @@ export default function ShowStatuses() {
                     <td>{id}</td>
                     <td>{name}</td>
                     <td>
-                    <Link to={`/EditStatus/${id}`} href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></Link>
+                      <Link to={`/EditStatus/${id}`} href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></Link>
                       <a
                         style={{ cursor: "pointer" }}
                         class="delete"

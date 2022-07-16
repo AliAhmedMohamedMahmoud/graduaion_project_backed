@@ -62,7 +62,6 @@ namespace graduaion_project_backed.Controllers
 
         [HttpPost]
         [RequestFilter("Add", "Status")]
-
         public IActionResult PostStatus(StatusDto status)
         {
             try
@@ -79,9 +78,9 @@ namespace graduaion_project_backed.Controllers
                 return Problem("something went wrong");
             }
         }
+
         [HttpPut("{id:int}")]
         [RequestFilter("Edit", "Status")]
-
         public IActionResult Update([FromRoute] int id, [FromBody] StatusDto status)
         {
             if (ModelState.IsValid == true)
@@ -94,9 +93,10 @@ namespace graduaion_project_backed.Controllers
             }
             return BadRequest(ModelState);
         }
+
+
         [HttpDelete("{id:int}")]
         [RequestFilter("Delete", "Status")]
-
         public IActionResult Remove(int id)
         {
             Status status = statusRepository.FindById(id);

@@ -80,8 +80,10 @@ export default function AddCity() {
             try{
                 await add(form)
                 navigate("/cities")
-            }catch({response:{data:{detail}}}){
-                setserverError(detail)
+            }catch({ response: { data:{Detail}, status } }){
+                if (status == 401) {
+                    navigate("/notAuthorized")
+                }
             }
         }
     }

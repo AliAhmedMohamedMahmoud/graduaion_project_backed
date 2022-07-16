@@ -16,8 +16,8 @@ function AddStatus(props) {
       isValid: true,
     };
 
-    const namePattern =/^([A-Z]|[a-z]){3,20}$/g
-    if (Name.Name == "" || namePattern.test(Name.Name)==false) {
+    const namePattern = /^([A-Z]|[a-z]){3,20}$/g
+    if (Name.Name == "" || namePattern.test(Name.Name) == false) {
       errors.Name = "name is required and must be between 3 and 20";
       errors.isValid = false;
     }
@@ -31,12 +31,19 @@ function AddStatus(props) {
     }
   };
 
-  const  insertStatus = async (e) => {
+  const insertStatus = async (e) => {
     e.preventDefault();
     if (validate()) {
-     await add(Name);
-      navigate("/Statuses");
+      try {
+        await add(Name);
+        navigate("/Statuses")
+      } catch ({ response: { data, status } }) {
+        if (status == 401) {
+          navigate("/notAuthorized")
+        }
+      }
     }
+
   };
   const onchange = (e) => {
     SetName({ Name: e.target.value });
