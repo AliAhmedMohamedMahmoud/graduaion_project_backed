@@ -7,7 +7,7 @@ export default function AddCity() {
 
     const navigate = useNavigate();
     const [states, setStates] = useState([])
-    const [serverError,setserverError]=useState(null)
+    const [serverError, setserverError] = useState(null)
     const [form, setForm] = useState({
         name: "",
         costPerCity: 0,
@@ -51,7 +51,7 @@ export default function AddCity() {
 
 
 
-        if(!validator.isAlpha(form.name)){
+        if (!validator.isAlpha(form.name)) {
             errors.name = "the name must be between 3 to 20 chars and can only have letters"
             errors.isValid = false
         }
@@ -77,10 +77,10 @@ export default function AddCity() {
 
     const whenSubmit = async () => {
         if (validate()) {
-            try{
+            try {
                 await add(form)
                 navigate("/cities")
-            }catch({ response: { data:{Detail}, status } }){
+            } catch ({ response: { status } }) {
                 if (status == 401) {
                     navigate("/notAuthorized")
                 }
