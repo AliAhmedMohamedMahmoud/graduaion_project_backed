@@ -4,6 +4,7 @@ import { getAll } from "../../Services/Status";
 import { Link } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
 import { decoder, user } from '../../common/baseUrl'
+import { useNavigate } from "react-router-dom";
 
 let role;
 let userId;
@@ -64,7 +65,7 @@ export default function ShowOrderss() {
       const { data: ordrs } = await getAllOrder()
       const { data: status } = await getAll()
 
-      if (role == "seller") {
+      if (!role.includes('ADM')&&!role.includes('EMP')) {
         setOrders(ordrs.filter(ele => {
           return ele.userId == userId
         }))
@@ -101,7 +102,12 @@ export default function ShowOrderss() {
     setStatusValue("")
     setordersAfterFilter(allOrders)
   };
+  let nav = useNavigate();
 
+  const navigatetoAddOrder=()=>
+  {
+      nav("/addOrder")
+  }
 
 
   return (
@@ -113,7 +119,11 @@ export default function ShowOrderss() {
               <div class="input-group mb-3">
                 <input onChange={handleSearch} type="text" class="form-control" placeholder="Customer name" aria-label="Username" aria-describedby="basic-addon1" />
               </div>
-
+              <div>
+               <button className="btn btn-success mt-3 mb-3" onclick={navigatetoAddOrder}>
+                 Add Order
+              </button>
+            </div>
               <div class="row">
                 <div class="col-sm-4">
                 </div>
