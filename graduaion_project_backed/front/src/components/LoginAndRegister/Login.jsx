@@ -20,7 +20,7 @@ export default function Login()
     const[ISServerErrors, SetIsServerErrors] = useState(false)
      const navigatetoregister=()=>
     {
-        nav("/Register")
+        nav("/")
     }
     function HandleLogin (params) {
         if(!validator.isAlpha(userName) && validator.isEmpty(userName)&&!validator.isStrongPassword(password , {minLength: 4}) && validator.isEmpty(password))
