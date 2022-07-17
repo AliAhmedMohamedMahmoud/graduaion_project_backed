@@ -18,7 +18,7 @@ export default function Home(params) {
             <div className="sidebar">
                 <h2>Pioneer</h2>
                 <ul>
-                <li>  <NavLink to='Main' ><i className="fas fa-home"></i>Home</NavLink> </li>
+                <li>  <NavLink to='/Main' ><i className="fas fa-home"></i>Home</NavLink> </li>
                 {/* {role=='ADMIN'? <> */}
                 <li>  <NavLink to='cities' ><i className="fas fa-city"></i>City</NavLink> </li>
                 <li>  <NavLink to='Statuses' ><i className="fas fa-dove"></i>Status</NavLink> </li>

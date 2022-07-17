@@ -21,7 +21,15 @@ export default function Register() {
 
   const[ServerErrors, SetServerErrors] = useState("")
   const[ISServerErrors, SetIsServerErrors] = useState(false)
+  let nav = useNavigate();
   function HandleRegister (params) {
+    if(!validator.isAlpha(userName) || validator.isEmpty(userName) && !validator.equals(password,ConfirmPassword))
+      {
+          SetIsValidUserName(false);
+          SetIsValidpassword(false);
+          SetIsValidConfirmPassword(false);
+          return;
+      }
       if(!validator.isAlpha(userName) || validator.isEmpty(userName) )
       {
           SetIsValidUserName(false);
@@ -88,7 +96,10 @@ export default function Register() {
     
   }, [])
 
-
+  const navigateToLogIn=()=>
+  {
+      nav("/Login")
+  }
 
 
 
@@ -187,6 +198,10 @@ export default function Register() {
                     >
                       Register
                     </button>
+                    <button className="btn btn-lg btn-primary btn-login fw-bold text-uppercase" onClick={navigateToLogIn}>
+  LogIn
+</button>
+
                   </div>
 
 
