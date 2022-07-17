@@ -44,6 +44,7 @@ export default function Login()
            ({data})=>{
            localStorage.setItem("userToken",data.token);
            nav('/')
+           window.location.reload()
         },
     (response)=>{
       

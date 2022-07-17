@@ -27,9 +27,7 @@ export const deleteOrder = (id) => {
     return axios.delete(`${OrderBase}/${id}`)
 }
 export const getByStatus = (Statusid, PageId) => {
-
     return axios.get(`${OrderBase}/s/${Statusid}?pageIndex=${PageId}`)
-
 }
 
 // export const getByStatusAndDate=(StartDate,EndDate,Statusid,PageId)=>{

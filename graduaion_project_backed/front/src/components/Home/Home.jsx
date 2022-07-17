@@ -1,12 +1,14 @@
 import './style.css'
-import { Outlet ,NavLink} from "react-router-dom"
+import { Outlet ,NavLink, useNavigate} from "react-router-dom"
 import {decoder} from '../../common/baseUrl'
 import { useEffect, useState } from 'react'
-
 export default function Home(params) {
-
+    const navigate=useNavigate()
     let[role,SetRole]=useState("");
-    
+    const whenClick=()=>{
+        localStorage.removeItem("userToken")
+        navigate("/Login")
+    }
     useEffect(()=>{
         SetRole(decoder(localStorage.getItem("userToken")).role)  
         console.log(role)
@@ -15,7 +17,6 @@ export default function Home(params) {
         <div className="holder">
             <div className="sidebar">
                 <h2>Pioneer</h2>
-                 
                 <ul>
                 <li>  <NavLink to='Main' ><i className="fas fa-home"></i>Home</NavLink> </li>
                 {/* {role=='ADMIN'? <> */}
@@ -28,9 +29,8 @@ export default function Home(params) {
                 {/* </>:null} */}
                 <li>  <NavLink to='WeightSetting' ><i className="fas fa-flag-usa"></i>WeghtSetting</NavLink> </li>
                 <li>  <NavLink to='Orders' ><i className="fas fa-dove"></i>Orders</NavLink> </li>
-            
+                <li>  <a style={{cursor:"pointer"}} onClick={whenClick} to='Orders' ><i className="fas fa-dove"></i>logOut</a> </li>
                 </ul>
-
             </div>
             <div className="main_content">
                 <Outlet />
