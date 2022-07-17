@@ -4,10 +4,15 @@ import { getAll as getControllers } from "../../Services/Controller"
 import { getAll as getPermissions } from "../../Services/permission"
 import { useNavigate } from "react-router-dom";
 import { addPermissionRoleController } from '../../Services/Roles';
+import Modal from 'react-bootstrap/Modal';
 import validator from 'validator';
 
 export default function AddRole() {
     const navigate = useNavigate();
+
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+
     const [pc, setPc] = useState({
         permissions: [],
         controllers: [],
@@ -47,7 +52,11 @@ export default function AddRole() {
                 } else {
                     await addPermissionRoleController(form)
                 }
-                navigate("/cities")
+                setShow(true);
+
+                setTimeout(()=>{navigate("/Main")},1200)
+                
+
             } catch (err) {
                 console.log(err);
             }
@@ -207,6 +216,10 @@ export default function AddRole() {
                     </div>
                 </div>
             </div>
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Body>Role added successfully</Modal.Body>
+            </Modal>
         </div>
+
     )
 }

@@ -8,6 +8,13 @@ import "./Register.css";
 export default function Register() {
   const navigate = useNavigate();
   const [Roles, setRoles] = useState([]);
+
+  //custom error msg
+  const [userNameError, SetuserNameError] = useState("")
+  const [passwordError, SetpasswordError] = useState("")
+  const [ConfirmPasswordError, SetConfirmPasswordError] = useState("")
+
+
   const [userName, SetUserName] = useState("")
   const [password, Setpassword] = useState("")
   const [ConfirmPassword, SetConfirmPassword] = useState("")
@@ -23,22 +30,31 @@ export default function Register() {
   const [ISServerErrors, SetIsServerErrors] = useState(false)
   let nav = useNavigate();
   function HandleRegister(params) {
-    if (!validator.isAlpha(userName) || validator.isEmpty(userName) && !validator.equals(password, ConfirmPassword)) {
+    if (!validator.isAlpha(userName) || validator.isEmpty(userName) && validator.isEmpty(password)&& validator.isEmpty(ConfirmPassword)) {
       SetIsValidUserName(false);
       SetIsValidpassword(false);
       SetIsValidConfirmPassword(false);
+
+      SetuserNameError("UserName is required ")
+      SetpasswordError("Password is required ")
+      SetConfirmPasswordError("Confirm Password is required ")
       return;
     }
     if (!validator.isAlpha(userName) || validator.isEmpty(userName)) {
       SetIsValidUserName(false);
+      SetuserNameError("UserName is required ")
       return;
     }
     if (validator.isEmpty(password)) {
       SetIsValidpassword(false);
+      SetpasswordError("Password is required ")
+
       return;
     }
     if (!validator.equals(password, ConfirmPassword)) {
       SetIsValidConfirmPassword(false);
+      SetConfirmPasswordError("Password NotMatch ")
+
       return;
     }
 
@@ -48,7 +64,25 @@ export default function Register() {
     }
 
     register(userName, password, ConfirmPassword, RoleName).then(
-      ({ data }) => { alert(data) },
+      ({ data }) => { 
+        
+        SetIsValidUserName(true)
+        SetIsValidpassword(true);
+        SetIsValidConfirmPassword(true);
+        SetIsSelectedRole(true);
+        
+
+        SetUserName("");
+        SetuserNameError("");
+
+        Setpassword("");
+        SetpasswordError("");
+
+        SetConfirmPassword("");
+        SetConfirmPasswordError("");
+        
+        alert(data) 
+      },
       ({ response }) => {
         console.log("e", response.data.description)
         SetServerErrors(response.data.description);
@@ -88,17 +122,11 @@ export default function Register() {
         setRoles(data)
       },
       (err) => { alert(err) }
-    )
-
-  }, [])
+    )}, [])
 
   const navigateToLogIn = () => {
     nav("/Login")
   }
-
-
-
-
 
   return (
     <>
@@ -124,7 +152,7 @@ export default function Register() {
                   ></input>
                   <label for="floatingInputUsername">Username</label>
                   <div>
-                    {!IsValiduserName ? <span className="text-danger"> User Name Is Requierd</span> : null}
+                    {!IsValiduserName ? <span className="text-danger"> {userNameError}</span> : null}
                   </div>
                 </div>
 
@@ -140,7 +168,7 @@ export default function Register() {
                   ></input>
                   <label for="floatingPassword">Password</label>
                   <div>
-                    {!IsValidpassword ? <span className="text-danger"> Password Is Requierd</span> : null}
+                    {!IsValidpassword ? <span className="text-danger"> {passwordError}</span> : null}
                   </div>
                 </div>
 
@@ -156,7 +184,7 @@ export default function Register() {
                     Confirm Password
                   </label>
                   <div>
-                    {!IsValidConfirmPassword ? <span className="text-danger"> Please Enter valid PassWord</span> : null}
+                    {!IsValidConfirmPassword ? <span className="text-danger"> {ConfirmPasswordError}</span> : null}
                   </div>
                 </div>
                 <div class="form-floating mb-3">

@@ -271,7 +271,6 @@ export default function EditOrder() {
                     <button
                         onClick={whenSubmit}
                         className="btn btn-success w-25 text-center"
-
                     >
                         Edit
                     </button>
