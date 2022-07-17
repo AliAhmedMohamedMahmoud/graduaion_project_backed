@@ -52,7 +52,7 @@ export default function Register() {
       SetIsServerErrors(true);
     },
    )
-   navigate("/Login")
+ 
   }
   function HandelInputName(e) {
       SetUserName(e.target.value);
@@ -118,7 +118,7 @@ export default function Register() {
                     ></input>
                     <label for="floatingInputUsername">Username</label>
                     <div>
-                     {!IsValiduserName?<span className="text-danger"> Please Enter valid Name</span>:null}
+                     {!IsValiduserName?<span className="text-danger"> User Name Is Requierd</span>:null}
                     </div>
                   </div>
 
@@ -134,7 +134,7 @@ export default function Register() {
                     ></input>
                     <label for="floatingPassword">Password</label>
                     <div>
-                     {!IsValidpassword?<span className="text-danger"> Please Enter valid PassWord</span>:null}
+                     {!IsValidpassword?<span className="text-danger"> Password Is Requierd</span>:null}
                     </div>
                   </div>
 
