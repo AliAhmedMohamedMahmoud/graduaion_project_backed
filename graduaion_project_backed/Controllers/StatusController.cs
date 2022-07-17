@@ -53,7 +53,7 @@ namespace graduaion_project_backed.Controllers
 
 
         [HttpGet("AllSatatusOrders")]
-        //[Authorize(Roles = "Employee")]
+        //[Authorize(Roles = "Employee , Admin")]
         public IActionResult SatatusOrdersPerUsers()
         {
             var res = statusRepository.GetAllWithOrderCount();
