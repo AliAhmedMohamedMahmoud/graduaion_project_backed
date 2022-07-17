@@ -198,7 +198,7 @@ export default function Register() {
                     >
                       Register
                     </button>
-                    <button className="btn btn-lg btn-primary btn-login fw-bold text-uppercase" onclick={navigateToLogIn}>
+                    <button className="btn btn-lg btn-primary btn-login fw-bold text-uppercase" onClick={navigateToLogIn}>
   LogIn
 </button>
 
