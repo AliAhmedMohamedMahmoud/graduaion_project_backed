@@ -3,53 +3,53 @@ import { getAllOrder, deleteOrder, getByStatus } from "../../Services/Order";
 import { getAll } from "../../Services/Status";
 import { Link } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
-import SearchBar from "../Order/SearchBar";
-import { useNavigate } from "react-router-dom";
+import { decoder, user } from '../../common/baseUrl'
+
+let role;
+let userId;
+
+if(user){
+  role = decoder(localStorage.getItem("userToken")).role
+  userId = decoder(localStorage.getItem("userToken")).id
+}
+
+
 export default function ShowOrderss() {
-
-
-  const navigate = useNavigate();
   const [Orders, setOrders] = useState([]);
   const [show, setShow] = useState(false);
   const [idToDelete, setIdToDelete] = useState(null);
   const [State, setState] = useState([]);
-
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const order = useRef([]);
-  const [filteredOrder, setFilteredOrder] = useState([]);
+  const [ordersAfterFilter, setordersAfterFilter] = useState([]);
 
   const setIdValAndShow = (id) => {
     setIdToDelete(id);
     setShow(true);
   };
 
-  //////// search
-  async function getOrders() {
-    const orderData = await getAllOrder();
-    console.log(orderData);
-    setOrders(orderData.sort((a, b) => a.Orders.localeCompare(b.Orders)));
-    setFilteredOrder(Orders.current);
+  const [searchValue, setSearchValue] = useState("")
+  const [statusValue, setStatusValue] = useState("")
+
+
+
+  const handleSearch = (e) => {
+    setSearchValue(e.target.value)
+    const myOrders = Orders
+    let searchFilter;
+    if (statusValue) {
+      searchFilter = myOrders.filter(ele => {
+        return ele.customerName.includes(e.target.value) && ele.status == statusValue
+      })
+      setordersAfterFilter(searchFilter)
+      return;
+    }
+    searchFilter = myOrders.filter(ele => {
+      return ele.customerName.includes(e.target.value)
+    })
+    setordersAfterFilter(searchFilter)
   }
 
-  useEffect(() => {
-    getOrders();
-  }, []);
 
-  const onSearchSubmit = useCallback(
-    async (term) => {
-      if (term) {
-        const o = Orders.filter((Orders) =>
-          Orders.customerName.toLowerCase().includes(term)
-        );
-        setFilteredOrder(o);
-      } else {
-        setFilteredOrder(Orders);
-      }
-      console.log(Orders);
-    },
-    [Orders]
-  );
 
   const whenclick = async () => {
     setShow(false);
@@ -60,42 +60,62 @@ export default function ShowOrderss() {
   };
 
   useEffect(() => {
-    getAllOrder().then(({ data }) => {
-      setOrders(data);
-      setFilteredOrder(data);
-    });
+    (async function () {
+      const { data: ordrs } = await getAllOrder()
+      const { data: status } = await getAll()
 
-    getAll().then(({ data }) => {
-      console.log(data);
-      setState(data);
-    });
+      if (role == "seller") {
+        setOrders(ordrs.filter(ele => {
+          return ele.userId == userId
+        }))
+        setordersAfterFilter(ordrs.filter(ele => {
+          return ele.userId == userId
+        }));
+      } else {
+        setOrders(ordrs);
+        setordersAfterFilter(ordrs);
+      }
+
+      setState(status);
+    })()
   }, []);
 
-  let SentId = (id) => {
-    console.log(id);
-    getByStatus(id, 1).then(({ data }) => {
-      setOrders(data.value);
-      setFilteredOrder(data.value);
-    });
+  let whenChangeStatus = (status) => {
+    setStatusValue(status)
+    let filterOrder;
+    if (searchValue) {
+      filterOrder = Orders.filter(ele => {
+        return ele.status == status && ele.customerName.includes(searchValue)
+      })
+      setordersAfterFilter(filterOrder);
+      return
+    }
+    filterOrder = Orders.filter(ele => {
+      return ele.status == status
+    })
+    setordersAfterFilter(filterOrder);
   };
-  
-  let SentAll = () => {
-    getAllOrder().then(({ data }) => {
-      setOrders(data);
-      setFilteredOrder(data);
-    });
+
+  let whenAll = () => {
+    const allOrders = Orders;
+    setStatusValue("")
+    setordersAfterFilter(allOrders)
   };
+
+
+
   return (
     <>
       <div class="container">
         <div class="table-responsive">
           <div class="table-wrapper">
             <div class="table-title">
+              <div class="input-group mb-3">
+                <input onChange={handleSearch} type="text" class="form-control" placeholder="Customer name" aria-label="Username" aria-describedby="basic-addon1" />
+              </div>
+
               <div class="row">
                 <div class="col-sm-4">
-                  <React.Fragment>
-                    <SearchBar onSubmit={onSearchSubmit} />
-                  </React.Fragment>
                 </div>
               </div>
             </div>
@@ -103,7 +123,7 @@ export default function ShowOrderss() {
               <thead>
                 <tr>
                   <th>
-                    <button className=" btn btn-success" onClick={SentAll}>
+                    <button className=" btn btn-success" onClick={whenAll}>
                       All
                     </button>
                   </th>
@@ -113,7 +133,7 @@ export default function ShowOrderss() {
                       <th>
                         <button
                           className=" btn btn-success"
-                          onClick={() => SentId(id)}
+                          onClick={() => whenChangeStatus(name)}
                         >
                           {name}
                         </button>
@@ -150,7 +170,7 @@ export default function ShowOrderss() {
                 </tr>
               </thead>
               <tbody>
-                {filteredOrder.map(
+                {ordersAfterFilter.map(
                   ({
                     id,
                     customerName,
@@ -169,8 +189,7 @@ export default function ShowOrderss() {
                         <td>{city}</td>
                         <td>{state}</td>
                         <td>{status}</td>
-
-                        <td>
+                        <td style={role == "seller" ? { display: "none" } : { display: "block" }}>
                           <Link
                             to={`/editOrder/${id}`}
                             href="#"
@@ -198,9 +217,9 @@ export default function ShowOrderss() {
             </table>
             <div class="clearfix">
               <div class="hint-text">
-              
+
               </div>
-              
+
             </div>
           </div>
         </div>
