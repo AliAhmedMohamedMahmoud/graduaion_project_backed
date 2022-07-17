@@ -26,8 +26,8 @@ export default function Home(params) {
                 <li>  <NavLink to='states' ><i className="fas fa-flag-usa"></i>States</NavLink> </li>
                 <li>  <NavLink to='AddRole' ><i className="fas fa-flag-usa"></i>AddRole</NavLink> </li>
                 <li>  <NavLink to='Register' ><i className="fas fa-user"></i>Add User</NavLink> </li>
-                </>:null}
                 <li>  <NavLink to='WeightSetting' ><i className="fas fa-flag-usa"></i>WeghtSetting</NavLink> </li>
+                </>:null}
                 <li>  <NavLink to='Orders' ><i className="fas fa-dove"></i>Orders</NavLink> </li>
                 <li>  <a style={{cursor:"pointer"}} onClick={whenClick} to='Orders' ><i className="fas fa-dove"></i>logOut</a> </li>
                 </ul>
