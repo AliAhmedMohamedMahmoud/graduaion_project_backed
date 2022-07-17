@@ -216,10 +216,10 @@ export default function ShowOrderss() {
               </tbody>
             </table>
             <div class="clearfix">
-              <div class="hint-text">
 
-              </div>
-
+            
+              
+           
             </div>
           </div>
         </div>
