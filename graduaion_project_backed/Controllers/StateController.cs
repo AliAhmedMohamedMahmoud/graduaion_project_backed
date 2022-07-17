@@ -55,7 +55,7 @@ namespace graduaion_project_backed.Controllers
             return Problem(detail: "no data");
         }
         [HttpPost]
-        //[RequestFilter("Add", "States")]
+        [RequestFilter("Add", "State")]
 
         public IActionResult PostState(State state)
         {
@@ -69,7 +69,7 @@ namespace graduaion_project_backed.Controllers
         }
 
         [HttpPut("{id:int}")]
-       // [RequestFilter("Edit", "States")]
+        [RequestFilter("Edit", "State")]
 
         public IActionResult UpdateState(int id, State s)
         {
@@ -82,7 +82,7 @@ namespace graduaion_project_backed.Controllers
         }
 
         [HttpDelete("{id:int}")]
-       // [RequestFilter("Delete", "States")]
+        [RequestFilter("Delete", "State")]
         public IActionResult DeleteState(int id)
         {
 

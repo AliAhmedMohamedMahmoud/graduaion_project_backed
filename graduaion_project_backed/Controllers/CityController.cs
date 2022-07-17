@@ -67,7 +67,6 @@ namespace graduaion_project_backed.Controllers
 
         [HttpPost]
         [RequestFilter("Add", "City")]
-
         public IActionResult addcity(City city)
         {
             try
@@ -85,7 +84,6 @@ namespace graduaion_project_backed.Controllers
             }
         }
         [RequestFilter("Edit", "City")]
-
         [HttpPut("{id:int}")]
         public IActionResult editcity(int id, City city)
         {
@@ -108,7 +106,6 @@ namespace graduaion_project_backed.Controllers
 
         [HttpDelete("{id:int}")]
         [RequestFilter("Delete", "City")]
-
         public IActionResult deletecity(int id)
         {
             try
@@ -127,7 +124,6 @@ namespace graduaion_project_backed.Controllers
 
 
         [HttpGet("ByStateId/{stateId:int}")]
-        //[RequestFilter("Show", "City")]
         public IActionResult getCityByStateId(int stateId)
         {
             try
