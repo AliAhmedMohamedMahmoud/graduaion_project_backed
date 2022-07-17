@@ -11,5 +11,7 @@ namespace graduaion_project_backed.Repo
         CitiesPaginationAndCountDTO GetAllwithPagination(int pageNumber);
 
         int recordsCount();
+
+        List<City> getCityByStateId(int stateId);
     }
 }

@@ -31,5 +31,10 @@ export const deleteCity=(id)=>{
 
 
 
+export const getByStateId=(id)=>{
+    return axios.get(`${cityBase}/ByStateId/${id}`,config)
+}
+
+
 
 

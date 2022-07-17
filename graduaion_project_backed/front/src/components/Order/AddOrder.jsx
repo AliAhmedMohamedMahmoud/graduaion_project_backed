@@ -1,11 +1,12 @@
 import { Table } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
-import { getAll } from "../../Services/City";
+import { getAll as getCities, getByStateId } from "../../Services/City";
 import { getAll as getAllBranch } from "../../Services/branch";
-import { getAll as getAllState } from "../../Services/State";
+import { getAll as getAllState, getStateWithCities } from "../../Services/State";
 import { add } from "../../Services/Order";
 import { decoder } from "../../common/theDecoder";
-import {get} from '../../Services/WeightSetting'
+import { get } from '../../Services/WeightSetting'
+import Modal from 'react-bootstrap/Modal';
 
 import { useNavigate } from "react-router-dom";
 import validator from 'validator';
@@ -13,14 +14,18 @@ import validator from 'validator';
 const token = localStorage.getItem("userToken")
 let name;
 let id;
-if(token){
-  const { name:userName, id:userId } = decoder(token)
-  id=userId;
-  name=userName;
+if (token) {
+  const { name: userName, id: userId } = decoder(token)
+  id = userId;
+  name = userName;
 }
 
 
 export default function AddOrder() {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+
+
   const [sellerName, setSellerName] = useState(
     token ? name : ""
   )
@@ -34,8 +39,8 @@ export default function AddOrder() {
   let [Product, setProduct] = useState([]);
 
   let [ProductName, setProductName] = useState("");
-  let [Quantity, setQuantity] = useState(0);
-  let [Weigth, setWeigth] = useState(0);
+  let [Quantity, setQuantity] = useState("");
+  let [Weigth, setWeigth] = useState("");
 
 
   let [total, setTotal] = useState(0);
@@ -72,21 +77,21 @@ export default function AddOrder() {
 
 
   const [WeightSetting, SetWeightSetting] = useState({
-            deafultWeight: 0,
-            deafultCost: 0,
-            exreaCost: 0
+    deafultWeight: 0,
+    deafultCost: 0,
+    exreaCost: 0
   })
-  useEffect (()=>{
-   get().then(
-    ({data})=>{
-      SetWeightSetting({
-        deafultWeight: data.deafultWeight,
-            deafultCost: data.deafultCost,
-            exreaCost: data.exreaCost
-      })
-    }
-   )
-  },[])
+  useEffect(() => {
+    get().then(
+      ({ data }) => {
+        SetWeightSetting({
+          deafultWeight: data.deafultWeight,
+          deafultCost: data.deafultCost,
+          exreaCost: data.exreaCost
+        })
+      }
+    )
+  }, [])
 
   //when products array changes 
   //recalculate the weight and 
@@ -103,6 +108,7 @@ export default function AddOrder() {
         Cost: 0
       })
     } else {
+      console.log("asdasd");
       setWeghtAndCost({
         costInput: OrderCost(),
         weightInput: calcWeight()
@@ -138,7 +144,10 @@ export default function AddOrder() {
     if (validate()) {
       try {
         await add(form);
-        navigate("/Orders")
+        setShow(true)
+        setTimeout(() => {
+          navigate("/Orders")
+        }, 1100)
       } catch (error) {
         console.log(error);
       }
@@ -149,71 +158,102 @@ export default function AddOrder() {
     setProductName(e.target.value);
   };
   let whenQuantityChange = (e) => {
-    setQuantity(e.target.value);
+    setQuantity(+e.target.value);
   };
 
   let whenWeigthChange = (e) => {
-    setWeigth(e.target.value);
+    setWeigth(+e.target.value);
   };
 
 
   //when add product
   let whenClick = () => {
 
-    
-    if( !parseInt(Quantity) || !parseInt(Weigth)){
-      setTableError("quantity and weight can only contains letters")
+    // let [ProductName, setProductName] = useState("");
+    // let [Quantity, setQuantity] = useState("");
+    // let [Weigth, setWeigth] = useState("");
+
+
+    //products form validation
+
+    //ProductName==============
+    if (ProductName == "") {
+      setTableError("the product name is required")
       return;
     }
 
-    if (!CityCost || ProductName == "" || Quantity == 0 || Weigth == 0) {
-      setTableError("you must choose city and u must fill the data")
+    if (Number(ProductName[0])) {
+      setTableError("the product name can not start with number")
       return;
     }
 
+    if (Number(ProductName)) {
+      setTableError("the product name can not be only numbers")
+      return;
+    }
+
+    //Quantity==============
+    if (Quantity == "") {
+      setTableError("the quantity is required")
+      return;
+    }
+
+    if (!Number(Quantity)) {
+      setTableError("the quantity must be only numbers")
+      return;
+    }
+
+    //Weigth==============
+    if (Weigth == "") {
+      setTableError("the Weigth is required")
+      return;
+    }
+
+    if (!Number(Weigth)) {
+      setTableError("the Weigth must be only numbers")
+      return;
+    }
+
+    //check if user selected city==============
+    if (!CityCost) {
+      setTableError("you must choose city")
+      return;
+    }
+
+
+    //if valid
 
     setTableError("")
     setError({
       ...error,
       Cost: ""
     })
-    setProduct([
-      ...Product,
-      {
-        id: generateId(),
-        ProductName,
-        Quantity,
-        Weigth,
-      },
-    ]);
+
+    // setProduct([
+    //   ...Product,
+    //   {
+    //     id: generateId(),
+    //     ProductName,
+    //     Quantity,
+    //     Weigth,
+    //   },
+    // ]);
+
+    addProduct()
+
   };
 
 
   // get selectboxes Data
-  useState(() => {
-    (async function () {
-      const data = await getAll()
-        .then((city) => {
-          setCity(city.data);
-          console.log(city.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    })();
-  }, []);
-  useState(() => {
-    (async function () {
-      const data = await getAllState()
-        .then((stat) => {
-          setState(stat.data);
-          console.log(stat.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    })();
-  }, []);
+  useEffect(() => {
+    (
+      async function () {
+        const { data } = await getAllState()
+        setState(data)
+      }
+    )()
+  }, [])
+
   useState(() => {
     (async function () {
       const data = await getAllBranch()
@@ -231,7 +271,7 @@ export default function AddOrder() {
   //calculations
   const calcWeight = () => {
     return Product.reduce((total, currentValue) => {
-      return total + +currentValue.Weigth;
+      return total + (currentValue.Weigth * currentValue.Quantity);
     }, 0);
   }
 
@@ -242,7 +282,7 @@ export default function AddOrder() {
       return WeightSetting.deafultCost + CityCost.costPerCity;
     }
     if (total > WeightSetting.deafultWeight) {
-      return (total -  WeightSetting.deafultWeight) *  WeightSetting.exreaCost + CityCost.costPerCity;
+      return (total - WeightSetting.deafultWeight) * WeightSetting.exreaCost + CityCost.costPerCity;
     }
   };
 
@@ -261,17 +301,30 @@ export default function AddOrder() {
       isValid: true
     }
 
-    if (!validator.isAlpha(form.CustomerName)) {
-      errors.customerName = "the name is required can only have letters"
+    if (form.CustomerName == "") {
+      errors.customerName = "the name is required"
+      errors.isValid = false
+    } else if (!validator.isAlpha(form.CustomerName)) {
+      errors.customerName = "the name  can only have letters"
       errors.isValid = false
     }
 
-    let phonePattern = /^01[0|1|2][0-9]{8}$/g
-    if (!phonePattern.test(form.CustomerPhone)) {
-      console.log(false);
-      errors.CustomerPhone = "enter a valid phone"
+
+    //CustomerPhone
+    if (form.CustomerPhone == "") {
+      errors.CustomerPhone = "the phone is required"
+      errors.isValid = false
+    } else if (!Number(form.CustomerPhone)) {
+      errors.CustomerPhone = "the phone can only contains numbers"
+      errors.isValid = false
+    } else if (form.CustomerPhone.length < 11) {
+      errors.CustomerPhone = "the phone must be 11 digits"
+      errors.isValid = false
+    } else if (!["011", "012", "010"].includes(form.CustomerPhone.substring(0, 3))) {
+      errors.CustomerPhone = "the phone must start with 011 012 010"
       errors.isValid = false
     }
+
 
     // stateId: "",
     if (form.stateId == 0) {
@@ -302,17 +355,51 @@ export default function AddOrder() {
   }
 
 
-  const generateId = () => {
-    return ("" + Math.random()).substring(2)
-  }
 
-  const whenDelete = (id) => {
+
+  const whenDelete = (product_name) => {
     const products = Product
-
-    const out = products.filter((ele) => { return ele.id != id })
+    const out = products.filter((ele) => { return ele.ProductName != product_name })
     setProduct(out)
   }
 
+
+
+  const addProduct = () => {
+
+    const productsArr = [...Product]
+    let finalProductState;
+    const ElementExists = productsArr.find(ele => { return ele.ProductName == ProductName })
+
+    if (ElementExists) {
+      productsArr.forEach(ele => {
+        if (ele.ProductName == ProductName) {
+          ele.Quantity = (ele.Quantity + Quantity)
+        }
+      })
+      finalProductState = productsArr
+      setProduct(finalProductState)
+      return;
+    }
+
+    productsArr.push({
+      ProductName,
+      Quantity,
+      Weigth,
+    })
+
+    finalProductState = productsArr
+    setProduct(finalProductState)
+  }
+
+  const whenStateChange = async (e) => {
+    const { data } = await getByStateId(+e.target.value)
+    setCity(data)
+    setForm({
+      ...form,
+      stateId: +e.target.value
+    })
+  }
   return (
     <div className="order">
       <div className="container pt-5">
@@ -363,8 +450,8 @@ export default function AddOrder() {
 
           <div className="mb-3 col-6">
             <select
+              onChange={whenStateChange}
               name="stateId"
-              onChange={handleInput}
               class="form-select p-3"
               aria-label="Default select example"
             >
@@ -446,14 +533,14 @@ export default function AddOrder() {
             ></input>
           </div>
           <div>
-            <input required  type="number" placeholder="Quantity" className="form-control p-3 mb-2" name="Quantity" onChange={whenQuantityChange}></input>
+            <input required type="number" placeholder="Quantity" className="form-control p-3 mb-2" name="Quantity" onChange={whenQuantityChange}></input>
           </div>
           <div>
-            <input required  type="number"  placeholder="Weigth" className="form-control p-3 mb-2" name="Weigth" onChange={whenWeigthChange}></input>
+            <input required type="number" placeholder="Weigth" className="form-control p-3 mb-2" name="Weigth" onChange={whenWeigthChange}></input>
           </div>
         </div>
         <button onClick={whenClick} className="btn btn-primary mb-3">
-          <i className="fa-solid fa-plus"></i>
+          Add product
         </button>
         <div>
           <small className=" text-danger" >{tableError}</small>
@@ -473,7 +560,7 @@ export default function AddOrder() {
                   <td>{ele.ProductName}</td>
                   <td>{ele.Quantity}</td>
                   <td>{ele.Weigth}</td>
-                  <td className=" text-center"><button onClick={() => whenDelete(ele.id)} className=" btn btn-danger" >delete</button></td>
+                  <td className=" text-center"><button onClick={() => whenDelete(ele.ProductName)} className=" btn btn-danger" >delete</button></td>
                 </tr>
               );
             })}
@@ -550,6 +637,10 @@ export default function AddOrder() {
         </div>
 
       </div>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Body>order added successfully</Modal.Body>
+      </Modal>
     </div>
   );
 }

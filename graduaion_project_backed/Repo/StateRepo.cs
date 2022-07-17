@@ -2,6 +2,8 @@
 using graduaion_project_backed.Dto;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+
 namespace graduaion_project_backed.Repo
 {
     public class StateRepo :IstateRepo
@@ -42,6 +44,16 @@ namespace graduaion_project_backed.Repo
         public List<State> GetAll()
         {
             return db.States.ToList();
+        }
+
+        public List<stateWithCities> GetStateWithCities()
+        {
+            return db.States.Include(s=>s.Cities).Select(s=> new stateWithCities()
+            {
+                statteId=s.Id,
+                stateName=s.Name,
+                cities=s.Cities
+            }).ToList();
         }
 
         public PaginationGlobal<State> GetAllPageination(int pageNumber)

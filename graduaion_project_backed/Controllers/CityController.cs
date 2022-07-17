@@ -125,5 +125,26 @@ namespace graduaion_project_backed.Controllers
             }
         }
 
+
+        [HttpGet("ByStateId/{stateId:int}")]
+        //[RequestFilter("Show", "City")]
+        public IActionResult getCityByStateId(int stateId)
+        {
+            try
+            {
+                var cities = cityRepo.getCityByStateId(stateId);
+                if (stateId == null)
+                {
+                    return Problem("the id doesn't exist");
+                }
+                return Ok(cities);
+            }
+            catch
+            {
+                return Problem("something went wrong");
+            }
+        }
+
+
     }
 }

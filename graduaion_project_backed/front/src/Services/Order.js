@@ -37,9 +37,9 @@ export const getByStatus = (Statusid, PageId) => {
 //     return axios.get(`${OrderBase}/ss/${Statusid}?start=${StartDate}&end=${EndDate}&pageIndex=${PageId}`)
 
 // }
-export const getByStatusAndDate=(StatusData)=>{
+export const getByStatusAndDate = (StatusData) => {
 
-        return axios.get(`${OrderBase}/ss/${StatusData.Statusid}?start=${StatusData.StartDate}&end=${StatusData.EndDate}&pageIndex=${StatusData.PageId}`)
-    
-     }
+    return axios.get(`${OrderBase}/ss/${StatusData.Statusid}?start=${StatusData.StartDate}&end=${StatusData.EndDate}&pageIndex=${StatusData.PageId}`)
+
+}
 

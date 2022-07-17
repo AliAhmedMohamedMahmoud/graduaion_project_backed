@@ -92,7 +92,6 @@ namespace graduaion_project_backed.Repo
         public List<Order> getByStatus(int statusId, int pageIndex)
         {
             return context.Orders.Where(o => o.StatusId == statusId).Skip(pageSize * (pageIndex-1)).Take(pageSize).ToList();
-              
         }
 
         public int Delete(int id)
@@ -107,13 +106,16 @@ namespace graduaion_project_backed.Repo
             return 0;
         }
 
+
+
         public List<Order> GetByDateAndStatus(DateTime start, DateTime end, int statusId, int pageIndex)
         {
             return context.Orders.
                    Where(o => o.StatusId == statusId && (o.Date < end && o.Date > start)).Skip(pageSize * (pageIndex - 1)).Take(pageSize).
                    ToList();
-                  
         }
+
+
 
         public Order GetByIdOrder(int id)
         {

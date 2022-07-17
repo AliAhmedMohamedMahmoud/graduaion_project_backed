@@ -6,6 +6,8 @@ import { Button, Modal } from "react-bootstrap";
 import SearchBar from "../Order/SearchBar";
 import { useNavigate } from "react-router-dom";
 export default function ShowOrderss() {
+
+
   const navigate = useNavigate();
   const [Orders, setOrders] = useState([]);
   const [show, setShow] = useState(false);
@@ -68,6 +70,7 @@ export default function ShowOrderss() {
       setState(data);
     });
   }, []);
+
   let SentId = (id) => {
     console.log(id);
     getByStatus(id, 1).then(({ data }) => {
@@ -75,6 +78,7 @@ export default function ShowOrderss() {
       setFilteredOrder(data.value);
     });
   };
+  
   let SentAll = () => {
     getAllOrder().then(({ data }) => {
       setOrders(data);

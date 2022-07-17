@@ -35,6 +35,15 @@ namespace graduaion_project_backed.Controllers
             return Ok(0);
         }
 
+        [HttpGet("StatesWithCities")]
+        public IActionResult getAllStatesWithCities()
+        {
+            var states = stateRepo.GetStateWithCities();
+            if (states != null)
+                return Ok(states);
+            return Ok(0);
+        }
+
         [HttpGet("{id:int}", Name = "getState")]
       // [RequestFilter("Show", "States")]
 

@@ -73,5 +73,11 @@ namespace graduaion_project_backed.Repo
         {
            return context.Cities.FirstOrDefault(c => c.Name==name);
         }
+
+        public List<City> getCityByStateId(int stateId)
+        {
+            return context.Cities.Where(c => c.stateId == stateId).ToList();
+        }
+
     }
 }

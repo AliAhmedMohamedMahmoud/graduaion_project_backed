@@ -27,3 +27,7 @@ export const Edit=(id,stateName)=>{
     return axios.put(`${stateBase}/${id}`,{ name:stateName },config);
     
 }
+
+export const getStateWithCities= ()=>{
+    return axios.get(`${stateBase}/StatesWithCities`,config)
+}

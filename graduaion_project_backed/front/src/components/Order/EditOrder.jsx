@@ -6,9 +6,11 @@ import { getAll } from "../../Services/City";
 import { getAll as getAllStatus } from "../../Services/Status";
 import validator from "validator";
 import { useNavigate } from "react-router-dom";
-import {decoder} from '../../common/baseUrl'
+import { decoder } from '../../common/baseUrl'
+import Modal from 'react-bootstrap/Modal';
 export default function EditOrder() {
-
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
     const { id } = useParams();
     const [City, setCity] = useState([]);
     const [states, setStates] = useState([]);
@@ -24,7 +26,7 @@ export default function EditOrder() {
     const [error, setError] = useState({
         CustomerName: "",
         CustomerPhone: ""
-      
+
     });
 
     function HandelINputShipmentInfo(e) {
@@ -35,7 +37,7 @@ export default function EditOrder() {
             }
         )
     }
-   
+
 
     let [Order, setOrder] = useState({
         cost: 0,
@@ -66,7 +68,7 @@ export default function EditOrder() {
     };
     useState(() => {
         (async function () {
-            
+
             const { data: City } = await getAll();
             const { data: states } = await getAllState();
             const { data: Status } = await getAllStatus();
@@ -84,59 +86,57 @@ export default function EditOrder() {
     useEffect(() => {
         getById(id)
             .then((Data) => {
-               // setOrder(Data.data);
+                // setOrder(Data.data);
                 setOrder({
                     ...Data.data,
-                    userId:decoder(localStorage.getItem("userToken")).id
+                    userId: decoder(localStorage.getItem("userToken")).id
                 })
-                
+
             })
             .catch((error) => {
                 console.log(error);
             });
 
-      console.log( "d", decoder(localStorage.getItem("userToken")));
+        console.log("d", decoder(localStorage.getItem("userToken")));
 
     }, []);
 
 
     function IsValidData() {
-        if(!validator.isAlpha(Order.customerName)||validator.isEmpty(Order.customerName))
-        {
+        if (!validator.isAlpha(Order.customerName) || validator.isEmpty(Order.customerName)) {
             setError({
                 ...error,
-                CustomerName : " please Enter Valid user Name"
+                CustomerName: " please Enter Valid user Name"
             })
             console.log(Order.customerName);
-           return false;
+            return false;
         }
 
-        if(!validator.isMobilePhone(Order.customerPhone+'',['ar-EG'],{strictMode:false})||validator.isEmpty(Order.customerPhone+''))
-        {
+        if (!validator.isMobilePhone(Order.customerPhone + '', ['ar-EG'], { strictMode: false }) || validator.isEmpty(Order.customerPhone + '')) {
             setError({
                 ...error,
-                CustomerPhone : " please Enter Valid user phone"
+                CustomerPhone: " please Enter Valid user phone"
             })
-           return false;
+            return false;
         }
 
         return true;
     }
     const whenSubmit = async () => {
-        
-        console.log(IsValidData())
-        if(IsValidData()){
+        if (IsValidData()) {
             Order.customerPhone = +Order.customerPhone
-            await edit(id,Order);
-            navigate("/Orders")
+            await edit(id, Order);
+            setShow(true)
+            setTimeout(()=>{
+              navigate("/Orders")
+            },1100)
         }
-
     };
     return (
         <>
             <div className="container pt-5">
                 <div class=" mb-3">
-                <label>customerName</label>
+                    <label>customerName</label>
                     <input
                         name="customerName"
                         Value={Order.customerName}
@@ -151,7 +151,7 @@ export default function EditOrder() {
                 </div>
 
                 <div class=" mb-3">
-                <label>customerPhone</label>
+                    <label>customerPhone</label>
                     <input
                         name="customerPhone"
                         Value={Order.customerPhone}
@@ -173,14 +173,14 @@ export default function EditOrder() {
                     class="form-select"
                     aria-label="Default select example"
                 >
-                   
+
                     {states.map(({ id, name }) => {
                         return <option value={id}>{name}</option>;
                     })}
                 </select>
                 <div></div>
                 <label>City</label>
-             
+
                 <select
                     value={Order.cityId}
                     onChange={handleInput}
@@ -188,14 +188,14 @@ export default function EditOrder() {
                     class="form-select"
                     aria-label="Default select example"
                 >
-                    
+
                     {City.map(({ id, name }) => {
                         return <option value={id}>{name}</option>;
                     })}
                 </select>
                 <div></div>
                 <label>Payment</label>
-               
+
                 <select
 
                     name="payment"
@@ -203,7 +203,7 @@ export default function EditOrder() {
                     class="form-select mt-3"
                     aria-label="Default select example"
                 >
-                    
+
                     <option value='Hand To Hand'>Hand To Hand</option>
                     <option value='Cash'>Cash</option>
                     <option value='Visa'>Visa</option>
@@ -211,28 +211,28 @@ export default function EditOrder() {
                 </select>
                 <div></div>
                 <label>Shipping</label>
-              
+
                 <select
                     name="shipping"
                     onChange={HandelINputShipmentInfo}
                     class="form-select mt-3"
                     aria-label="Default select example"
                 >
-                    
+
                     <option value='Hand To Hand'>Hand To Hand</option>
                     <option value='BY vehicle'>BY vehicle</option>
                     <option value='ON Demand'>ON Demand</option>
                 </select>
                 <div></div>
                 <label>Delivery</label>
-              
+
                 <select
                     name="delivery"
                     onChange={HandelINputShipmentInfo}
                     class="form-select mt-3"
                     aria-label="Default select example"
                 >
-                   
+
                     <option value='On Branch' >On Branch</option>
                     <option value='Clint House' >Clint House</option>
                 </select>
@@ -271,12 +271,16 @@ export default function EditOrder() {
                     <button
                         onClick={whenSubmit}
                         className="btn btn-success w-25 text-center"
-                       
+
                     >
                         Edit
                     </button>
                 </div>
             </div>
+
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Body>order updated successfully</Modal.Body>
+            </Modal>
         </>
     );
 }
