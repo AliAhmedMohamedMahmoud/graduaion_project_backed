@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getById, edit } from "../../Services/Order";
 import { getAll as getAllState } from "../../Services/State";
+import {getByStateId} from '../../Services/City'
 import { getAll } from "../../Services/City";
 import { getAll as getAllStatus } from "../../Services/Status";
 import validator from "validator";
@@ -38,6 +39,18 @@ export default function EditOrder() {
         )
     }
 
+    async function  HandelStateSelect(e) {
+        let id = +e.target.value;
+        console.log("cit0",+e.target.value);
+        //const { data } = await getByStateId(id)
+        console.log("cit0",+e.target.value);
+
+        setOrder({
+            ...Order,
+            stateId:+e.target.value
+        })
+        //setCity(data)
+    }
 
     let [Order, setOrder] = useState({
         cost: 0,
@@ -168,7 +181,7 @@ export default function EditOrder() {
                 <label>State</label>
                 <select
                     value={Order.stateId}
-                    onChange={handleInput}
+                    onChange={HandelStateSelect}
                     name="stateId"
                     class="form-select"
                     aria-label="Default select example"
@@ -232,7 +245,6 @@ export default function EditOrder() {
                     class="form-select mt-3"
                     aria-label="Default select example"
                 >
-
                     <option value='On Branch' >On Branch</option>
                     <option value='Clint House' >Clint House</option>
                 </select>

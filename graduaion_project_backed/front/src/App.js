@@ -33,11 +33,11 @@ function App() {
     <div className="App">
       <Routes >
         <Route path="/Login" element={<Login />}></Route>
+                  <Route path="/Register" element={<Register />}></Route>
         <Route element={<ProtectedRoutes/>} >
         
             <Route path='/' element={<Home />}>
                 <Route index element={<Main />} />
-                  <Route path="/Register" element={<Register />}></Route>
                   <Route path="/Main" element={<Main />}></Route>
                     <Route path="/cities" element={<ShowCities />}></Route>
                     <Route path="/addCity" element={<AddCity />}></Route>

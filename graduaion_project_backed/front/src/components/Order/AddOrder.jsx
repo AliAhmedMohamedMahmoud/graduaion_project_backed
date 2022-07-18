@@ -413,9 +413,8 @@ export default function AddOrder() {
               aria-label="Default select example"
             >
               <option selected>Delivery Type</option>
-              {Delivery.map(({ id, deliveryName }) => {
-                return <option value={id}>{deliveryName}</option>;
-              })}
+              <option value='On Branch' >On Branch</option>
+              <option value='Clint House' >Clint House</option>
             </select>
             <div className="text-danger">{error.DeliveryId}</div>
 
@@ -487,9 +486,10 @@ export default function AddOrder() {
             aria-label="Default select example"
           >
             <option selected>Select Payment</option>
-            {Payment.map((pay) => {
-              return <option value={pay.id}>{pay.payment_Type}</option>;
-            })}
+            <option value='Hand To Hand'>Hand To Hand</option>
+            <option value='Cash'>Cash</option>
+            <option value='Visa'>Visa</option>
+            <option value='Free'>Free</option>
           </select>
           <div className="text-danger">{error.PayId}</div>
         </div>
@@ -501,9 +501,9 @@ export default function AddOrder() {
           aria-label="Default select example"
         >
           <option selected>Select Shipping</option>
-          {Shipping.map(({ id, shipName }) => {
-            return <option value={id}>{shipName}</option>;
-          })}
+          <option value='Hand To Hand'>Hand To Hand</option>
+          <option value='BY vehicle'>BY vehicle</option>
+          <option value='ON Demand'>ON Demand</option>
         </select>
         <div className="text-danger">{error.ShipId}</div>
 

@@ -106,6 +106,7 @@ export default function ShowOrderss() {
 
   const navigatetoAddOrder=()=>
   {
+    console.log(" we added ")
       nav("/addOrder")
   }
 
@@ -119,11 +120,16 @@ export default function ShowOrderss() {
               <div class="input-group mb-3">
                 <input onChange={handleSearch} type="text" class="form-control" placeholder="Customer name" aria-label="Username" aria-describedby="basic-addon1" />
               </div>
-              <div>
-               <button className="btn btn-success mt-3 mb-3" onclick={navigatetoAddOrder}>
-                 Add Order
-              </button>
-            </div>
+
+                {
+               ( !role.includes('ADM')&&!role.includes('EMP'))?
+                 <div>
+                    <button className="btn btn-success mt-3 mb-3" onClick={navigatetoAddOrder}>
+                      Add Order
+                    </button>
+                </div>:null
+                }
+
               <div class="row">
                 <div class="col-sm-4">
                 </div>
