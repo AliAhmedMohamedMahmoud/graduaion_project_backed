@@ -120,7 +120,7 @@ export default function ShowOrderss() {
                 <input onChange={handleSearch} type="text" class="form-control" placeholder="Customer name" aria-label="Username" aria-describedby="basic-addon1" />
               </div>
               <div>
-               <button className="btn btn-success mt-3 mb-3" onclick={navigatetoAddOrder}>
+               <button className="btn btn-success mt-3 mb-3" onClick={navigatetoAddOrder}>
                  Add Order
               </button>
             </div>
