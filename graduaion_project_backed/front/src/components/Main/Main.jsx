@@ -24,25 +24,23 @@ const role = decoder( localStorage.getItem("userToken")).role
       }
       }, []);
 
-
-     
-     
     return (
       <>
-        <div className="card-group container-fluid">
+        <div className="row justify-content-center">
           {
 
             Status.length !=0 ? 
               Status.map(({ statusName, orderCount }) => {
                 return (
-                  <div className="card m-5">
+                  <div className="card m-2 " style={{width:170 , height:250}}>
                     <img src="https://www.shipbob.com/wp-content/uploads/2019/12/iStock-692898468-2.jpg" className="card-img-top" alt="..." />
                     <div className="card-body">
                       <h5 className="card-title">Status Name : {statusName}</h5>
                       <p className="card-text">
-                        <small className="text-muted">
-                          Order Count : {orderCount}
+                        <small className="  ">
+                          Order Count : 
                         </small>
+                        <span className='fs-4 text-danger'>{orderCount}</span>
                       </p>
                     </div>
                   </div>

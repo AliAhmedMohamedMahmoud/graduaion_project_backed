@@ -139,23 +139,26 @@ export default function ShowOrderss() {
               <thead>
                 <tr>
                   <th>
-                    <button className=" btn btn-success" onClick={whenAll}>
-                      All
-                    </button>
+                   
                   </th>
 
+                    <div className="d-flex flex-wrap">
+                    <button className=" btn btn-success m-2" onClick={whenAll}>
+                      All
+                    </button>
                   {State.map(({ id, name }) => {
                     return (
-                      <th>
+                    
                         <button
-                          className=" btn btn-success"
+                          className=" btn btn-success m-2"
                           onClick={() => whenChangeStatus(name)}
                         >
                           {name}
                         </button>
-                      </th>
+                     
                     );
                   })}
+                    </div>
                 </tr>
               </thead>
             </table>

@@ -88,17 +88,20 @@ export default function EditCity() {
         <div className="container pt-5">
             <h1 className='mb-5'>Edit city</h1>
             <div class=" mb-3">
+                <label>City Name</label>
                 <input value={form.name} onChange={handleChange} name='name' type="text" class="form-control" placeholder="city name" aria-label="Username" aria-describedby="basic-addon1" />
             <div>
                 <small className=' text-danger'>{formErrors.name}</small>
             </div>
             </div>
             <div class=" mb-3">
+            <label>Cost Per City</label>
                 <input value={form.costPerCity} onChange={handleChange} name='costPerCity' type="number" class="form-control" placeholder="city shipping cost" aria-label="Username" aria-describedby="basic-addon1" />
             <div>
                 <small className=' text-danger'>{formErrors.costPerCity}</small>
             </div>
             </div>
+            <label>State Name</label>
             <select value={form.stateId} onChange={handleChange} name='stateId' class="form-select" aria-label="Default select example">
                 <option value={0} selected>select state</option>
                 {

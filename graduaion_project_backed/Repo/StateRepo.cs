@@ -61,7 +61,7 @@ namespace graduaion_project_backed.Repo
             return new PaginationGlobal<State>()
             {
                 count = db.States.Count(),
-                Record = db.States.Skip(2 * (pageNumber - 1)).Take(2).ToList()
+                Record = db.States.Skip(4 * (pageNumber - 1)).Take(4).ToList()
             };
                
         }

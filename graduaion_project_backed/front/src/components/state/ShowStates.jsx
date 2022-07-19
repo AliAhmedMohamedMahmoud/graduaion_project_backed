@@ -94,7 +94,7 @@ export default function ShowStates(params) {
                             <div class="hint-text">Showing <b>{states.length}</b> out of {NumberOfPages}<b></b> entries</div>
                             <ul class="pagination">
                                 {
-                                    (() => new Array(Math.round(NumberOfPages / 2)).fill(0))().map((v, i) => {
+                                    (() => new Array(Math.round(NumberOfPages / 4)).fill(0))().map((v, i) => {
 
                                         if (i == PageIndex) {
                                             return (

@@ -93,6 +93,14 @@ namespace graduaion_project_backed.Repo
 
             return finalRes;
         }
+
+        public int GetNewstatuesId()
+        {
+            var state = db.Statuses.SingleOrDefault(s => s.Name == "New"||s.Name=="new");
+            if (state != null)
+                return state.Id;
+            return -1;
+        }
     }
 }
 

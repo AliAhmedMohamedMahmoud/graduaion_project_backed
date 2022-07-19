@@ -14,6 +14,7 @@ export default function WeightSetting(params) {
             deafultCost: +deafultCost,
             exreaCost: +exreaCost
         })
+        alert("saved");
     }
 
     useEffect(()=>{
