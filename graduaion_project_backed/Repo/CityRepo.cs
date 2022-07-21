@@ -6,7 +6,7 @@ namespace graduaion_project_backed.Repo
 {
     public class CityRepo : ICity
     {
-        int pageSize = 2;
+        int pageSize = 8;
         private readonly Context context;
 
         public CityRepo( Context context )

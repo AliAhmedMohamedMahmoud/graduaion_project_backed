@@ -34,7 +34,7 @@ function App() {
       <Routes >
         <Route path="/Login" element={<Login />}></Route>
                   <Route path="/Register" element={<Register />}></Route>
-        <Route element={<ProtectedRoutes/>} >
+        {/* <Route element={<ProtectedRoutes/>} > */}
         
             <Route path='/' element={<Home />}>
                 <Route index element={<Main />} />
@@ -61,7 +61,7 @@ function App() {
                 <Route path="/notAuthorized" element={<UnAuthorized />}></Route>
             </Route>
         
-        </Route>
+        {/* </Route> */}
       </Routes>
 
 

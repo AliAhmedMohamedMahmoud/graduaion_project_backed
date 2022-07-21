@@ -16,6 +16,8 @@ namespace graduaion_project_backed.Repo
 
         List<StatusWithOrdersCountDTO> GetAllWithOrderCount();
         List<StatusWithOrdersCountDTO> GetAllWithOrderCountForSeller(string id);
+
+        int GetNewstatuesId();
     }
 }
 

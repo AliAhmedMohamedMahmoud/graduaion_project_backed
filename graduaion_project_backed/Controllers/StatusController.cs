@@ -94,6 +94,14 @@ namespace graduaion_project_backed.Controllers
         }
 
 
+
+        [HttpGet("Newstatus")]
+        public IActionResult getNewStatuesID()
+        {
+            return Ok(statusRepository.GetNewstatuesId());
+        }
+
+
         [HttpDelete("{id:int}")]
         [RequestFilter("Delete", "Status")]
         public IActionResult Remove(int id)

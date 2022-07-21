@@ -10,7 +10,7 @@ namespace graduaion_project_backed.Repo
     public class OrderRepo : IOrderRepo
     {
         private readonly Context context;
-        int pageSize = 2;
+        int pageSize = 10;
 
         public OrderRepo(Context context)
         {

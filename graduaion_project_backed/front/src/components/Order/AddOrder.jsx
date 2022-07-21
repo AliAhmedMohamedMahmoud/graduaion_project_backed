@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { getAll as getCities, getByStateId } from "../../Services/City";
 import { getAll as getAllBranch } from "../../Services/branch";
 import { getAll as getAllState, getStateWithCities } from "../../Services/State";
+import { getNewStutesId } from "../../Services/Status";
 import { add } from "../../Services/Order";
 import { decoder } from "../../common/theDecoder";
 import { get } from '../../Services/WeightSetting'
@@ -25,6 +26,7 @@ export default function AddOrder() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
 
+  const [NewStutesId, SetNewStutesId] = useState(1);
 
   const [sellerName, setSellerName] = useState(
     token ? name : ""
@@ -69,7 +71,7 @@ export default function AddOrder() {
     CustomerName: "",
     CustomerPhone: 0,
     stateId: 0,
-    StatusId: 1,
+    StatusId: NewStutesId,
     cityId: 0,
     userId: token ? id : "",
     date: new Date()
@@ -89,6 +91,17 @@ export default function AddOrder() {
           deafultCost: data.deafultCost,
           exreaCost: data.exreaCost
         })
+      }
+    )
+  }, [])
+
+
+
+  useEffect(() => {
+    getNewStutesId().then(
+      ({ data }) => {
+        console.log("statesId",data)
+        SetNewStutesId(data)
       }
     )
   }, [])
@@ -277,12 +290,17 @@ export default function AddOrder() {
 
   let OrderCost = () => {
     var total = calcWeight()
+    console.log("totalWe ",total);
     console.log(WeightSetting);
     if (total > 0 && total <= WeightSetting.deafultWeight) {
+    console.log("normal  ",WeightSetting.deafultCost + CityCost.costPerCity);
+
       return WeightSetting.deafultCost + CityCost.costPerCity;
     }
     if (total > WeightSetting.deafultWeight) {
-      return (total - WeightSetting.deafultWeight) * WeightSetting.exreaCost + CityCost.costPerCity;
+    console.log("extraW ",(total - WeightSetting.deafultWeight) * WeightSetting.exreaCost + CityCost.costPerCity);
+
+      return (total - WeightSetting.deafultWeight) * WeightSetting.exreaCost + CityCost.costPerCity+WeightSetting.deafultCost;
     }
   };
 
@@ -414,7 +432,7 @@ export default function AddOrder() {
             >
               <option selected>Delivery Type</option>
               <option value='On Branch' >On Branch</option>
-              <option value='Clint House' >Clint House</option>
+          
             </select>
             <div className="text-danger">{error.DeliveryId}</div>
 
@@ -614,6 +632,7 @@ export default function AddOrder() {
         </div>
         <hr></hr>
         <div class=" mb-3">
+          <label>Agent Name</label>
           <input
             type="text"
             class="form-control mt-3 p-3"

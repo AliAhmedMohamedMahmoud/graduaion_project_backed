@@ -8,6 +8,12 @@ export const getAll=()=>{
     console.log("second Scheck")
     return axios.get(statusBase,config)
 }
+
+export const getNewStutesId=()=>{
+
+    return axios.get(`${statusBase}/Newstatus`)
+}
+
 export const edit=(id,Status)=>{
     return axios.put(`${statusBase}/${id}`,Status,config)
 }

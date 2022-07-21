@@ -58,7 +58,7 @@ namespace graduaion_project_backed.Controllers
         }
 
         [HttpPut("{id}")]
-        [RequestFilter("Update", "Branch")]
+        [RequestFilter("Edit", "Branch")]
         public IActionResult PutBranchById(int id, Branches branche)
         {
             if (ModelState.IsValid == true)

@@ -46,7 +46,7 @@ namespace graduaion_project_backed.Repo
                 return 0;
             }
         }
-        const int pageSize = 2;
+        const int pageSize = 10;
         public int recordsCount()=> (context.Branches.Count()) / pageSize;
         public PaginationGlobal<Branches> pagination(int pagenumber)
         {
