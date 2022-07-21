@@ -18,7 +18,7 @@ namespace graduaion_project_backed.Controllers
         public OrderController(IOrderRepo OrderRepo)
         {
             this.OrderRepo = OrderRepo;
-        }
+        }2
         [HttpGet]
         public IActionResult getAll()
         {

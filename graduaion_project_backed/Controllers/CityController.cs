@@ -32,7 +32,7 @@ namespace graduaion_project_backed.Controllers
         }
 
         [HttpGet]
-        //[RequestFilter("Show", "City")]
+        [RequestFilter("Show", "City")]
         public IActionResult getAll()
         {
             try
@@ -47,7 +47,7 @@ namespace graduaion_project_backed.Controllers
         }
 
         [HttpGet("{id:int}")]
-        //[RequestFilter("Show", "City")]
+        [RequestFilter("Show", "City")]
         public IActionResult getcity(int id)
         {
             try
